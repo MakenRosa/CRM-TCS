@@ -1,38 +1,46 @@
 {
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "prettier"
-    ],
+
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "react",
-        "prettier"
-    ],
+
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": "warn",
+        "react/react-in-jsx-scope": "off",
         "indent": [
-            "error",
+            "warn",
             "tab"
         ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
+        "linebreak-style": 0,
         "quotes": [
-            "error",
+            "warn",
             "single"
         ],
         "semi": [
-            "error",
+            "warn",
             "never"
         ]
-    }
+    },
+    "plugins": [
+        "react",
+        "prettier",
+        "jest"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended",
+        "plugin:react/recommended",
+        "prettier"
+    ]
 }
