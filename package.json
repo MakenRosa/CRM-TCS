@@ -4,12 +4,17 @@
   "version": "0.0.0",
   "main": "index.js",
   "devDependencies": {
+    "@commitlint/cli": "^17.6.7",
+    "@commitlint/config-conventional": "^17.6.7",
     "@semantic-release/changelog": "^6.0.3",
+    "husky": "^8.0.0",
     "semantic-release": "19.0.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prepare": "husky install",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "repository": {
     "type": "git",
@@ -20,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/makenrosa/CRM-TCS/issues"
   },
-  "homepage": "https://github.com/makenrosa/CRM-TCS#readme"
+  "homepage": "https://github.com/makenrosa/CRM-TCS#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
 }
