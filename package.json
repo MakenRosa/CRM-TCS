@@ -1,0 +1,24 @@
+{
+  "name": "crm-tcs",
+  "description": "CRM TCS Project",
+  "version": "0.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "semantic-release": "19.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makenrosa/CRM-TCS.git"
+  },
+  "author": "makenrosa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/makenrosa/CRM-TCS/issues"
+  },
+  "homepage": "https://github.com/makenrosa/CRM-TCS#readme"
+}
