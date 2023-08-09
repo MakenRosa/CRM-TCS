@@ -1,12 +1,3 @@
----
-name: Relatório de Bug
-about: Reporte um erro que você encontrou no sistema.
-title: '[BUG]'
-labels: 'bug'
-assignees: ''
-
----
-
 **Descrição do Bug**
 Uma descrição clara e concisa do bug.
 
