@@ -4,6 +4,8 @@ import { Box } from '@mui/material'
 export const Form = ({ children, sx, ...props }) => {
 	return (
 		<Box
+			fullWidth
+			width="100%"
 			component="form"
 			sx={{
 				display: 'flex',
@@ -11,7 +13,6 @@ export const Form = ({ children, sx, ...props }) => {
 				gap: '1rem',
 				...sx
 			}}
-			fullWidth
 			{...props}
 		>
 			{children}
