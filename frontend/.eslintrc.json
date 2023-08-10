@@ -16,32 +16,53 @@
     },
 
     "rules": {
-        "prettier/prettier": [
-            "warn",
-            {
-                "endOfLine": "auto"
-            }
-        ],
-        "react/react-in-jsx-scope": "off",
-        "linebreak-style": "off",
-        "quotes": [
-            "warn",
-            "single"
-        ],
-        "semi": [
-            "warn",
-            "never"
-        ]
+        // fomatting and spacing
+        "comma-dangle": ["warn", "never"],
+        "comma-spacing": ["warn", { "before": false, "after": true }],
+        "indent": ["warn", 2],
+        "jsx-quotes": ["warn", "prefer-double"],
+        "key-spacing": ["warn", { "beforeColon": false, "afterColon": true }],
+        "linebreak-style": ["warn", "unix"],
+        "lines-between-class-members": ["warn", "always"],
+        "max-len": ["warn", { "code": 80 }],
+        "object-curly-spacing": ["warn", "always"],
+        "object-property-newline": ["warn", { "allowAllPropertiesOnSameLine": false }],
+        "semi": ["warn", "never"],
+        "space-before-blocks": ["warn", "always"],
+        "space-before-function-paren": ["warn", "always"],
+        "space-unary-ops": ["warn", { "words": true, "nonwords": false }],
+        "spaced-comment": ["warn", "always"],
+
+        // variables, functions, and properties
+        "no-unneeded-ternary": ["warn", { "defaultAssignment": false }],
+
+        // general errors
+        "no-constant-condition": ["warn", { "checkLoops": false }],
+        "no-dupe-args": "warn",
+        "no-dupe-keys": "warn",
+        "no-empty": "warn",
+        "no-extra-boolean-cast": "warn",
+        "no-extra-parens": ["warn", "all", { "nestedBinaryExpressions": false }],
+        "no-extra-semi": "warn",
+        "no-invalid-regexp": "warn",
+        "no-irregular-whitespace": "warn",
+        "no-template-curly-in-string": "warn",
+        "no-unreachable": "warn",
+        "valid-typeof": "warn",
+        "no-dupe-else-if": "warn",
+        "no-duplicate-imports": "warn",
+        "no-import-assign": "warn",
+
+        "react/react-in-jsx-scope": "off"
     },
     "plugins": [
         "react",
-        "prettier",
-        "jest"
+        "jest",
+        "prettier"
     ],
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "prettier",
-        "plugin:prettier/recommended"
+        "prettier"
     ]
 }
