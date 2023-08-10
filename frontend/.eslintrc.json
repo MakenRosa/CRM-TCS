@@ -22,7 +22,7 @@
         "indent": ["warn", 2],
         "jsx-quotes": ["warn", "prefer-double"],
         "key-spacing": ["warn", { "beforeColon": false, "afterColon": true }],
-        "linebreak-style": ["warn", "unix"],
+        "linebreak-style": "off",
         "lines-between-class-members": ["warn", "always"],
         "max-len": ["warn", { "code": 80 }],
         "object-curly-spacing": ["warn", "always"],
@@ -35,6 +35,9 @@
 
         // variables, functions, and properties
         "no-unneeded-ternary": ["warn", { "defaultAssignment": false }],
+        "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+        "no-shadow": "warn",
+        "no-use-before-define": ["warn", { "functions": false, "classes": false, "variables": false }],
 
         // general errors
         "no-constant-condition": ["warn", { "checkLoops": false }],
@@ -50,10 +53,65 @@
         "no-unreachable": "warn",
         "valid-typeof": "warn",
         "no-dupe-else-if": "warn",
-        "no-duplicate-imports": "warn",
         "no-import-assign": "warn",
 
-        "react/react-in-jsx-scope": "off"
+        // best practices
+        "array-callback-return": "warn",
+        "consistent-return": "warn",
+        "curly": ["warn", "all"],
+        "no-else-return": "warn",
+        "no-empty-function": "warn",
+        "no-magic-numbers": ["warn", { "ignore": [0, 1], "ignoreArrayIndexes": true }],
+
+        // ECMAScript 6
+        "arrow-body-style": ["warn", "as-needed"],
+        "arrow-parens": ["warn", "as-needed"],
+        "arrow-spacing": ["warn", { "before": true, "after": true }],
+        "no-duplicate-imports": "warn",
+        "no-confusing-arrow": ["warn", { "allowParens": true }],
+        "no-const-assign": "warn",
+        "no-useless-computed-key": "warn",
+        "object-shorthand": ["warn", "always"],
+        "prefer-arrow-callback": "warn",
+        "prefer-const": "warn",
+        "prefer-destructuring": "warn",
+        "prefer-spread": "warn",
+        "prefer-template": "warn",
+        "sort-imports": "warn",
+        "template-curly-spacing": ["warn", "always"],
+
+        // react
+        "react/react-in-jsx-scope": "off",
+        "react/button-has-type": "warn",
+        "react/default-props-match-prop-types": "warn",
+        "react/function-component-definition": ["warn", { "namedComponents": "arrow-function" }],
+        "react/jsx-boolean-value": ["warn", "never"],
+        "react/jsx-child-element-spacing": "warn",
+        "react/jsx-closing-bracket-location": ["warn", "line-aligned"],
+        "react/jsx-closing-tag-location": "warn",
+        "react/jsx-handler-names": "warn",
+        "react/jsx-indent": ["warn", 2],
+        "react/jsx-indent-props": ["warn", 2],
+        "react/jsx-key": "warn",
+        "react/jsx-max-props-per-line": ["warn", { "maximum": 1, "when": "multiline" }],
+        "react/jsx-no-duplicate-props": "warn",
+        "react/jsx-no-target-blank": "warn",
+        "react/jsx-no-useless-fragment": "warn",
+        "react/jsx-one-expression-per-line": "warn",
+        "react/jsx-pascal-case": "warn",
+        "react/jsx-props-no-multi-spaces": "warn",
+        "react/jsx-sort-default-props": "warn",
+        "react/jsx-sort-props": "warn",
+        "react/jsx-space-before-closing": "warn",
+        "react/jsx-tag-spacing": ["warn", { "beforeSelfClosing": "always" }],
+        "react/jsx-uses-react": "warn",
+        "react/jsx-uses-vars": "warn",
+        "react/no-deprecated": "warn",
+        "react/no-multi-comp": "warn",
+        "react/sort-prop-types": "warn",
+        "react/sort-comp": "warn",
+        "react/self-closing-comp": "warn"
+        
     },
     "plugins": [
         "react",
