@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import InputMask from 'react-input-mask'
 import { TextField as FieldMui, InputAdornment, styled } from '@mui/material'
 
 const StyledTextField = styled(FieldMui)`
@@ -38,4 +39,14 @@ TextField.propTypes = {
 	position: PropTypes.oneOf(['start', 'end'])
 }
 
-export default TextField
+export const TextFieldMask = ({ mask, ...props }) => {
+	return (
+		<InputMask mask={mask} {...props}>
+			{(inputProps) => <TextField {...inputProps} />}
+		</InputMask>
+	)
+}
+
+TextFieldMask.propTypes = {
+	mask: PropTypes.string.isRequired
+}
