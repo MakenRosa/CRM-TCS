@@ -1,28 +1,27 @@
 import {
-	BrowserRouter as Router,
-	Routes,
-	Route,
-	Navigate
-} from 'react-router-dom'
-import { CssBaseline } from '@mui/material'
-import { Register } from 'pages/Login/Register'
-import { ForgotPassword } from 'pages/Login/ForgotPassword'
-import { Login } from 'pages/Login/Login'
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes
+} from "react-router-dom"
+import { CssBaseline } from "@mui/material"
+import { ForgotPassword } from "pages/Login/ForgotPassword"
+import { Login } from "pages/Login/Login"
+import { Register } from "pages/Login/Register"
 
-export default function AppRouter() {
-	return (
-		<Router>
-			<CssBaseline />
-			<Routes>
-				<Route path="/" element={<NotFound />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
-				<Route path="/forgot-password" element={<ForgotPassword />} />
-			</Routes>
-		</Router>
-	)
-}
+export const AppRouter =  () => 
+  <Router>
+    <CssBaseline />
+    <Routes>
+      <Route element={<NotFound />} path="/" />
+      <Route element={<Login />} path="/login" />
+      <Route element={<Register />} path="/register" />
+      <Route element={<ForgotPassword />} path="/forgot-password" />
+    </Routes>
+  </Router>
 
-function NotFound() {
-	return <Navigate to="/login" replace />
-}
+export default AppRouter
+
+// eslint-disable-next-line react/no-multi-comp
+const NotFound = () => <Navigate replace to="/login" />
+

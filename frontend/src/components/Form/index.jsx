@@ -1,28 +1,26 @@
-import PropTypes from 'prop-types'
-import { Box } from '@mui/material'
+import { Box } from "@mui/material"
+import PropTypes from "prop-types"
 
-export const Form = ({ children, sx, ...props }) => {
-	return (
-		<Box
-			fullWidth
-			width="100%"
-			component="form"
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-				...sx
-			}}
-			{...props}
-		>
-			{children}
-		</Box>
-	)
-}
+export const Form = ({ children, sx, ...props }) => 
+  <Box
+    component="form"
+    fullWidth
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+      ...sx
+    }}
+    width="100%"
+    {...props}
+  >
+    {children}
+  </Box>
+
 
 Form.propTypes = {
-	children: PropTypes.node.isRequired,
-	sx: PropTypes.object
+  children: PropTypes.node.isRequired,
+  sx: PropTypes.object
 }
 
 export default Form
