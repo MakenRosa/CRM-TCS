@@ -14,7 +14,7 @@ export const StyledContainer = styled(Container)`
 	}
 `
 
-export const SectionLogin = styled(Box)`
+export const StyledSection = styled(Box)`
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -47,12 +47,11 @@ export const SectionLogin = styled(Box)`
 			margin: 20px auto;
 		}
 
-		button {
+		.btn--primary,
+		.btn--secondary {
 			width: 140px;
 			height: 50px;
-			background: linear-gradient(134deg, #9181f4 0%, #5038ed 100%);
 			border-radius: 16px;
-			color: #fff;
 			font-family: 'Poppins', sans-serif;
 			font-size: 14px;
 			font-style: normal;
@@ -60,8 +59,19 @@ export const SectionLogin = styled(Box)`
 			line-height: normal;
 			text-transform: uppercase;
 			margin-top: 60px;
+			align-self: center;
 			cursor: pointer;
-			z-index: 1; /* Add this line */
+			z-index: 1;
+		}
+
+		.btn--primary {
+			background: linear-gradient(134deg, #9181f4 0%, #5038ed 100%);
+			color: #fff;
+		}
+
+		.btn--secondary {
+			border: 1px solid #9181f4;
+			color: #9181f4;
 		}
 	}
 `

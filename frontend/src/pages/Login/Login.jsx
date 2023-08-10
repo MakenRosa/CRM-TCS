@@ -1,24 +1,18 @@
 import Form from 'components/Form'
-import TextField from 'components/TextField'
+import { TextField } from 'components/TextField'
 import Button from 'components/Button'
-
-import loginImage from 'assets/login.png'
 
 import { Link } from '@mui/material'
 import { AccountCircle, Lock } from '@mui/icons-material'
 
-import {
-	StyledContainer,
-	StyledLinks,
-	StyledSectionImage,
-	SectionLogin
-} from './Login.styles'
+import { StyledLinks } from './Login.styles'
+import { AuthLayout } from './AuthLayout'
+import { SectionLogin } from './SectionLogin'
 
 export const Login = () => {
 	return (
-		<StyledContainer disableGutters maxWidth={false}>
-			<SectionLogin>
-				<h1>Login</h1>
+		<AuthLayout>
+			<SectionLogin title="Login">
 				<Form>
 					<TextField
 						fullWidth
@@ -57,20 +51,11 @@ export const Login = () => {
 							Esqueceu a senha?
 						</Link>
 					</StyledLinks>
-					<Button
-						variant="contained"
-						type="submit"
-						backgroundColor="linear-gradient(134deg, #9181f4 0%, #5038ed 100%)"
-					>
+					<Button variant="contained" type="submit" className="btn--primary">
 						Login
 					</Button>
 				</Form>
 			</SectionLogin>
-			<StyledSectionImage>
-				<img src={loginImage} alt="" />
-			</StyledSectionImage>
-		</StyledContainer>
+		</AuthLayout>
 	)
 }
-
-export default Login
