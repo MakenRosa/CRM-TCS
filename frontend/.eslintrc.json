@@ -16,9 +16,14 @@
     },
 
     "rules": {
-        "prettier/prettier": "warn",
+        "prettier/prettier": [
+            "warn",
+            {
+                "endOfLine": "auto"
+            }
+        ],
         "react/react-in-jsx-scope": "off",
-        "linebreak-style": 0,
+        "linebreak-style": "off",
         "quotes": [
             "warn",
             "single"
