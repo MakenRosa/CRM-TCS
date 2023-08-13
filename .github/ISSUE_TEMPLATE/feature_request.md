@@ -1,12 +1,3 @@
----
-name: Solicitação de Recurso
-about: Sugira uma ideia ou melhoria para este projeto.
-title: '[FEATURE]'
-labels: 'enhancement'
-assignees: ''
-
----
-
 **A sua solicitação de recurso está relacionada a um problema? Por favor, descreva.**
 Uma descrição clara e concisa do problema. Ex. Fico sempre frustrado quando [...]
 
