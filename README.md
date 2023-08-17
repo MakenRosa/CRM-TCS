@@ -75,7 +75,7 @@
    Recomendamos a criação de um ambiente virtual para manter as dependências isoladas. Para criar e ativar o ambiente virtual:
 
    ```
-   python -m venv venv
+   python3 -m venv venv
    source venv/bin/activate
    ```
 
