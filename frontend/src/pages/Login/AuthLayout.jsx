@@ -1,10 +1,10 @@
 import { StyledContainer, StyledSectionImage } from "./Login.styles"
-import PropTypes from "prop-types"
+import { Outlet } from "react-router-dom"
 import loginImage from "assets/login.png"
 
-export const AuthLayout = ({ children }) => 
+export const AuthLayout = () => 
   <StyledContainer disableGutters maxWidth={false}>
-    {children}
+    <Outlet />
     <StyledSectionImage>
       <img alt="CRM intro" src={loginImage} />
     </StyledSectionImage>
@@ -12,5 +12,4 @@ export const AuthLayout = ({ children }) =>
 
 
 AuthLayout.propTypes = {
-  children: PropTypes.node.isRequired
 }
