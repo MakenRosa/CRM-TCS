@@ -1,5 +1,6 @@
 import { Button as BtnMui, styled } from '@mui/material'
 import PropTypes from 'prop-types'
+
 const StyledButton = styled(BtnMui)`
 	background: ${ props => props.backgroundColor };
 `

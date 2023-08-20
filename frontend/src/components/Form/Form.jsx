@@ -4,7 +4,6 @@ import PropTypes from "prop-types"
 export const Form = ({ children, sx, ...props }) => 
   <Box
     component="form"
-    fullWidth
     sx={{
       display: "flex",
       flexDirection: "column",
