@@ -30,6 +30,8 @@
         "space-before-function-paren": ["warn", "always"],
         "space-unary-ops": ["warn", { "words": true, "nonwords": false }],
         "spaced-comment": ["warn", "always"],
+        "import/no-duplicates": "warn",
+        "import/order": "warn",
 
         // variables, functions, and properties
         "no-unneeded-ternary": ["warn", { "defaultAssignment": false }],
@@ -75,7 +77,9 @@
         "prefer-destructuring": "warn",
         "prefer-spread": "warn",
         "prefer-template": "warn",
-        "sort-imports": "warn",
+        "import/no-relative-parent-imports": "warn",
+        "import/group-exports": "warn",
+          
         "template-curly-spacing": ["warn", "always"],
 
         // react
@@ -84,7 +88,6 @@
         "react/default-props-match-prop-types": "warn",
         "react/function-component-definition": ["warn", { "namedComponents": "arrow-function" }],
         "react/jsx-boolean-value": ["warn", "never"],
-        "react/jsx-child-element-spacing": "warn",
         "react/jsx-closing-bracket-location": ["warn", "line-aligned"],
         "react/jsx-closing-tag-location": "warn",
         "react/jsx-handler-names": "warn",
@@ -104,7 +107,6 @@
         "react/jsx-uses-react": "warn",
         "react/jsx-uses-vars": "warn",
         "react/no-deprecated": "warn",
-        "react/no-multi-comp": "warn",
         "react/sort-prop-types": "warn",
         "react/sort-comp": "warn",
         "react/self-closing-comp": "warn"
@@ -113,7 +115,8 @@
     "plugins": [
         "react",
         "jest",
-        "prettier"
+        "prettier",
+        "import"
     ],
     "extends": [
         "eslint:recommended",
