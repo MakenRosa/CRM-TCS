@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
-import { StyledSection } from "./Login.styles"
+import { StyledSection } from "pages"
 
-export const SectionLogin = ({ title, children }) => 
-  <StyledSection>
+export const SectionLogin = ({ title, h, children }) => 
+  <StyledSection height={h}>
     <h1>
       {title}
     </h1>
@@ -12,5 +12,6 @@ export const SectionLogin = ({ title, children }) =>
 
 SectionLogin.propTypes = {
   children: PropTypes.node.isRequired,
+  h: PropTypes.string,
   title: PropTypes.string.isRequired
 }

@@ -1,15 +1,11 @@
+import { AuthLayout, Dashboard, ForgotPassword, Login, Register } from "pages"
 import {
   Navigate,
   Route,
   BrowserRouter as Router,
   Routes
 } from "react-router-dom"
-import { AuthLayout } from "pages/Login/AuthLayout"
 import { CssBaseline } from "@mui/material"
-import { Dashboard } from "pages/Dashboard/Dashboard"
-import { ForgotPassword } from "pages/Login/ForgotPassword"
-import { Login } from "pages/Login/Login"
-import { Register } from "pages/Login/Register"
 
 export const AppRouter =  () => 
   <Router>
@@ -25,8 +21,6 @@ export const AppRouter =  () =>
       <Route element={<NotFound />} path="*" />
     </Routes>
   </Router>
-
-export default AppRouter
 
 // eslint-disable-next-line react/no-multi-comp
 const NotFound = () => <Navigate replace to="/login" />

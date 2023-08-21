@@ -1,18 +1,14 @@
-import Button from "components/Button/Button"
+import { Button, Form, TextField } from "components"
 import { Email } from "@mui/icons-material"
-import Form from "components/Form/Form"
 import { Link } from "react-router-dom"
-import { SectionLogin } from "./SectionLogin"
-import { StyledLinks } from "./Login.styles"
-import { TextField } from "components/TextField/TextField"
+import { StyledLinks, SectionLogin } from "pages"
 
 export const ForgotPassword = () => 
-  <SectionLogin title="Recuperar Senha">
+  <SectionLogin h="50%" title="Recuperar Senha">
     <p>
       Informe seu e-mail para receber instruções sobre como redefinir sua
       senha.
     </p>
-
     <Form>
       <TextField
         fullWidth

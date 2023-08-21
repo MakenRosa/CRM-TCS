@@ -1,13 +1,10 @@
 import { AccountCircle, Lock } from "@mui/icons-material"
 import { useEffect, useState } from "react"
-import Button from "components/Button/Button"
-import Form from "components/Form/Form"
+import { Button, Form, TextField } from "components"
 import { Link } from "@mui/material"
-import { SectionLogin } from "./SectionLogin"
-import { StyledLinks } from "./Login.styles"
-import { TextField } from "components/TextField/TextField"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { SectionLogin, StyledLinks } from "pages"
 
 export const Login = () => {
   const [email, setEmail] = useState("")
@@ -48,7 +45,7 @@ export const Login = () => {
   }
 
   return (
-    <SectionLogin title="Login">
+    <SectionLogin h="60%" title="Login">
       <Form>
         <TextField
           fullWidth
