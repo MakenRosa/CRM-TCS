@@ -2,9 +2,9 @@ import { AccountCircle, Lock } from "@mui/icons-material"
 import { useEffect, useState } from "react"
 import { Button, Form, TextField } from "components"
 import { Link } from "@mui/material"
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { SectionLogin, StyledLinks } from "pages"
+import { loginUser } from "utils"
 
 export const Login = () => {
   const [email, setEmail] = useState("")
@@ -25,7 +25,7 @@ export const Login = () => {
       senha
     }
   
-    axios.post("http://localhost:8000/auth/login", user)
+    loginUser(user)
     .then(res => {
         sessionStorage.setItem("token", res.data.access_token)
         setEmail("")

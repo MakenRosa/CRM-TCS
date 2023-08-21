@@ -1,16 +1,22 @@
 import { Check, Email, Lock } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
 import { Button, Form, PasswordValidator, TextField } from "components"
-import axios from "axios"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { StyledLinks, SectionLogin } from "pages"
-import { isValidForm } from "utils"
+import { isValidForm, registerUser } from "utils"
 
 export const Register = () => {
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
   const [confirmSenha, setConfirmSenha] = useState("")
   const navigate = useNavigate()
+  const [isLogged] = useState(!!sessionStorage.getItem("token"))
+
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/dashboard')
+    }
+  }, [isLogged, navigate])
 
   const onSubmit = e => {
     e.preventDefault()
@@ -20,10 +26,9 @@ export const Register = () => {
       confirmSenha
     }
     if (!isValidForm(user)) {
-      alert("Preencha todos os campos")
       return
     }
-    axios.post("http://localhost:8000/auth/register", user)
+    registerUser(user)
     .then(res => {
       setEmail("")
       setSenha("")
