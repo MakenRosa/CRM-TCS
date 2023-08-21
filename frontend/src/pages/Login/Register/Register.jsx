@@ -39,11 +39,9 @@ export const Register = () => {
         {alert("Usuário cadastrado com sucesso")}
       navigate('/login')
     })
-    .catch(err => {
-      if (err?.response?.data?.message)
-        {alert(err.response.data.message)}
-      else
-        {alert("Erro ao cadastrar usuário")}
+    .catch(() => {
+        sessionStorage.removeItem("token")
+        navigate('/login')
     })
   }
   

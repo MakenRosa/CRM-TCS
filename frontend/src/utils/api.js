@@ -1,9 +1,8 @@
 import axios from "axios"
 
-const SESSION_EXPIRED = 401
+const CONFLICT = 409
 const FORBIDDEN = 403
 const INTERNAL_SERVER_ERROR = 500
-
 
 const api = axios.create({
   baseURL: "http://localhost:8000"
@@ -22,10 +21,8 @@ api.interceptors.response.use(
   error => {
     if (error.response) {
       switch (error.response.status) {
-        case SESSION_EXPIRED:
-          alert("Sua sessão expirou. Por favor, faça o login novamente.")
-          sessionStorage.removeItem("token")
-          window.location = "/login"
+        case CONFLICT:
+          alert(error.response.data.message)
           break
         case FORBIDDEN:
           alert("Você não tem permissão para acessar este recurso.")
