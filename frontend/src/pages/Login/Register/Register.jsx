@@ -1,12 +1,10 @@
 import { Check, Email, Lock } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
-import Button from "components/Button/Button"
-import Form from "components/Form/Form"
-import { SectionLogin } from "./SectionLogin"
-import { StyledLinks } from "./Login.styles"
-import { TextField } from "components/TextField/TextField"
+import { Button, Form, PasswordValidator, TextField } from "components"
 import axios from "axios"
 import { useState } from "react"
+import { StyledLinks, SectionLogin } from "pages"
+import { isValidForm } from "utils"
 
 export const Register = () => {
   const [email, setEmail] = useState("")
@@ -20,6 +18,10 @@ export const Register = () => {
       email,
       senha,
       confirmSenha
+    }
+    if (!isValidForm(user)) {
+      alert("Preencha todos os campos")
+      return
     }
     axios.post("http://localhost:8000/auth/register", user)
     .then(res => {
@@ -41,7 +43,7 @@ export const Register = () => {
   }
   
   return (
-    <SectionLogin title="Cadastro">
+    <SectionLogin h="70%" title="Cadastro">
       <Form>
         <TextField
           fullWidth
@@ -76,6 +78,7 @@ export const Register = () => {
           value={confirmSenha}
           variant="filled"
         />
+        <PasswordValidator password={senha} />
         <StyledLinks maxHeight="40px">
           <Button
             className="btn--secondary"
