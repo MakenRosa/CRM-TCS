@@ -1,6 +1,6 @@
-import { StyledContainer, StyledSectionImage } from "./Login.styles"
 import { Outlet } from "react-router-dom"
 import loginImage from "assets/login.png"
+import { StyledContainer, StyledSectionImage } from "."
 
 export const AuthLayout = () => 
   <StyledContainer disableGutters maxWidth={false}>
@@ -10,6 +10,3 @@ export const AuthLayout = () =>
     </StyledSectionImage>
   </StyledContainer>
 
-
-AuthLayout.propTypes = {
-}

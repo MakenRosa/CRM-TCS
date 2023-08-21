@@ -1,6 +1,6 @@
 import { Box, Container, styled } from "@mui/material"
 
-export const StyledContainer = styled(Container)`
+const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: row;
   width: 100vw;
@@ -14,13 +14,12 @@ export const StyledContainer = styled(Container)`
   }
 `
 
-export const StyledSection = styled(Box)`
+const StyledSection = styled(Box)`
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 50%;
 
   > h1 {
     color: #000;
@@ -75,7 +74,7 @@ export const StyledSection = styled(Box)`
   }
 `
 
-export const StyledLinks = styled(Box)`
+const StyledLinks = styled(Box)`
   display: flex;
   font-size: 12px;
   flex-direction: row;
@@ -83,7 +82,7 @@ export const StyledLinks = styled(Box)`
   width: 100%;
 `
 
-export const StyledSectionImage = styled(Box)`
+const StyledSectionImage = styled(Box)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -111,3 +110,5 @@ export const StyledSectionImage = styled(Box)`
     }
   }
 `
+
+export { StyledContainer, StyledSection, StyledLinks, StyledSectionImage }

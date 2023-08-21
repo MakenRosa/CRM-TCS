@@ -21,5 +21,3 @@ Form.propTypes = {
   children: PropTypes.node.isRequired,
   sx: PropTypes.object
 }
-
-export default Form

@@ -1,0 +1,6 @@
+export * from './Login/Login'
+export * from './AuthLayout'
+export * from './ForgotPassword/ForgotPassword'
+export * from './Register/Register'
+export * from './Login.styles'
+export * from './components/SectionLogin'
