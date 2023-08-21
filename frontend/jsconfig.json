@@ -8,10 +8,10 @@
         "@components/*": ["src/components/*"],
         "@pages/*": ["src/pages/*"],
         "@assets/*": ["src/assets/*"],
-        "@utils/*": ["src/utils/*"],
+        "@utils/*": ["src/utils/*"]
       }
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules"]
-  }
+}
   
