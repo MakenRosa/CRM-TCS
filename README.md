@@ -35,16 +35,24 @@
    Para criar uma branch encima de uma demanda, use:
 
    ```
-   git checkout -b PB-XX
+   git checkout -b PD-XX
    ```
 
-   Onde `XX` é o número da demanda com dois dígitos. Por exemplo, para a demanda `PB-1`, use:
+   Onde `XX` é o número da demanda com dois dígitos. Por exemplo, para a demanda `PD-1`, use:
 
    ```
-   git checkout -b PB-01
+   git checkout -b PD-01
    ```
 
-3. **Configurando o Frontend**:
+3. **Instalar dependências da raiz e do frontend**:
+
+   _**Importante**_
+
+   ```
+   npm install
+   ```
+
+4. **Configurando o Frontend**:
 
    Navegue até a pasta `frontend`:
 
@@ -52,9 +60,10 @@
    cd frontend
    ```
 
-   Instale todas as dependências do projeto:
+   Instale todas as dependências do frontend:
 
-   ```
+    _desnecessário caso já tenha executado o comando `npm install` na raiz do projeto_
+   ``` md
    npm install
    ```
 
@@ -64,7 +73,7 @@
    npm start
    ```
 
-4. **Configurando o Backend**:
+5. **Configurando o Backend**:
 
    Navegue até a pasta `backend`:
 
@@ -72,12 +81,22 @@
    cd backend
    ```
 
-   Recomendamos a criação de um ambiente virtual para manter as dependências isoladas. Para criar e ativar o ambiente virtual:
+   Recomendamos a criação de um ambiente virtual para manter as dependências isoladas.
+   
+   Para criar e ativar o ambiente virtual:
 
-   ```
-   python -m venv venv
-   source venv/bin/activate
-   ```
+    ```
+    python -m venv venv
+    ```
+    
+    para ativar o ambiente virtual no Windows: 
+    ```
+    venv\Scripts\activate.bat
+    ```
+    para ativar o ambiente virtual no Linux: 
+    ```
+    source venv/bin/activate
+    ```
 
    Instale todas as dependências do projeto:
 

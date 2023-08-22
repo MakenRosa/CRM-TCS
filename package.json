@@ -14,7 +14,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "release": "semantic-release",
     "prepare": "husky install",
-    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
+    "postinstall": "cd frontend && npm install"
   },
   "repository": {
     "type": "git",
