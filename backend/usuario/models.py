@@ -25,7 +25,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name']
 
     def get_full_name(self):
         return self.first_name
