@@ -63,13 +63,23 @@ const StyledSection = styled(Box)`
     }
 
     .btn--primary {
-      background: linear-gradient(134deg, #9181f4 0%, #5038ed 100%);
+      background: var(--primary-gradient);
       color: #fff;
+
+      &:disabled {
+        background: var(--primary-gradient-disabled);
+        color: #fff;
+      }
     }
 
     .btn--secondary {
-      border: 1px solid #9181f4;
-      color: #9181f4;
+      border: 1px solid var(--secondary-color);
+      color: var(--secondary-color);
+
+      &:disabled {
+        border: 1px solid var(--secondary-color-disabled);
+        color: var(--secondary-color-disabled);
+      }
     }
   }
 `
