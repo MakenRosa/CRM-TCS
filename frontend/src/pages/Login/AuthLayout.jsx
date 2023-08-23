@@ -6,6 +6,7 @@ export const AuthLayout = () =>
   <StyledContainer disableGutters maxWidth={false}>
     <Outlet />
     <StyledSectionImage>
-      <img alt="CRM intro" src={loginImage} />
+      <img alt="Introdução ao sistema Solve" src={loginImage} />
     </StyledSectionImage>
   </StyledContainer>
+  
