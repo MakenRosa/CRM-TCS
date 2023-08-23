@@ -4,7 +4,7 @@ import { Button, Form, TextField } from "components"
 import { CircularProgress, Link } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { SectionLogin, StyledLinks } from "pages"
-import { loginUser } from "routes/utils"
+import { loginUser } from "utils"
 
 export const Login = () => {
   const [email, setEmail] = useState("")

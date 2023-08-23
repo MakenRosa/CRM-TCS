@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { validatePasswordTraits } from 'routes/utils'
+import { validatePasswordTraits } from 'utils'
 import { CheckCircle, Cancel } from '@mui/icons-material'
 import { Box } from '@mui/material'
 

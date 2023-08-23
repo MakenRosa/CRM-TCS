@@ -18,7 +18,7 @@ const handleErrorResponse = error => {
   let message = error?.response?.data?.message || "Um erro ocorreu. Por favor, tente novamente."
   switch (error?.response?.status) {
     case CONFLICT:
-      message = error?.response?.data?.message || "Este E-mail já está em cadastrado."
+      message = error?.response?.data?.message || "Este E-mail já está cadastrado."
       break
     case FORBIDDEN:
       message = error?.response?.data?.message || "Você não tem permissão para acessar este recurso."

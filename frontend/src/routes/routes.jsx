@@ -7,7 +7,7 @@ import {
   useNavigate
 } from "react-router-dom"
 import { CssBaseline } from "@mui/material"
-import { refreshTokenIfNeeded } from "routes/utils"
+import { refreshTokenIfNeeded } from "utils"
 import { useEffect } from "react"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'

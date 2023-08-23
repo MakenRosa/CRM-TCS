@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button, Form, PasswordValidator, TextField } from "components"
 import { useEffect, useState } from "react"
 import { StyledLinks, SectionLogin } from "pages"
-import { isValidForm, registerUser } from "routes/utils"
+import { isValidForm, registerUser } from "utils"
 import { CircularProgress } from "@mui/material"
 
 export const Register = () => {
