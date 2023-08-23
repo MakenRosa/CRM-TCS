@@ -4,9 +4,17 @@ import { validatePasswordTraits } from 'utils'
 import { CheckCircle, Cancel } from '@mui/icons-material'
 import { Box } from '@mui/material'
 
+const flexStyle = {
+  display: 'flex',
+  alignItems: 'center'
+}
+
+const CheckedIcon = () => <CheckCircle sx={[{ color: 'green' }, { fontSize: '20px' }]} />
+
+const UncheckedIcon = () => <Cancel sx={[{ color: 'red' }, { fontSize: '20px' }]} />
+
 export const PasswordValidator = ({ password, ...props }) => {
   const traits = validatePasswordTraits(password)
-
   return (
     <Box {...props}>
       <p style={flexStyle}>{traits[0] ? <CheckedIcon /> : <UncheckedIcon />} Maiúscula</p>
@@ -17,15 +25,6 @@ export const PasswordValidator = ({ password, ...props }) => {
   )
 }
 
-const flexStyle = {
-  display: 'flex',
-  alignItems: 'center'
-}
-
 PasswordValidator.propTypes = {
   password: PropTypes.string.isRequired
 }  
-
-const CheckedIcon = () => <CheckCircle sx={[{ color: 'green' }, { fontSize: '20px' }]} />
-
-const UncheckedIcon = () => <Cancel sx={[{ color: 'red' }, { fontSize: '20px' }]} />
