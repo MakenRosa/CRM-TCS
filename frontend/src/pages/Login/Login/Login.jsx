@@ -4,7 +4,7 @@ import { Button, Form, TextField } from "components"
 import { CircularProgress, Link } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { SectionLogin, StyledLinks } from "pages"
-import { loginUser } from "utils"
+import { loginUser } from "routes/utils"
 
 export const Login = () => {
   const [email, setEmail] = useState("")
@@ -13,12 +13,14 @@ export const Login = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  // Redirecionar para o dashboard se o usuário estiver logado
   useEffect(() => {
     if (isLogged) {
       navigate('/dashboard')
     }
   }, [isLogged, navigate])
-  
+
+  // Função para lidar com o envio do formulário de login
   const onSubmit = e => {
     e.preventDefault()
     setLoading(true)
@@ -27,14 +29,14 @@ export const Login = () => {
       senha
     }
     loginUser(user)
-    .then(res => {
+      .then(res => {
         sessionStorage.setItem("token", res.data.access_token)
-    })
-    .then(() => navigate('/dashboard'))
-    .catch(() => {
+      })
+      .then(() => navigate('/dashboard'))
+      .catch(() => {
         sessionStorage.removeItem("token")
-    })
-    .finally(() => setLoading(false))
+      })
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -50,7 +52,7 @@ export const Login = () => {
           type="email"
           value={email}
           variant="filled"
-        />
+        /> {/* Campo de entrada de e-mail */}
         <TextField
           fullWidth
           icon={<Lock />}
@@ -61,7 +63,7 @@ export const Login = () => {
           type="password"
           value={senha}
           variant="filled"
-        />
+        /> {/* Campo de entrada de senha */}
         <StyledLinks>
           <Link
             color="var(--tertiary-color)"
@@ -82,10 +84,9 @@ export const Login = () => {
           </Link>
         </StyledLinks>
         <Button className="btn--primary" disabled={loading} onClick={onSubmit} type="submit" variant="contained">
-          {loading ? <CircularProgress color="inherit" size={24} /> : "Login"} 
+          {loading ? <CircularProgress color="inherit" size={24} /> : "Login"} {/* Botão de login */}
         </Button>
       </Form>
     </SectionLogin>
   )
 }
-
