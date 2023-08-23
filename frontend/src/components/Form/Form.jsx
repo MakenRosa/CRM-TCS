@@ -21,3 +21,7 @@ Form.propTypes = {
   children: PropTypes.node.isRequired,
   sx: PropTypes.object
 }
+
+Form.defaultProps = {
+  sx: {}
+}
