@@ -1,20 +1,20 @@
-/* eslint-disable */
-
 import jwtDecode from "jwt-decode"
+import { toast } from 'react-toastify'
 import { refreshToken } from "./api"
-import { useNavigate } from "react-router-dom"
 
-export const refreshTokenIfNeeded = async () => {
-  const token = sessionStorage.getItem("token")
-  const navigate = useNavigate()
+const TOKEN_KEY = "token"
+const TIME_BEFORE_EXPIRATION = 600
+
+export const refreshTokenIfNeeded = async navigate => {
+  const token = sessionStorage.getItem(TOKEN_KEY)
   
-  if (!token) {return}
+  if (!token) { return }
 
   const decoded = jwtDecode(token)
-  const currentTime = Date.now() / 1000
-  const timeBeforeExpiration = 600
+  const MS_IN_SECOND = 1000
+  const currentTime = Date.now() / MS_IN_SECOND
 
-  if (decoded.exp < currentTime + timeBeforeExpiration) {
+  if (decoded.exp < currentTime + TIME_BEFORE_EXPIRATION) {
     try {
       const response = await refreshToken({
         headers: {
@@ -22,10 +22,11 @@ export const refreshTokenIfNeeded = async () => {
         }
       })
       const newToken = response.data.token
-      sessionStorage.setItem("token", newToken)
+      sessionStorage.setItem(TOKEN_KEY, newToken)
     } catch (error) {
       console.error("Erro ao renovar o token:", error)
-      sessionStorage.removeItem("token")
+      toast.error("Falha na renovação do token, por favor, faça o login novamente.") // Notificação ao usuário
+      sessionStorage.removeItem(TOKEN_KEY)
       navigate("/login")
     }
   }

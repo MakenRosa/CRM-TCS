@@ -9,10 +9,13 @@ export const Dashboard = () => {
         if (!isAuth) {
             navigate('/login')
         }
-    }, [navigate])
+    }, [navigate, isAuth])
+
+    if (!isAuth) {
+        return null
+    }
     
     return(
-      isAuth && 
       <div>
         <h1>Dashboard</h1>
       </div>
