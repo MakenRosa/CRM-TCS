@@ -1,7 +1,7 @@
 import { AccountCircle, Lock } from "@mui/icons-material"
 import { useEffect, useState } from "react"
 import { Button, Form, TextField } from "components"
-import { Link } from "@mui/material"
+import { CircularProgress, Link } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { SectionLogin, StyledLinks } from "pages"
 import { loginUser } from "utils"
@@ -10,6 +10,7 @@ export const Login = () => {
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
   const [isLogged] = useState(!!sessionStorage.getItem("token"))
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export const Login = () => {
   
   const onSubmit = e => {
     e.preventDefault()
+    setLoading(true)
     const user = {
       email,
       senha
@@ -27,13 +29,12 @@ export const Login = () => {
     loginUser(user)
     .then(res => {
         sessionStorage.setItem("token", res.data.access_token)
-        setEmail("")
-        setSenha("")
     })
     .then(() => navigate('/dashboard'))
     .catch(() => {
         sessionStorage.removeItem("token")
     })
+    .finally(() => setLoading(false))
   }
 
   return (
@@ -63,7 +64,7 @@ export const Login = () => {
         />
         <StyledLinks>
           <Link
-            color="#430331"
+            color="var(--tertiary-color)"
             fontSize={14}
             fontWeight={700}
             href="/register"
@@ -80,8 +81,8 @@ export const Login = () => {
             Esqueceu a senha?
           </Link>
         </StyledLinks>
-        <Button className="btn--primary" onClick={onSubmit} type="submit" variant="contained">
-          Login
+        <Button className="btn--primary" disabled={loading} onClick={onSubmit} type="submit" variant="contained">
+          {loading ? <CircularProgress color="inherit" size={24} /> : "Login"} 
         </Button>
       </Form>
     </SectionLogin>

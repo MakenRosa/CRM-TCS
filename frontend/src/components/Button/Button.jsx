@@ -2,13 +2,14 @@ import { Button as BtnMui, styled } from '@mui/material'
 import PropTypes from 'prop-types'
 
 const StyledButton = styled(BtnMui)`
-	background: ${ props => props.backgroundColor };
 `
-export const Button = ({ children, ...props }) => 
-  <StyledButton {...props}>
+
+export const Button = ({ children, disabled, ...props }) => 
+  <StyledButton disabled={disabled} {...props}>
     {children}
   </StyledButton>
 
 Button.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool
 }

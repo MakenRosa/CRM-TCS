@@ -4,6 +4,7 @@ import { Button, Form, PasswordValidator, TextField } from "components"
 import { useEffect, useState } from "react"
 import { StyledLinks, SectionLogin } from "pages"
 import { isValidForm, registerUser } from "utils"
+import { CircularProgress } from "@mui/material"
 
 export const Register = () => {
   const [email, setEmail] = useState("")
@@ -11,6 +12,7 @@ export const Register = () => {
   const [confirmSenha, setConfirmSenha] = useState("")
   const navigate = useNavigate()
   const [isLogged] = useState(!!sessionStorage.getItem("token"))
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (isLogged) {
@@ -20,12 +22,14 @@ export const Register = () => {
 
   const onSubmit = e => {
     e.preventDefault()
+    setLoading(true) 
     const user = {
       email,
       senha,
       confirmSenha
     }
     if (!isValidForm(user)) {
+      setLoading(false)
       return
     }
     registerUser(user)
@@ -39,6 +43,7 @@ export const Register = () => {
         sessionStorage.removeItem("token")
         navigate('/login')
     })
+    .finally(() => setLoading(false))
   }
   
   return (
@@ -82,13 +87,14 @@ export const Register = () => {
           <Button
             className="btn--secondary"
             component={Link}
+            disabled={loading}
             to="/login"
             variant="outlined"
           >
             Cancelar
           </Button>
           <Button className="btn--primary" onClick={onSubmit} type="submit" variant="contained">
-            Cadastrar
+            {loading ? <CircularProgress color="inherit" size={24} /> : "Cadastrar"}
           </Button>
         </StyledLinks>
       </Form>
