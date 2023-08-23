@@ -11,6 +11,11 @@ import { CssBaseline } from "@mui/material"
 import { refreshTokenIfNeeded } from "utils"
 import { useEffect } from "react"
 
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+
+
+
 export const AppRouter =  () => {
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,6 +27,10 @@ export const AppRouter =  () => {
   return (
     <Router>
       <CssBaseline />
+      <ToastContainer 
+      hideProgressBar
+      position="top-center"
+    />
       <Routes>
         <Route element={<Navigate replace to="/dashboard" />} path="/" />
         <Route element={<AuthLayout />} path="/">
