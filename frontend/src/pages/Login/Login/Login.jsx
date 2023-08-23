@@ -24,23 +24,15 @@ export const Login = () => {
       email,
       senha
     }
-  
     loginUser(user)
     .then(res => {
         sessionStorage.setItem("token", res.data.access_token)
         setEmail("")
         setSenha("")
-      if (res?.data?.message)
-        {alert(res.data.message)}
-      else
-        {alert("Login efetuado com sucesso")}
     })
     .then(() => navigate('/dashboard'))
-    .catch(err => {
-      if (err?.response?.data?.message)
-        {alert(err.response.data.message)}
-      else
-        {alert("Ocorreu um erro inesperado ao efetuar o login")}
+    .catch(() => {
+        sessionStorage.removeItem("token")
     })
   }
 

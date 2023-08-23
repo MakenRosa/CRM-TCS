@@ -29,14 +29,10 @@ export const Register = () => {
       return
     }
     registerUser(user)
-    .then(res => {
+    .then(() => {
       setEmail("")
       setSenha("")
       setConfirmSenha("")
-      if (res?.data?.message)
-        {alert(res.data.message)}
-      else
-        {alert("Usuário cadastrado com sucesso")}
       navigate('/login')
     })
     .catch(() => {

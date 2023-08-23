@@ -9,4 +9,3 @@ export const AuthLayout = () =>
       <img alt="CRM intro" src={loginImage} />
     </StyledSectionImage>
   </StyledContainer>
-
