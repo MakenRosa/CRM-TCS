@@ -8,6 +8,9 @@ import { CssBaseline } from "@mui/material"
 import { ForgotPassword } from "pages/Login/ForgotPassword"
 import { Login } from "pages/Login/Login"
 import { Register } from "pages/Login/Register"
+import Envite from "pages/Login/Envite";
+import ResetPassword from './pages/Login/ResetPassword';
+
 
 export const AppRouter =  () => 
   <Router>
@@ -17,6 +20,11 @@ export const AppRouter =  () =>
       <Route element={<Login />} path="/login" />
       <Route element={<Register />} path="/register" />
       <Route element={<ForgotPassword />} path="/forgot-password" />
+      <Route element={<Envite />} path="/envite" />
+      <Route element={<ResetPassword />} path="/reset-password" />
+
+
+
     </Routes>
   </Router>
 
