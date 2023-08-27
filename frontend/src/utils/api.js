@@ -115,7 +115,28 @@ const getToken = () => {
   return null
 }
 
+// Função para verificar a validade do token
+const verifyToken = async () => {
+  const token = sessionStorage.getItem("token")
+  if (!token) {return false}
+  
+  try {
+    const decoded = jwtDecode(token)
+    const currentTime = Date.now() / MS_PER_SECOND
+    const isValid = decoded.exp > currentTime
+    
+    if (!isValid) {
+      await refreshToken() // Atualiza o token se estiver expirado
+    }
+    
+    return isValid
+  } catch (error) {
+    return false
+  }
+}
+
+
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken }
