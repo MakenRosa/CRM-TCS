@@ -31,6 +31,7 @@ export const Login = () => {
     loginUser(user)
       .then(res => {
         sessionStorage.setItem("token", res.data.access_token)
+        sessionStorage.setItem("refresh_token", res.data.refresh_token)
       })
       .then(() => navigate('/dashboard'))
       .catch(() => {
