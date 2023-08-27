@@ -1,5 +1,7 @@
+import { Button } from 'components'
 import { useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
+import { logoutUser } from 'utils'
 
 export const Dashboard = () => {
     const navigate = useNavigate() // Função para navegar entre rotas
@@ -18,6 +20,7 @@ export const Dashboard = () => {
     return(
       <div>
         <h1>Dashboard</h1> 
+        <Button onClick={logoutUser}>Logout</Button> 
       </div>  // Renderiza o conteúdo do painel se o usuário estiver autenticado
     )
 }
