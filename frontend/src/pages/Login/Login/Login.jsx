@@ -4,14 +4,22 @@ import { Button, Form, TextField } from "components"
 import { CircularProgress, Link } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { SectionLogin, StyledLinks } from "pages"
-import { loginUser } from "utils"
+import { loginUser, verifyToken } from "utils"
 
 export const Login = () => {
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
-  const [isLogged] = useState(!!sessionStorage.getItem("token"))
+  const [isLogged, setIsLogged] =  useState()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const initalVerify = async () => {
+      setIsLogged(await verifyToken())
+    }
+    initalVerify()
+  }, [])
+
 
   // Redirecionar para o dashboard se o usuário estiver logado
   useEffect(() => {
@@ -33,7 +41,9 @@ export const Login = () => {
         sessionStorage.setItem("token", res.data.access_token)
         sessionStorage.setItem("refresh_token", res.data.refresh_token)
       })
-      .then(() => navigate('/dashboard'))
+      .then(async () => {
+        setIsLogged(await verifyToken())
+      })
       .catch(() => {
         sessionStorage.removeItem("token")
       })
