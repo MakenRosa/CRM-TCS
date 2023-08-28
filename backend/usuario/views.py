@@ -18,10 +18,10 @@ class InviteView(APIView):
         serializer = InviteSerializer(data=request.data)
         if serializer.is_valid():
             to = serializer.validated_data['to']
-            subject = serializer.validated_data['subject']
-            message = serializer.validated_data['message']
+            subject = "Invite Solve CRM"
+            message = "Participe do time: http://localhost:3000/register"
 
-            send_mail(subject, message, 'your@example.com', [to])
+            send_mail(subject, message, 'solvecrmconfig@gmail.com', [to])
 
             return Response({'message': 'E-mail sent successfully'})
         return Response(serializer.errors, status=400)
