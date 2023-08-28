@@ -12,18 +12,18 @@ const UNAUTHORIZED = 401
 const MS_PER_SECOND = 1000
 
 // URLs de endpoints para autenticação
-const LOGIN_URL = "/auth/login"
-const REGISTER_URL = "/auth/register"
-const REFRESH_TOKEN_URL = "/auth/refresh-token"
+const LOGIN_URL = "/auth/jwt/create/"
+const REGISTER_URL = "/auth/users/"
+const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
 
 const refreshToken = async () => {
-  const refresh_token = sessionStorage.getItem("refresh_token")
+  const refresh_token = sessionStorage.getItem("refresh")
   try {
     const response = await api.post(REFRESH_TOKEN_URL, {}, {
       headers: { Authorization: `Bearer ${ refresh_token }` }
     })
-    sessionStorage.setItem("token", response.data.access_token)
-    return response.data.access_token
+    sessionStorage.setItem("token", response.data.access)
+    return response.data.access
   } catch (error) {
     throw new Error("Erro ao atualizar o token")
   }
@@ -71,13 +71,13 @@ const getErrorMessage = (status, errorMessage) => {
 }
 
 const logoutUser = () => {
-  sessionStorage.removeItem("token")
-  sessionStorage.removeItem("refresh_token")
+  sessionStorage.removeItem("access")
+  sessionStorage.removeItem("refresh")
   window.location.href = "/login"
 }
 
 const api = axios.create({
-  baseURL: "http://localhost:8000"
+  baseURL: "http://127.0.0.1:8000"
 })
 
 api.interceptors.request.use(
@@ -102,7 +102,7 @@ api.interceptors.response.use(
 )
 
 const getToken = () => {
-  const token = sessionStorage.getItem("token")
+  const token = sessionStorage.getItem("access")
   if (!token) {
     return null
   }
@@ -117,7 +117,7 @@ const getToken = () => {
 
 // Função para verificar a validade do token
 const verifyToken = async () => {
-  const token = sessionStorage.getItem("token")
+  const token = sessionStorage.getItem("access")
   if (!token) {return false}
   
   try {

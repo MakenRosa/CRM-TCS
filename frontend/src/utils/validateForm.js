@@ -3,7 +3,7 @@ import { toast } from "react-toastify"
 const MIN_PASSWORD_LENGTH = 8 // Tamanho mínimo da senha
 
 // Função principal para validar o formulário
-const isValidForm = ({ email, senha, confirmSenha }) => validateEmail(email) && validatePassword(senha) && validateConfirmPassword(senha, confirmSenha)
+const isValidForm = ({ email, password: senha, re_password: confirmSenha }) => validateEmail(email) && validatePassword(senha) && validateConfirmPassword(senha, confirmSenha)
 
 // Validação de email utilizando regex
 const validateEmail = email => {

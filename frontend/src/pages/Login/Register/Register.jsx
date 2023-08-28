@@ -21,7 +21,6 @@ export const Register = () => {
     initialVerify()
   }, [])
 
-
   // Redirecionar para o dashboard se o usuário estiver logado
   useEffect(() => {
     if (isLogged) {
@@ -34,14 +33,17 @@ export const Register = () => {
     setLoading(true)
     const user = {
       email,
-      senha,
-      confirmSenha
+      "password": senha,
+      "re_password": confirmSenha
     }
     // Validar o formulário antes de prosseguir
     if (!isValidForm(user)) {
+      console.log(user)
+      console.log("Formulário inválido")
       setLoading(false)
       return
     }
+    console.log("Formulário válido")
     registerUser(user)
     .then(() => {
       // Limpar os campos e redirecionar para a página de login após o registro
@@ -51,7 +53,7 @@ export const Register = () => {
       navigate('/login')
     })
     .catch(() => {
-        sessionStorage.removeItem("token")
+        sessionStorage.removeItem("access")
         navigate('/login')
     })
     .finally(() => setLoading(false))

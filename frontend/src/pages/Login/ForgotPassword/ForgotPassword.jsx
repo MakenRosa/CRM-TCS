@@ -3,11 +3,19 @@ import { Email } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
 import { StyledLinks, SectionLogin } from "pages"
 import { useEffect, useState } from "react"
+import { verifyToken } from "utils"
 
 export const ForgotPassword = () => {
   // Determina se o usuário está logado
-  const [isLogged] = useState(!!sessionStorage.getItem("token"))
+  const [isLogged, setIsLogged] = useState()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const initialVerify = async () => {
+      setIsLogged(await verifyToken())
+    }
+    initialVerify()
+  }, [])
 
   // Se logado, redireciona para o dashboard
   useEffect(() => {
