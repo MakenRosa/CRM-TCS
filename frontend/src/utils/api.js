@@ -16,7 +16,8 @@ const MS_PER_SECOND = 1000
 const LOGIN_URL = "/auth/jwt/create/"
 const REGISTER_URL = "/auth/users/"
 const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
-const RESET_PASSWORD_URL = "/auth/users/reset_password_confirm/"
+const RESET_PASSWORD_URL = "/auth/users/reset_password/"
+const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
 
 
 const refreshToken = async () => {
@@ -142,5 +143,6 @@ const verifyToken = async () => {
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
+const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword }
