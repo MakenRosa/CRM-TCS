@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from usuario.views import UsuarioViewSet, InviteView
+from usuario.views import UsuarioViewSet, InviteView, ativacao
 from rest_framework import routers
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('send_email/', InviteView.as_view(), name='send_email'),
+    path('activation/', ativacao, name='ativacao'),
 ]
 
 #djoser

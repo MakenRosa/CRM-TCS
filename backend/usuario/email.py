@@ -6,7 +6,7 @@ from templated_mail.mail import BaseEmailMessage
 
 
 class ActivationEmail(email.ActivationEmail):
-    template_name = 'activation_email.html.html'
+    template_name = 'activation_email.html'
 
     def get_context_data(self):
         # ActivationEmail can be deleted
@@ -20,7 +20,7 @@ class ActivationEmail(email.ActivationEmail):
 
 
 class ConfirmationEmail(email.ConfirmationEmail):
-    template_name = 'confirmation_email.html.html'
+    template_name = 'confirmation_email.html'
 
 
 class PasswordResetEmail(email.PasswordResetEmail):
