@@ -1,16 +1,11 @@
-import { StyledContainer, StyledSectionImage } from "./Login.styles"
-import PropTypes from "prop-types"
+import { Outlet } from "react-router-dom"
 import loginImage from "assets/login.png"
+import { StyledContainer, StyledSectionImage } from "."
 
-export const AuthLayout = ({ children }) => 
+export const AuthLayout = () => 
   <StyledContainer disableGutters maxWidth={false}>
-    {children}
+    <Outlet /> {/* Renderiza a rota correspondente dentro deste layout */}
     <StyledSectionImage>
-      <img alt="CRM intro" src={loginImage} />
+      <img alt="Introdução ao sistema Solve" src={loginImage} /> {/* Imagem de introdução ao lado da rota */}
     </StyledSectionImage>
   </StyledContainer>
-
-
-AuthLayout.propTypes = {
-  children: PropTypes.node.isRequired
-}

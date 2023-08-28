@@ -19,12 +19,10 @@
         // fomatting and spacing
         "comma-dangle": ["warn", "never"],
         "comma-spacing": ["warn", { "before": false, "after": true }],
-        "indent": ["warn", 2],
         "jsx-quotes": ["warn", "prefer-double"],
         "key-spacing": ["warn", { "beforeColon": false, "afterColon": true }],
         "linebreak-style": "off",
         "lines-between-class-members": ["warn", "always"],
-        "max-len": ["warn", { "code": 80 }],
         "object-curly-spacing": ["warn", "always"],
         "object-property-newline": ["warn", { "allowAllPropertiesOnSameLine": false }],
         "semi": ["warn", "never"],
@@ -32,6 +30,8 @@
         "space-before-function-paren": ["warn", "always"],
         "space-unary-ops": ["warn", { "words": true, "nonwords": false }],
         "spaced-comment": ["warn", "always"],
+        "import/no-duplicates": "warn",
+        "import/order": "warn",
 
         // variables, functions, and properties
         "no-unneeded-ternary": ["warn", { "defaultAssignment": false }],
@@ -77,7 +77,9 @@
         "prefer-destructuring": "warn",
         "prefer-spread": "warn",
         "prefer-template": "warn",
-        "sort-imports": "warn",
+        "import/no-relative-parent-imports": "warn",
+        "import/group-exports": "warn",
+          
         "template-curly-spacing": ["warn", "always"],
 
         // react
@@ -86,7 +88,6 @@
         "react/default-props-match-prop-types": "warn",
         "react/function-component-definition": ["warn", { "namedComponents": "arrow-function" }],
         "react/jsx-boolean-value": ["warn", "never"],
-        "react/jsx-child-element-spacing": "warn",
         "react/jsx-closing-bracket-location": ["warn", "line-aligned"],
         "react/jsx-closing-tag-location": "warn",
         "react/jsx-handler-names": "warn",
@@ -97,7 +98,6 @@
         "react/jsx-no-duplicate-props": "warn",
         "react/jsx-no-target-blank": "warn",
         "react/jsx-no-useless-fragment": "warn",
-        "react/jsx-one-expression-per-line": "warn",
         "react/jsx-pascal-case": "warn",
         "react/jsx-props-no-multi-spaces": "warn",
         "react/jsx-sort-default-props": "warn",
@@ -107,7 +107,6 @@
         "react/jsx-uses-react": "warn",
         "react/jsx-uses-vars": "warn",
         "react/no-deprecated": "warn",
-        "react/no-multi-comp": "warn",
         "react/sort-prop-types": "warn",
         "react/sort-comp": "warn",
         "react/self-closing-comp": "warn"
@@ -116,7 +115,8 @@
     "plugins": [
         "react",
         "jest",
-        "prettier"
+        "prettier",
+        "import"
     ],
     "extends": [
         "eslint:recommended",
