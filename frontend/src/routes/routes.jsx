@@ -9,6 +9,8 @@ import { CssBaseline } from "@mui/material"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { NotFound } from "pages/NotFound/NotFound"
+import ResetPassword from "pages/Login/ResetPassword"
+import Envite from "pages/Login/Envite"
 
 export const AppRouter = () => 
   <Router>
@@ -23,6 +25,8 @@ export const AppRouter = () =>
       </Route>
       <Route element={<Dashboard />} path="dashboard" />
       <Route element={<NotFound />} path="*" /> {/* Rota para página não encontrada */}
+      <Route element={<Envite />} path="/envite" />
+      <Route element={<ResetPassword />} path="/reset-password" />
     </Routes>
   </Router>
 
