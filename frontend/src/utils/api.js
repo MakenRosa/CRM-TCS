@@ -15,6 +15,7 @@ const MS_PER_SECOND = 1000
 const LOGIN_URL = "/auth/login"
 const REGISTER_URL = "/auth/register"
 const REFRESH_TOKEN_URL = "/auth/refresh-token"
+const RESET_PASSWORD_URL = "/auth/users/reset_password_confirm/"
 
 const refreshToken = async () => {
   const refresh_token = sessionStorage.getItem("refresh_token")
@@ -138,5 +139,6 @@ const verifyToken = async () => {
 
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
+const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword }

@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import '../../resetPassword.css';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { resetPassword } from 'utils';
 
 const ResetPassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
-  
-    const handleResetPassword = () => {
+    const location = useLocation();
+    const queryParameters = new URLSearchParams(location.search);
+    const navigate = useNavigate();
+    
+    const  handleResetPassword = async () => {
       if (password === confirmPassword) {
-        // Aqui você pode implementar a lógica para redefinir a senha
+        const data = {
+          uid : queryParameters.get("uid"),
+          token : queryParameters.get("token"),
+          new_password : password,
+        };
+        await resetPassword(data);
+        //fazer try catch pro negocio ficar bala
         setMessage('Senha redefinida com sucesso!');
+        navigate("/login");
+
       } else {
         setMessage('As senhas não coincidem. Tente novamente.');
       }
