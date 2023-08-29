@@ -38,23 +38,19 @@ export const Register = () => {
     }
     // Validar o formulário antes de prosseguir
     if (!isValidForm(user)) {
-      console.log(user)
-      console.log("Formulário inválido")
       setLoading(false)
       return
     }
     console.log("Formulário válido")
     registerUser(user)
     .then(() => {
-      // Limpar os campos e redirecionar para a página de login após o registro
-      setEmail("")
-      setSenha("")
-      setConfirmSenha("")
       navigate('/login')
     })
     .catch(() => {
         sessionStorage.removeItem("access")
-        navigate('/login')
+        sessionStorage.removeItem("refresh")
+        setSenha("")
+        setConfirmSenha("")
     })
     .finally(() => setLoading(false))
   }
@@ -72,7 +68,7 @@ export const Register = () => {
         <StyledLinks maxHeight="40px">
           {/* Botões de cancelar e cadastrar */}
           <Button className="btn--secondary" component={Link} disabled={loading} to="/login" variant="outlined">Cancelar</Button>
-          <Button className="btn--primary" onClick={onSubmit} type="submit" variant="contained">{loading ? <CircularProgress color="inherit" size={24} /> : "Cadastrar"}</Button>
+          <Button className="btn--primary" disabled={loading} onClick={onSubmit} type="submit" variant="contained">{loading ? <CircularProgress color="inherit" size={24} /> : "Cadastrar"}</Button>
         </StyledLinks>
       </Form>
     </SectionLogin>

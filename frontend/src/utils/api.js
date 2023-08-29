@@ -1,5 +1,6 @@
 import axios from "axios"
 import jwtDecode from "jwt-decode"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -8,6 +9,7 @@ const CONFLICT = 409
 const FORBIDDEN = 403
 const INTERNAL_SERVER_ERROR = 500
 const UNAUTHORIZED = 401
+const BAD_REQUEST = 400
 
 const MS_PER_SECOND = 1000
 
@@ -36,6 +38,17 @@ const refreshToken = async () => {
 const handleErrorResponse = async error => {
   const status = error?.response?.status
   const errorMessage = error?.response?.data?.message
+
+  if (status === BAD_REQUEST) {
+    const errors = error?.response?.data 
+    if (errors) {
+      for (const e in errors) {
+        const badRequestMessage = error.config.url.endsWith(LOGIN_URL) ? `${ e }: ${ errors[e] }` : errors[e]
+        toast.error(`${ badRequestMessage }`)
+      }
+    }
+    return Promise.reject(error)
+  }
 
   if (status === UNAUTHORIZED) {
     // Captura mensagem específica para erro de login
@@ -68,7 +81,9 @@ const getErrorMessage = (status, errorMessage) => {
   const defaultMessages = {
     [CONFLICT]: "Este E-mail já está cadastrado.",
     [FORBIDDEN]: "Você não tem permissão para acessar este recurso.",
-    [INTERNAL_SERVER_ERROR]: "Erro interno do servidor. Tente novamente mais tarde."
+    [INTERNAL_SERVER_ERROR]: "Erro interno do servidor. Tente novamente mais tarde.",
+    [UNAUTHORIZED]: "Você não está autenticado.",
+    [BAD_REQUEST]: "Erro de requisição. Por favor, tente novamente."
   }
 
   return errorMessage || defaultMessages[status] || "Um erro ocorreu. Por favor, tente novamente."
