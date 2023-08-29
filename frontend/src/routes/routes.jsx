@@ -9,7 +9,7 @@ import { CssBaseline } from "@mui/material"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { NotFound } from "pages/NotFound/NotFound"
-import ResetPassword from "pages/Login/ResetPassword"
+import { ResetPassword } from "pages/Login"
 import Envite from "pages/Login/Envite"
 
 export const AppRouter = () => 

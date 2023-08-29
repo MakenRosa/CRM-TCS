@@ -1,5 +1,6 @@
 import { toast } from "react-toastify"
 
+
 const MIN_PASSWORD_LENGTH = 8 // Tamanho mínimo da senha
 
 // Função principal para validar o formulário
@@ -59,4 +60,5 @@ const validateConfirmPassword = (password, confirmPassword) => {
   return false
 }
 
-export { validatePasswordTraits, isValidForm }
+
+export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword }
