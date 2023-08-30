@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button, Form, PasswordValidator, TextField } from "components"
 import { useEffect, useState } from "react"
 import { StyledLinks, SectionLogin } from "pages"
-import { isValidForm, registerUser } from "utils"
+import { isValidForm, registerUser, verifyToken } from "utils"
 import { CircularProgress } from "@mui/material"
 
 export const Register = () => {
@@ -11,8 +11,16 @@ export const Register = () => {
   const [senha, setSenha] = useState("")
   const [confirmSenha, setConfirmSenha] = useState("")
   const navigate = useNavigate()
-  const [isLogged] = useState(!!sessionStorage.getItem("token"))
+  const [isLogged, setIsLogged] = useState()
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const initialVerify = async () => {
+      setIsLogged(await verifyToken())
+    }
+    initialVerify()
+  }, [])
+
 
   // Redirecionar para o dashboard se o usuário estiver logado
   useEffect(() => {
