@@ -1,5 +1,6 @@
 from djoser.serializers import UserCreateSerializer
 from django.contrib.auth import get_user_model
+
 from rest_framework import serializers
 
 
@@ -15,3 +16,4 @@ class InviteSerializer(serializers.Serializer):
     to = serializers.EmailField()
     subject = serializers.CharField(max_length=200)
     message = serializers.CharField()
+

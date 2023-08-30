@@ -84,6 +84,7 @@ DJOSER = {
         'password_reset': 'usuario.email.PasswordResetEmail',
         'password_changed_confirmation': 'usuario.email.PasswordChangedConfirmationEmail',
     },
+
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
