@@ -10,7 +10,7 @@ export const WithAuth = WrappedComponent => function (props) {
     useEffect(() => {
       const checkAuth = async () => {
         try {
-          const token = sessionStorage.getItem('token')
+          const token = sessionStorage.getItem('access')
           if (token) {
             const isValid = await verifyToken(token)
             if (!isValid) {

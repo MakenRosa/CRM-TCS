@@ -34,18 +34,18 @@ export const Login = () => {
     setLoading(true)
     const user = {
       email,
-      senha
+      "password": senha
     }
     loginUser(user)
       .then(res => {
-        sessionStorage.setItem("token", res.data.access_token)
-        sessionStorage.setItem("refresh_token", res.data.refresh_token)
+        sessionStorage.setItem("access", res.data.access)
+        sessionStorage.setItem("refresh", res.data.refresh)
       })
       .then(async () => {
         setIsLogged(await verifyToken())
       })
       .catch(() => {
-        sessionStorage.removeItem("token")
+        sessionStorage.removeItem("access")
       })
       .finally(() => setLoading(false))
   }

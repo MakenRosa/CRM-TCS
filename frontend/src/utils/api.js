@@ -1,5 +1,6 @@
 import axios from "axios"
 import jwtDecode from "jwt-decode"
+import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -8,23 +9,27 @@ const CONFLICT = 409
 const FORBIDDEN = 403
 const INTERNAL_SERVER_ERROR = 500
 const UNAUTHORIZED = 401
+const BAD_REQUEST = 400
 
 const MS_PER_SECOND = 1000
 
 // URLs de endpoints para autenticação
-const LOGIN_URL = "/auth/login"
-const REGISTER_URL = "/auth/register"
-const REFRESH_TOKEN_URL = "/auth/refresh-token"
-const RESET_PASSWORD_URL = "/auth/users/reset_password_confirm/"
+
+const LOGIN_URL = "/auth/jwt/create/"
+const REGISTER_URL = "/auth/users/"
+const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
+const RESET_PASSWORD_URL = "/auth/users/reset_password/"
+const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
+
 
 const refreshToken = async () => {
-  const refresh_token = sessionStorage.getItem("refresh_token")
+  const refresh_token = sessionStorage.getItem("refresh")
   try {
     const response = await api.post(REFRESH_TOKEN_URL, {}, {
       headers: { Authorization: `Bearer ${ refresh_token }` }
     })
-    sessionStorage.setItem("token", response.data.access_token)
-    return response.data.access_token
+    sessionStorage.setItem("token", response.data.access)
+    return response.data.access
   } catch (error) {
     throw new Error("Erro ao atualizar o token")
   }
@@ -33,6 +38,17 @@ const refreshToken = async () => {
 const handleErrorResponse = async error => {
   const status = error?.response?.status
   const errorMessage = error?.response?.data?.message
+
+  if (status === BAD_REQUEST) {
+    const errors = error?.response?.data 
+    if (errors) {
+      for (const e in errors) {
+        const badRequestMessage = error.config.url.endsWith(LOGIN_URL) ? `${ e }: ${ errors[e] }` : errors[e]
+        toast.error(`${ badRequestMessage }`)
+      }
+    }
+    return Promise.reject(error)
+  }
 
   if (status === UNAUTHORIZED) {
     // Captura mensagem específica para erro de login
@@ -65,20 +81,22 @@ const getErrorMessage = (status, errorMessage) => {
   const defaultMessages = {
     [CONFLICT]: "Este E-mail já está cadastrado.",
     [FORBIDDEN]: "Você não tem permissão para acessar este recurso.",
-    [INTERNAL_SERVER_ERROR]: "Erro interno do servidor. Tente novamente mais tarde."
+    [INTERNAL_SERVER_ERROR]: "Erro interno do servidor. Tente novamente mais tarde.",
+    [UNAUTHORIZED]: "Você não está autenticado.",
+    [BAD_REQUEST]: "Erro de requisição. Por favor, tente novamente."
   }
 
   return errorMessage || defaultMessages[status] || "Um erro ocorreu. Por favor, tente novamente."
 }
 
 const logoutUser = () => {
-  sessionStorage.removeItem("token")
-  sessionStorage.removeItem("refresh_token")
+  sessionStorage.removeItem("access")
+  sessionStorage.removeItem("refresh")
   window.location.href = "/login"
 }
 
 const api = axios.create({
-  baseURL: "http://localhost:8000"
+  baseURL: "http://127.0.0.1:8000"
 })
 
 api.interceptors.request.use(
@@ -103,7 +121,7 @@ api.interceptors.response.use(
 )
 
 const getToken = () => {
-  const token = sessionStorage.getItem("token")
+  const token = sessionStorage.getItem("access")
   if (!token) {
     return null
   }
@@ -118,7 +136,7 @@ const getToken = () => {
 
 // Função para verificar a validade do token
 const verifyToken = async () => {
-  const token = sessionStorage.getItem("token")
+  const token = sessionStorage.getItem("access")
   if (!token) {return false}
   
   try {
@@ -140,5 +158,6 @@ const verifyToken = async () => {
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
+const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword }
