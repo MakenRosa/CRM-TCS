@@ -77,7 +77,14 @@ DJOSER = {
         'user_create': 'usuario.serializers.UsuarioSerializer',
         'user': 'usuario.serializers.UsuarioSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
-    }
+    },
+     'EMAIL': {
+        'activation': 'usuario.email.ActivationEmail',
+        'confirmation': 'usuario.email.ConfirmationEmail',
+        'password_reset': 'usuario.email.PasswordResetEmail',
+        'password_changed_confirmation': 'usuario.email.PasswordChangedConfirmationEmail',
+    },
+
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
