@@ -56,7 +56,7 @@ export const Register = () => {
   }
 
   return (
-    <SectionLogin h="70%" title="Cadastro">
+    <SectionLogin title="Cadastro">
       <Form>
         {/* Campos de entrada para e-mail, senha e confirmação de senha */}
         <TextField fullWidth icon={<Email />} onChange={e => setEmail(e.target.value)} placeholder="Email" position="start" size="small" type="email" value={email} variant="filled" />
@@ -67,8 +67,8 @@ export const Register = () => {
         
         <StyledLinks maxHeight="40px">
           {/* Botões de cancelar e cadastrar */}
-          <Button className="btn--secondary" component={Link} disabled={loading} to="/login" variant="outlined">Cancelar</Button>
-          <Button className="btn--primary" disabled={loading} onClick={onSubmit} type="submit" variant="contained">{loading ? <CircularProgress color="inherit" size={24} /> : "Cadastrar"}</Button>
+          <Button component={Link} disabled={loading} to="/login" variant="outlined">Cancelar</Button>
+          <Button disabled={loading} onClick={onSubmit} type="submit" variant="primary">{loading ? <CircularProgress color="inherit" size={24} /> : "Cadastrar"}</Button>
         </StyledLinks>
       </Form>
     </SectionLogin>

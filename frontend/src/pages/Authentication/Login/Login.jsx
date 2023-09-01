@@ -51,7 +51,7 @@ export const Login = () => {
   }
 
   return (
-    <SectionLogin h="60%" title="Login">
+    <SectionLogin h="40%" title="Login">
       <Form>
         <TextField
           fullWidth
@@ -94,7 +94,7 @@ export const Login = () => {
             Esqueceu a senha?
           </Link>
         </StyledLinks>
-        <Button className="btn--primary" disabled={loading} onClick={onSubmit} type="submit" variant="contained">
+        <Button disabled={loading} onClick={onSubmit} type="submit" variant="primary">
           {loading ? <CircularProgress color="inherit" size={24} /> : "Login"} {/* Botão de login */}
         </Button>
       </Form>

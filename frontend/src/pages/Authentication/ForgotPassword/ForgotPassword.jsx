@@ -49,7 +49,7 @@ export const ForgotPassword = () => {
     }
       
   return (
-    <SectionLogin h="50%" title="Recuperar Senha">
+    <SectionLogin h="40%" title="Recuperar Senha">
       <p>Informe seu e-mail para receber instruções sobre como redefinir sua senha.</p>
       <Form>
         <TextField
@@ -64,7 +64,6 @@ export const ForgotPassword = () => {
         /> {/* Campo de entrada de e-mail */}
         <StyledLinks maxHeight="40px">
           <Button
-            className="btn--secondary"
             component={Link}
             disabled={loading}
             to="/login"
@@ -72,7 +71,7 @@ export const ForgotPassword = () => {
           >
             Cancelar
           </Button>
-          <Button className="btn--primary" disabled={loading} onClick={onSubmitPasswordRecovery} type="submit" variant="contained">
+          <Button disabled={loading} onClick={onSubmitPasswordRecovery} type="submit" variant="primary">
             {loading ? <CircularProgress color="inherit" size={24} /> : "Enviar"}
           </Button> {/* Botões para cancelar e enviar a solicitação de recuperação de senha */}
         </StyledLinks>
