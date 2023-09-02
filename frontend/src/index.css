@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --primary-gradient: linear-gradient(134deg, #9181f4 0%, #5038ed 100%);
+  --secondary-color: #9181f4;
+  --tertiary-color: #430331;
+  --text-color: #000;
+
+  --primary-gradient-disabled: linear-gradient(134deg, #dcdbe9 0%, #c5c0e7 100%);
+  --secondary-color-disabled: #dcdbe9;
+}
