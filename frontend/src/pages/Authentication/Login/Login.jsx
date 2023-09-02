@@ -20,15 +20,12 @@ export const Login = () => {
     initalVerify()
   }, [])
 
-
-  // Redirecionar para o dashboard se o usuário estiver logado
   useEffect(() => {
     if (isLogged) {
       navigate('/dashboard')
     }
   }, [isLogged, navigate])
 
-  // Função para lidar com o envio do formulário de login
   const onSubmit = e => {
     e.preventDefault()
     setLoading(true)
@@ -63,7 +60,7 @@ export const Login = () => {
           type="email"
           value={email}
           variant="filled"
-        /> {/* Campo de entrada de e-mail */}
+        />
         <TextField
           fullWidth
           icon={<Lock />}
@@ -74,7 +71,7 @@ export const Login = () => {
           type="password"
           value={senha}
           variant="filled"
-        /> {/* Campo de entrada de senha */}
+        /> 
         <StyledLinks>
           <Link
             color="var(--tertiary-color)"
@@ -95,7 +92,7 @@ export const Login = () => {
           </Link>
         </StyledLinks>
         <Button disabled={loading} onClick={onSubmit} type="submit" variant="primary">
-          {loading ? <CircularProgress color="inherit" size={24} /> : "Login"} {/* Botão de login */}
+          {loading ? <CircularProgress color="inherit" size={24} /> : "Login"} 
         </Button>
       </Form>
     </SectionLogin>

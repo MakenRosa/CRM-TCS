@@ -8,7 +8,6 @@ import { toast } from "react-toastify"
 import { CircularProgress } from "@mui/material"
 
 export const ForgotPassword = () => {
-  // Determina se o usuário está logado
   const [isLogged, setIsLogged] = useState()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -21,14 +20,12 @@ export const ForgotPassword = () => {
     initialVerify()
   }, [])
 
-  // Se logado, redireciona para o dashboard
   useEffect(() => {
     if (isLogged) {
       navigate('/dashboard')
     }
   }, [isLogged, navigate])
 
-  // Função para enviar a solicitação de recuperação de senha
   const onSubmitPasswordRecovery = event => {
     event.preventDefault()
     setLoading(true)
@@ -61,7 +58,7 @@ export const ForgotPassword = () => {
           size="small"
           type="email"
           variant="filled"
-        /> {/* Campo de entrada de e-mail */}
+        /> 
         <StyledLinks maxHeight="40px">
           <Button
             component={Link}
@@ -73,7 +70,7 @@ export const ForgotPassword = () => {
           </Button>
           <Button disabled={loading} onClick={onSubmitPasswordRecovery} type="submit" variant="primary">
             {loading ? <CircularProgress color="inherit" size={24} /> : "Enviar"}
-          </Button> {/* Botões para cancelar e enviar a solicitação de recuperação de senha */}
+          </Button> 
         </StyledLinks>
       </Form>
     </SectionLogin>
