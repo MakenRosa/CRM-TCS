@@ -45,7 +45,6 @@
         "no-dupe-keys": "warn",
         "no-empty": "warn",
         "no-extra-boolean-cast": "warn",
-        "no-extra-parens": ["warn", "all", { "nestedBinaryExpressions": false }],
         "no-extra-semi": "warn",
         "no-invalid-regexp": "warn",
         "no-irregular-whitespace": "warn",
@@ -78,7 +77,6 @@
         "prefer-spread": "warn",
         "prefer-template": "warn",
         "import/no-relative-parent-imports": "warn",
-        "import/group-exports": "warn",
           
         "template-curly-spacing": ["warn", "always"],
 

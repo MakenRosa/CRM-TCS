@@ -8,7 +8,6 @@ import { toast } from "react-toastify"
 import { CircularProgress } from "@mui/material"
 
 export const ForgotPassword = () => {
-  // Determina se o usuário está logado
   const [isLogged, setIsLogged] = useState()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -21,14 +20,12 @@ export const ForgotPassword = () => {
     initialVerify()
   }, [])
 
-  // Se logado, redireciona para o dashboard
   useEffect(() => {
     if (isLogged) {
       navigate('/dashboard')
     }
   }, [isLogged, navigate])
 
-  // Função para enviar a solicitação de recuperação de senha
   const onSubmitPasswordRecovery = event => {
     event.preventDefault()
     setLoading(true)
@@ -49,7 +46,7 @@ export const ForgotPassword = () => {
     }
       
   return (
-    <SectionLogin h="50%" title="Recuperar Senha">
+    <SectionLogin h="40%" title="Recuperar Senha">
       <p>Informe seu e-mail para receber instruções sobre como redefinir sua senha.</p>
       <Form>
         <TextField
@@ -61,10 +58,9 @@ export const ForgotPassword = () => {
           size="small"
           type="email"
           variant="filled"
-        /> {/* Campo de entrada de e-mail */}
+        /> 
         <StyledLinks maxHeight="40px">
           <Button
-            className="btn--secondary"
             component={Link}
             disabled={loading}
             to="/login"
@@ -72,9 +68,9 @@ export const ForgotPassword = () => {
           >
             Cancelar
           </Button>
-          <Button className="btn--primary" disabled={loading} onClick={onSubmitPasswordRecovery} type="submit" variant="contained">
+          <Button disabled={loading} onClick={onSubmitPasswordRecovery} type="submit" variant="primary">
             {loading ? <CircularProgress color="inherit" size={24} /> : "Enviar"}
-          </Button> {/* Botões para cancelar e enviar a solicitação de recuperação de senha */}
+          </Button> 
         </StyledLinks>
       </Form>
     </SectionLogin>

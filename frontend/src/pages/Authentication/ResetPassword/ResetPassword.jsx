@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import '../../resetPassword.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { resetConfirmPassword, validateConfirmPassword, validatePassword } from 'utils'
 import { Button, Form, PasswordValidator, TextField } from 'components'
 import { CircularProgress } from '@mui/material'
+import { SectionLogin } from 'pages'
+import { Check, Lock } from '@mui/icons-material'
 
 export const ResetPassword = () => {
     const [password, setPassword] = useState('')
@@ -38,16 +39,17 @@ export const ResetPassword = () => {
 
   
     return (
-      <div className="reset-password-container">
-        <h2>Redefinir Senha</h2>
+      <SectionLogin h="50%" title="Redefinir Senha">
         <Form>
           <TextField
+            icon={<Lock />}
             onChange={e => setPassword(e.target.value)}
             placeholder="Nova Senha"
             type="password"
             value={password}
           />
           <TextField
+            icon={<Check />}
             onChange={e => setConfirmPassword(e.target.value)}
             placeholder="Confirmar Nova Senha"
             type="password"
@@ -55,12 +57,12 @@ export const ResetPassword = () => {
           />
           <PasswordValidator password={password} />
           <Button
-            className="btn--primary"
             disabled={loading}
             onClick={handleResetPassword}
+            variant="primary"
           >{loading ? <CircularProgress size={20} /> : "Redefinir Senha"}
           </Button>
         </Form>
-      </div>
+      </SectionLogin>
     )
   }

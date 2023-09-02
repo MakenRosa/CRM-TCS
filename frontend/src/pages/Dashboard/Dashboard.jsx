@@ -5,6 +5,6 @@ const DashboardComponent = () =>
   <div>
     <h1>Dashboard</h1> 
     <Button onClick={logoutUser}>Logout</Button> 
-  </div>  // Renderiza o conteúdo do painel se o usuário estiver autenticado
+  </div>  
     
-export const Dashboard = WithAuth(DashboardComponent) // Aplica o HOC WithAuth ao componente DashboardComponent
+export const Dashboard = WithAuth(DashboardComponent) 
