@@ -1,4 +1,4 @@
-import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword } from "pages"
+import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout } from "pages"
 import {
   Navigate,
   Route,
@@ -14,15 +14,17 @@ export const AppRouter = () =>
     <CssBaseline />
     <ToastContainer hideProgressBar position="top-center" theme="colored" />
     <Routes>
-      <Route element={<Navigate replace to="/dashboard" />} path="/" /> {/* Redireciona da raiz para o painel */}
+      <Route element={<Navigate replace to="/dashboard" />} path="/" />
       <Route element={<AuthLayout />} path="/">
         <Route element={<Login />} path="login" />
         <Route element={<Register />} path="register" />
         <Route element={<ForgotPassword />} path="forgot-password" />
         <Route element={<ResetPassword />} path="/reset-password" />
       </Route>
-      <Route element={<Dashboard />} path="dashboard" />
-      <Route element={<NotFound />} path="*" /> {/* Rota para página não encontrada */}
+      <Route element={<BaseLayout />} path="/">
+        <Route element={<Dashboard />} index path="dashboard" />
+      </Route>
+      <Route element={<NotFound />} path="*" />
     </Routes>
   </Router>
 
