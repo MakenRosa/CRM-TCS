@@ -110,6 +110,8 @@ api.interceptors.response.use(
   response => {
     if (response?.data?.message) {
       toast.success(response.data.message)
+    } else {
+      toast.success("Operação realizada com sucesso")
     }
     return response
   },
