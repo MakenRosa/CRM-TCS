@@ -39,7 +39,6 @@ export const Register = () => {
       setLoading(false)
       return
     }
-    console.log("Formulário válido")
     registerUser(user)
     .then(() => {
       navigate('/login')

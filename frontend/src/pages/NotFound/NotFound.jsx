@@ -1,9 +1,39 @@
-import { NavigateLink, NotFoundContainer, NotFoundText, NotFoundTitle } from "."
+import React from 'react'
+import { styled, Container, Box, Typography } from '@mui/material'
 
-export const NotFound = () => 
-  <NotFoundContainer>
-    <NotFoundTitle>Página não encontrada</NotFoundTitle>
-    <NotFoundText>Desculpe, não conseguimos encontrar o que você está procurando.</NotFoundText>
-    <NavigateLink replace to="/login">Voltar para a página de login</NavigateLink>
-  </NotFoundContainer>
+
+const StyledContainer = styled(Box)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(224deg, #9181f4 0%, #5038ed 100%);
+  width: 100vw;
+  height: 100vh;
+
+
+  @media (max-width: 768px) {
+    margin-top: 20px;
+    width: 100%;
+    height: 50%;
+  }
+`
+
+export const NotFound = () => (
+  <StyledContainer>
+    <Typography color="textSecondary" variant="h1">
+      404
+    </Typography>
+    <Typography color="textSecondary" variant="h4">
+      Página não encontrada
+    </Typography>
+    <Typography color="textSecondary" variant="h6">
+      A página que você está procurando não existe ou foi removida.
+    </Typography>
+    <Typography color="textSecondary" variant="h6">
+      <a href="/">Voltar para a página inicial</a>
+    </Typography>
+  </StyledContainer>
+  )
 
