@@ -1,10 +1,11 @@
 import { PropTypes } from 'prop-types'
-import { Container, Box, Card, styled, Typography } from '@mui/material'
+import { Box, Card, styled, Typography } from '@mui/material'
 
 const StyledCard = styled(Card)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
   min-height: 115px;
   max-width: 250px;
   background-color:  ${ ({ color }) => color || '#F3EFEF' };
@@ -25,29 +26,27 @@ const StyledCardTitle = styled(Typography)`
 const StyledCardBox = styled(Box)`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
-  `
+`
 
 const StyledCardValue = styled(Typography)`
-  display: flex;
+  flex-grow: 1;
+  text-align: center;
   font-size: 20px;
   font-weight: 600;
-  width: 100%;
+  margin-right: 24px;
 `
 
 const StyledCardIcon = styled(Box)`
   display: flex;
-  justify-content: flex-start;
-  `
-
+`
 
 export const DashboardCard = ({ title, value, icon, color }) => (
-  <StyledCard>
-    {/** Card Title */}
+  <StyledCard color={color}>
     <StyledCardTitle>
       {title}
     </StyledCardTitle>
-    {/** Card Value */}
     <StyledCardBox>
       <StyledCardIcon>
         {icon}
@@ -56,15 +55,12 @@ export const DashboardCard = ({ title, value, icon, color }) => (
         {value}
       </StyledCardValue>
     </StyledCardBox>
-        
   </StyledCard>
-
 )
 
 DashboardCard.propTypes = {
-    color: PropTypes.string.isRequired,
-    icon: PropTypes.element.isRequired,
-    title: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-    }
-    
+  color: PropTypes.string.isRequired,
+  icon: PropTypes.element.isRequired,
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired
+}
