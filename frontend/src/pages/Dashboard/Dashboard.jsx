@@ -42,14 +42,24 @@ const DashboardComponent = () => {
         </Button>
       </StyledFilterBox>
       <StyledCardBox>
-        <h1>Dashboard</h1>
+        <DashboardCard 
+          icon={<Filter />}
+          title="Total de vendas"
+          value="0"
+        />
+        <DashboardCard 
+          icon={<Filter />}
+          title="Total de vendas"
+          value="0"
+        />
+        <DashboardCard 
+          icon={<Filter />}
+          title="Total de vendas"
+          value="0"
+        />
       </StyledCardBox>
-      <DashboardCard color="#F2C94C"
-        icon={<Filter />}
-        title="Total de vendas"
-        value="0"
-      />
     </StyledDashboard>
   )
 }
-export const Dashboard = WithAuth(DashboardComponent) 
+
+export const Dashboard = WithAuth(DashboardComponent)

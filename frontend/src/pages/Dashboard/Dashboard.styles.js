@@ -14,7 +14,7 @@ export const StyledFilterBox = styled(Box)`
   padding: 16px;
   background-color: #F3EFEF;
 
-  @media (max-width: 767px) {
+  @media (max-width: 800px) {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -37,7 +37,7 @@ export const StyledFilter = styled(Box)`
     align-items: flex-start;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 800px) {
     margin-bottom: 16px;
     flex-direction: row;
     align-items: center;
@@ -61,7 +61,7 @@ export const StyledLabel = styled(Typography)`
   font-weight: bold;
   color: var(--secondary-color);
 
-  @media (max-width: 767px) {
+  @media (max-width: 800px) {
     width: 150px;
   }
 `
@@ -70,7 +70,13 @@ export const StyledCardBox = styled(Box)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 24px;
   gap: 16px;
-  margin-top: 16px;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
