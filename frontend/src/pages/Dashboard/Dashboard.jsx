@@ -2,7 +2,8 @@ import { MenuItem } from '@mui/material'
 import { Button, WithAuth } from 'components'
 
 import { useState } from 'react'
-import { StyledCardBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
+import { Filter } from '@mui/icons-material'
+import { DashboardCard, StyledCardBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
 
 const DashboardComponent = () => {
   const [team, setTeam] = useState('Equipe Rocket')
@@ -43,6 +44,11 @@ const DashboardComponent = () => {
       <StyledCardBox>
         <h1>Dashboard</h1>
       </StyledCardBox>
+      <DashboardCard color="#F2C94C"
+        icon={<Filter />}
+        title="Total de vendas"
+        value="0"
+      />
     </StyledDashboard>
   )
 }
