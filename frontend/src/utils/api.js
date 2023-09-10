@@ -3,7 +3,6 @@ import jwtDecode from "jwt-decode"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-// Constantes para códigos de status HTTP
 const CONFLICT = 409
 const FORBIDDEN = 403
 const INTERNAL_SERVER_ERROR = 500
@@ -12,7 +11,6 @@ const BAD_REQUEST = 400
 
 const MS_PER_SECOND = 1000
 
-// URLs de endpoints para autenticação
 
 const LOGIN_URL = "/auth/jwt/create/"
 const REGISTER_URL = "/auth/users/"
@@ -50,7 +48,6 @@ const handleErrorResponse = async error => {
   }
 
   if (status === UNAUTHORIZED) {
-    // Captura mensagem específica para erro de login
     if (error.config.url.endsWith(LOGIN_URL)) {
       toast.error("Usuário e/ou senha inválidos.")
       return Promise.reject(error)
@@ -113,6 +110,8 @@ api.interceptors.response.use(
   response => {
     if (response?.data?.message) {
       toast.success(response.data.message)
+    } else {
+      toast.success("Operação realizada com sucesso")
     }
     return response
   },
@@ -133,7 +132,6 @@ const getToken = () => {
   return null
 }
 
-// Função para verificar a validade do token
 const verifyToken = async () => {
   const token = sessionStorage.getItem("access")
   if (!token) {return false}
@@ -144,7 +142,7 @@ const verifyToken = async () => {
     const isValid = decoded.exp > currentTime
     
     if (!isValid) {
-      await refreshToken() // Atualiza o token se estiver expirado
+      await refreshToken()
     }
     
     return isValid
@@ -152,7 +150,6 @@ const verifyToken = async () => {
     return false
   }
 }
-
 
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
