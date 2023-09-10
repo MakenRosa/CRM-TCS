@@ -1,6 +1,5 @@
 import { Box, styled } from "@mui/material"
 
-
 const StyledLinks = styled(Box)`
   display: flex;
   font-size: 12px;

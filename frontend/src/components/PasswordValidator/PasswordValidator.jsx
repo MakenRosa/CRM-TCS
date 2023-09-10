@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { validatePasswordTraits } from 'utils'
 import { CheckCircle, Cancel } from '@mui/icons-material'
