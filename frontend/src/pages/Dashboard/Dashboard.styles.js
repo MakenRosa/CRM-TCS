@@ -66,7 +66,7 @@ export const StyledLabel = styled(Typography)`
   }
 `
 
-export const StyledCardBox = styled(Box)`
+export const StyledCardsBox = styled(Box)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

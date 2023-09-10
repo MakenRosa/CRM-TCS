@@ -1,11 +1,10 @@
 import { MenuItem } from '@mui/material'
-import { Button, WithAuth } from 'components'
-
+import { Button } from 'components'
 import { useState } from 'react'
 import { Filter } from '@mui/icons-material'
-import { DashboardCard, StyledCardBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
+import { DashboardCard, StyledCardsBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
 
-const DashboardComponent = () => {
+export const Dashboard = () => {
   const [team, setTeam] = useState('Equipe Rocket')
   const [funnel, setFunnel] = useState('Todos')
   const [period, setPeriod] = useState('Diário')
@@ -41,7 +40,7 @@ const DashboardComponent = () => {
           Limpar filtros
         </Button>
       </StyledFilterBox>
-      <StyledCardBox>
+      <StyledCardsBox>
         <DashboardCard 
           icon={<Filter />}
           title="Total de vendas"
@@ -57,9 +56,7 @@ const DashboardComponent = () => {
           title="Total de vendas"
           value="0"
         />
-      </StyledCardBox>
+      </StyledCardsBox>
     </StyledDashboard>
   )
 }
-
-export const Dashboard = WithAuth(DashboardComponent)
