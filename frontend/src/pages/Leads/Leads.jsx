@@ -2,9 +2,12 @@ import { Search } from "@mui/icons-material"
 import { Box, FormControl, InputBase, InputLabel, MenuItem, Select } from "@mui/material"
 import { Button } from "components"
 import { useState, useCallback, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 import { Table } from './Table'
 import { headCells, rows } from "./data"
 import { StyledButtonBox, StyledLeadsContainer, StyledFilterAltOutlined, StyledLeadsFilterBox, StyledFilterSearchBox, StyledIconButton, StyledInputPaper, StyledSearchFilter, StyledLeadsTitle } from "."
+
 
 export const Leads = () => {
   const [filter, setFilter] = useState('')
@@ -14,6 +17,20 @@ export const Leads = () => {
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('empresa')
+
+  const navigate = useNavigate()
+
+  const handleEditLead = () => {
+    const selected = JSON.parse(localStorage.getItem('selectedLeads'))
+    selected.length === 1 ? navigate(`/leads/register`) : 
+    selected.length > 1 ? toast.error('Selecione apenas um lead para editar') :
+    toast.error('Selecione um lead para editar')
+  }
+
+  const handleNewLead = () => {
+    localStorage.removeItem('selectedLeads')
+    navigate('/leads/register')
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -49,7 +66,8 @@ export const Leads = () => {
       <StyledLeadsTitle variant="h1">Leads/Contatos</StyledLeadsTitle>
       <StyledButtonBox>
         <Button>Excluir</Button>
-        <Button variant="primary">Novo</Button>
+        <Button onClick={handleEditLead}>Editar</Button>
+        <Button onClick={handleNewLead} variant="primary">Novo</Button>
       </StyledButtonBox>
       <Box>
         <StyledFilterSearchBox>
@@ -66,7 +84,7 @@ export const Leads = () => {
               />
               <StyledIconButton aria-label="search" 
                 onClick={handleSearch}
-                searched={searched}
+                searched={searched.toString()}
                 type="submit"
               >
                 <Search />

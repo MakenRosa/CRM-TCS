@@ -25,7 +25,7 @@ export const StyledLeadsTitle = styled(Typography)`
 export const StyledButtonBox = styled(Box)`
   display: flex;
   justify-content: flex-end;
-  gap: 20px;
+    gap: ${ props => (props.gap ? props.gap : '20px') };
 
   @media (max-width: 512px) {
     justify-content: center;
@@ -86,7 +86,7 @@ export const StyledInputPaper = styled(Paper)`
 
 export const StyledIconButton = styled(IconButton)`
   padding: 10px;
-  background: ${ props => (props.searched ? 'inherit' : 'var(--primary-gradient)') };
-  color: ${ props => (props.searched ? 'inherit' : '#fff') };
+  background: ${ ({ searched }) => ( searched == "true" ? 'inherit' : 'var(--primary-gradient)') };
+  color: ${ ({ searched }) => (searched == "true" ? 'inherit' : '#fff') };
   transition: all 0.3s ease-in-out;
 `

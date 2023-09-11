@@ -17,6 +17,10 @@ const REGISTER_URL = "/auth/users/"
 const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
 const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
+const CREATE_LEAD_URL = "/leads/"
+const GET_LEADS_URL = "/leads/"
+const UPDATE_LEAD_URL = "/leads/"
+
 
 
 const refreshToken = async () => {
@@ -155,5 +159,9 @@ const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
+const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
+const getLeads = async () => await api.get(GET_LEADS_URL)
+const updateLead = async (id, data) => await api.put(`${ UPDATE_LEAD_URL }${ id }/`, data)
+const deleteLead = async id => await api.delete(`${ UPDATE_LEAD_URL }${ id }/`)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead }

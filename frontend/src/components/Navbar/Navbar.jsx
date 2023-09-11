@@ -9,7 +9,7 @@ import { StyledNavContainer, StyledNavTitle } from '.'
 const NavButton = ({ page, ...props }) => {  
   const Navigate = useNavigate()
   const urlPage = page === 'Início' ? 'dashboard' : page.toLowerCase()
-  const active = window.location.pathname.includes(page)
+  const active = window.location.pathname.includes(urlPage)
 
   return (
     <Button

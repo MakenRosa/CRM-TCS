@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import PropTypes from 'prop-types'
 import { Box, Checkbox, FormControlLabel, Paper, Switch, Table as MuiTable, TableBody, TableCell, TableContainer, TablePagination, TableRow } from "@mui/material"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { getComparator, stableSort, TableHead } from '.'
 
 export const Table = ({ page, setPage, rows, headCells, order, orderBy, onRequestSort }) => {
@@ -15,32 +15,31 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelected = rows.map(n => n.empresa)
+      const newSelected = rows
       setSelected(newSelected)
       return
     }
     setSelected([])
   }
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name)
+  const handleClick = (event, row) => {
+    const selectedIndex = selected.findIndex(r => r.empresa === row.empresa)
     let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name)
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1))
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      )
+      newSelected = [...selected, row]
+    } else {
+      newSelected = [...selected]
+      newSelected.splice(selectedIndex, 1)
     }
 
     setSelected(newSelected)
   }
+
+  
+  useEffect(() => {
+    localStorage.setItem('selectedLeads', JSON.stringify(selected))
+  }, [selected])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -55,7 +54,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
     setDense(event.target.checked)
   }
 
-  const isSelected = name => selected.indexOf(name) !== -1
+  const isSelected = row => selected.some(selectedRow => selectedRow.empresa === row.empresa)
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
@@ -89,7 +88,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-              const isItemSelected = isSelected(row.empresa)
+              const isItemSelected = isSelected(row)
               const labelId = `enhanced-table-checkbox-${ index }`
 
               return (
@@ -97,7 +96,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                   aria-checked={isItemSelected}
                   hover
                   key={row.empresa}
-                  onClick={event => handleClick(event, row.empresa)}
+                  onClick={event => handleClick(event, row)}
                   role="checkbox"
                   selected={isItemSelected}
                   sx={{ cursor: 'pointer' }}
@@ -110,6 +109,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                       inputProps={{
                         'aria-labelledby': labelId
                       }}
+                      onChange={event => event.stopPropagation()}
                     />
                   </TableCell>
                   <TableCell
@@ -124,7 +124,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                   <TableCell align="left">{row.telefone}</TableCell>
                   <TableCell align="left">{row.responsavel}</TableCell>
                   <TableCell align="left">{row.origem_lead}</TableCell>
-                  <TableCell align="left">{row.data_criacao.toLocaleDateString('pt-BR')}</TableCell>
+                  <TableCell align="left">{row.criado.toLocaleDateString('pt-BR')}</TableCell>
                 </TableRow>
               )
             })}
