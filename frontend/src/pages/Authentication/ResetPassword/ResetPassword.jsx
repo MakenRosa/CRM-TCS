@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { resetConfirmPassword, validateConfirmPassword, validatePassword } from 'utils'
 import { Button, Form, PasswordValidator, TextField } from 'components'

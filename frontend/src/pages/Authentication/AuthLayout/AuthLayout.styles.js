@@ -1,4 +1,4 @@
-const { styled, Container, Box } = require("@mui/material")
+import { Box, Container, styled } from "@mui/material"
 
 export const StyledContainer = styled(Container)`
   display: flex;

@@ -1,4 +1,4 @@
-const { styled, Button } = require("@mui/material")
+import { Button, styled } from "@mui/material"
 
 export const StyledButton = styled(Button)`
   ${ ({ variant }) => (variant === 'primary' ? primaryStyles : secondaryStyles) }
