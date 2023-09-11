@@ -12,14 +12,18 @@ export const TextField = ({
   onChange,
   type,
   value,
+  multiline,
+  readOnly,
   ...props
 }) => (
   <StyledTextField
     InputProps={{
-      startAdornment: <InputAdornment position={position}>{icon}</InputAdornment>
+      startAdornment: <InputAdornment position={position}>{icon}</InputAdornment>,
+      readOnly
     }}
     autoComplete="off"
     fullWidth={fullWidth}
+    multiline={multiline}
     onChange={onChange}
     size={size}
     sx={{ borderRadius }}
@@ -34,8 +38,10 @@ TextField.propTypes = {
   borderRadius: PropTypes.string,
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
+  multiline: PropTypes.bool,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(["start", "end"]),
+  readOnly: PropTypes.bool,
   size: PropTypes.oneOf(["small", "medium"]),
   type: PropTypes.string,
   value: PropTypes.string,
@@ -44,6 +50,7 @@ TextField.propTypes = {
 
 TextField.defaultProps = {
   fullWidth: true,
+  multiline: false,
   position: "start",
   size: "small",
   variant: "filled"

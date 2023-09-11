@@ -18,7 +18,7 @@ export const DashboardCard = ({ title, value, icon, color }) => (
 )
 
 DashboardCard.propTypes = {
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   icon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired

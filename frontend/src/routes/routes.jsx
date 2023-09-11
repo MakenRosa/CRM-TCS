@@ -1,4 +1,4 @@
-import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout, Leads } from "pages"
+import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout, Leads, RegisterLead } from "pages"
 import {
   Navigate,
   Route,
@@ -24,6 +24,7 @@ export const AppRouter = () =>
       <Route element={<BaseLayout />} path="/">
         <Route element={<Dashboard />} index path="dashboard" />
         <Route element={<Leads />} path="leads" />
+        <Route element={<RegisterLead />} path="leads/register" />
       </Route>
       <Route element={<NotFound />} path="*" />
     </Routes>
