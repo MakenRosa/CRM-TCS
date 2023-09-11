@@ -1,4 +1,4 @@
-const { styled, Box } = require("@mui/material")
+import { Box, styled } from "@mui/material"
 
 export const StyledParagraph = styled('p')({
     display: 'flex',

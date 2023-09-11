@@ -1,5 +1,5 @@
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Avatar, Button, Tooltip, MenuItem } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
+import { Menu as MenuIcon } from '@mui/icons-material'
 import { useState } from 'react'
 import { logoutUser } from 'utils'
 import PropTypes from 'prop-types'
@@ -9,10 +9,11 @@ import { StyledNavContainer, StyledNavTitle } from '.'
 const NavButton = ({ page, ...props }) => {  
   const Navigate = useNavigate()
   const urlPage = page === 'Início' ? 'dashboard' : page.toLowerCase()
-  const active = window.location.pathname.includes(urlPage)
+  const active = window.location.pathname.includes(page)
+
   return (
     <Button
-      onClick={() => Navigate(`/${ page.toLowerCase() }`)}
+      onClick={() => Navigate(`/${ urlPage }`)}
       sx={{ 
         my: 2, 
         display: 'block', 
@@ -39,6 +40,8 @@ export const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null)
   const [anchorElUser, setAnchorElUser] = useState(null)
 
+  const navigate = useNavigate()
+
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget)
   }
@@ -52,6 +55,12 @@ export const Navbar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
+  }
+
+  const handleMenuClick = page => {
+    const urlPage = page === 'Início' ? 'dashboard' : page.toLowerCase()
+    navigate(`/${ urlPage }`)
+    handleCloseNavMenu()
   }
 
   return (
@@ -100,10 +109,10 @@ export const Navbar = () => {
                 horizontal: 'left'
               }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
+              <MenuItem onClick={() => handleMenuClick('Início')}>
                 <Typography textAlign="center">Início</Typography>
               </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
+              <MenuItem onClick={() => handleMenuClick('Leads')}>
                 <Typography textAlign="center">Leads</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>

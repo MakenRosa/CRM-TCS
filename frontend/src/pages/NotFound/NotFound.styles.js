@@ -1,28 +1,19 @@
-const { styled, Container, Typography } = require("@mui/material")
-const { Navigate } = require("react-router-dom")
+import { Box, styled } from "@mui/material"
 
-export const NotFoundContainer = styled(Container)`
+
+export const StyledNotFoundContainer = styled(Box)`
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-`
+  align-items: center;
+  background: linear-gradient(224deg, #9181f4 0%, #5038ed 100%);
+  width: 100vw;
+  height: 100vh;
 
-export const NotFoundTitle = styled(Typography)`
-  font-size: 36px;
-  font-weight: 700;
-  margin-bottom: 16px;
-`
 
-export const NotFoundText = styled(Typography)`
-  font-size: 18px;
-  margin-bottom: 16px;
-`
-
-export const NavigateLink = styled(Navigate)`
-  text-decoration: underline;
-  color: #0000ee;
-  cursor: pointer;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100vh;
+  }
 `
