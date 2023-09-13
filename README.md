@@ -103,6 +103,51 @@
    ```
    pip install -r requirements.txt
    ```
+   Criar base de dados(Ubuntu)
+
+   ```
+   sudo -u postgres psql
+   ```
+
+   ```
+   ALTER USER postgres PASSWORD 'Dev123@';
+   ```
+
+   ```
+   \q
+   sudo -u postgres -i
+   ```
+
+   ```
+   createdb solve_crm
+   ```
+  Criar base de dados(Windows)
+  1. Abra o "PostgreSQL SQL Shell" a partir do menu Iniciar ou procurando-o no seu sistema.
+
+  2. Quando solicitado, insira o nome de usuário e a senha do PostgreSQL. Por padrão, o nome de usuário é "postgres" e a senha é aquela que você definiu durante a instalação do PostgreSQL no Windows.
+
+  3. Após fazer login, você verá um prompt do psql semelhante ao que você teria no Ubuntu.
+
+  4. Execute o seguinte comando:
+   ```
+   ALTER USER postgres PASSWORD 'Dev123@';
+   \q
+   ```
+   
+  5. Abra o "PostgreSQL Command Prompt" a partir do menu Iniciar ou procurando-o no seu sistema. E execute o seguinte comando:
+   ```
+   createdb solve_crm
+   ```
+
+   Rodar comandos de migração criação e migração dos dados da base
+
+   ```
+   python manage.py makemigrations
+   ```
+
+   ```
+   python manage.py migrate
+   ```
 
    Após a instalação, você pode iniciar o servidor Django com:
 
