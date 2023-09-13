@@ -1,7 +1,6 @@
 import { Box } from "@mui/material"
 import PropTypes from "prop-types"
 
-// Componente Form que estrutura um formulário com layout de coluna e espaçamento entre os elementos
 export const Form = ({ children, sx, ...props }) => 
   <Box
     component="form"
@@ -18,10 +17,10 @@ export const Form = ({ children, sx, ...props }) =>
   </Box>
 
 Form.propTypes = {
-  children: PropTypes.node.isRequired, // Conteúdo dentro do formulário (como campos de entrada)
-  sx: PropTypes.object // Estilos adicionais que podem ser aplicados ao componente
+  children: PropTypes.node.isRequired, 
+  sx: PropTypes.object
 }
 
 Form.defaultProps = {
-  sx: {} // Define os estilos adicionais como um objeto vazio por padrão
+  sx: {} 
 }

@@ -1,10 +1,8 @@
 import axios from "axios"
 import jwtDecode from "jwt-decode"
-import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-// Constantes para códigos de status HTTP
 const CONFLICT = 409
 const FORBIDDEN = 403
 const INTERNAL_SERVER_ERROR = 500
@@ -13,13 +11,16 @@ const BAD_REQUEST = 400
 
 const MS_PER_SECOND = 1000
 
-// URLs de endpoints para autenticação
 
 const LOGIN_URL = "/auth/jwt/create/"
 const REGISTER_URL = "/auth/users/"
 const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
 const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
+const CREATE_LEAD_URL = "/leads/"
+const GET_LEADS_URL = "/leads/"
+const UPDATE_LEAD_URL = "/leads/"
+
 
 
 const refreshToken = async () => {
@@ -51,7 +52,6 @@ const handleErrorResponse = async error => {
   }
 
   if (status === UNAUTHORIZED) {
-    // Captura mensagem específica para erro de login
     if (error.config.url.endsWith(LOGIN_URL)) {
       toast.error("Usuário e/ou senha inválidos.")
       return Promise.reject(error)
@@ -114,6 +114,8 @@ api.interceptors.response.use(
   response => {
     if (response?.data?.message) {
       toast.success(response.data.message)
+    } else {
+      toast.success("Operação realizada com sucesso")
     }
     return response
   },
@@ -134,7 +136,6 @@ const getToken = () => {
   return null
 }
 
-// Função para verificar a validade do token
 const verifyToken = async () => {
   const token = sessionStorage.getItem("access")
   if (!token) {return false}
@@ -145,7 +146,7 @@ const verifyToken = async () => {
     const isValid = decoded.exp > currentTime
     
     if (!isValid) {
-      await refreshToken() // Atualiza o token se estiver expirado
+      await refreshToken()
     }
     
     return isValid
@@ -154,10 +155,13 @@ const verifyToken = async () => {
   }
 }
 
-
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
+const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
+const getLeads = async () => await api.get(GET_LEADS_URL)
+const updateLead = async (id, data) => await api.put(`${ UPDATE_LEAD_URL }${ id }/`, data)
+const deleteLead = async id => await api.delete(`${ UPDATE_LEAD_URL }${ id }/`)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead }
