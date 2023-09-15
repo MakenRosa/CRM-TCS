@@ -2,15 +2,14 @@ from rest_framework import viewsets, generics, status
 from django.db.models import Q
 from rest_framework.response import Response
 import math
-from datetime import datetime
-
+from datetime import date, datetime
 
 from .models import Lead
-from .serializers import LeadsSerializer
+from .serializers import LeadsSerializerInsert, LeadsSerializerUpdate
 
 
 class Leads(generics.GenericAPIView):
-    serializer_class = LeadsSerializer
+    serializer_class = LeadsSerializerInsert
 
     def get(self, request):
         page_num = int(request.GET.get("page", 1))
@@ -43,7 +42,7 @@ class Leads(generics.GenericAPIView):
             return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
 class LeadsDetails(generics.GenericAPIView):
-    serializer_class = LeadsSerializer
+    serializer_class = LeadsSerializerUpdate
 
     def get_lead(self, cnpj):
         try:
@@ -93,5 +92,4 @@ def criar_filtro_pesquisa_lead(search_param):
     search_conditions |= Q(responsavel__icontains=search_param)
     search_conditions |= Q(telefone__icontains=search_param)
     return search_conditions
-
 
