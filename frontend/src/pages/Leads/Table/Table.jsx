@@ -125,6 +125,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                   <TableCell align="left">{row.responsavel}</TableCell>
                   <TableCell align="left">{row.origem_lead}</TableCell>
                   <TableCell align="left">{row.criado.toLocaleDateString('pt-BR')}</TableCell>
+                  <TableCell align="left">{row.cnpj}</TableCell>
                 </TableRow>
               )
             })}
