@@ -38,8 +38,6 @@ def ativacao(request):
         parts = decoded_url.split('/')
         token = parts[-1]
         uid = parts[-2]
-        print(uid)
-        print(token)
 
         # Montar os dados para a requisição POST
         post_data = {
