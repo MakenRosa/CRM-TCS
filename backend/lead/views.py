@@ -23,23 +23,23 @@ class Leads(generics.GenericAPIView):
             leads = leads.filter(criar_filtro_pesquisa_lead(search_param))
             total_leads = leads.count()
             if total_leads == 0 :
-                return Response({"status": "fail", "message": "lead not found"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"data": {"message: Lead not found"}}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.serializer_class(leads[start_num:end_num], many=True)
         return Response({
-            "status": "success",
-            "total": total_leads,
-            "page": page_num,
-            "last_page": math.ceil(total_leads / limit_num),
-            "leads": serializer.data
-        })
+            "data": {"message": "Leads found",
+                     "total": total_leads,
+                     "page": page_num,
+                     "last_page": math.ceil(total_leads / limit_num),
+                     "leads": serializer.data}
+        },)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"status": "success", "data": {"lead": serializer.data}}, status=status.HTTP_201_CREATED)
+            return Response({"status": "success", "data": {"message": "Lead successfully registered", "lead": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
-            return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "fail", "data":{"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
         
 class LeadsDetails(generics.GenericAPIView):
     serializer_class = LeadsSerializerUpdate
@@ -53,28 +53,28 @@ class LeadsDetails(generics.GenericAPIView):
     def get(self, request, cnpj):
         lead = self.get_lead(cnpj=cnpj)
         if lead == None:
-            return Response({"status": "fail", "message": f"lead with data_cadastro: {cnpj} not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"status": "fail", "data": {"message": f"lead with cnpj: {cnpj} not found"}}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.serializer_class(lead)
-        return Response({"status": "success", "data": {"lead": serializer.data}})
+        return Response({"status": "success", "data": {"message": "Lead found", "lead": serializer.data}})
 
     def patch(self, request, cnpj):
         lead = self.get_lead(cnpj)
         if lead == None:
-            return Response({"status": "fail", "message": f"lead with cnpj: {cnpj} not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"status": "fail", "data": {"message": f"lead with cnpj: {cnpj} not found"}}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = self.serializer_class(
             lead, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.validated_data['updatedAt'] = datetime.now()
             serializer.save()
-            return Response({"status": "success", "data": {"lead": serializer.data}})
-        return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"status": "success", "data": {"message": "Lead successfully updated", "lead": serializer.data}})
+        return Response({"status": "fail",  "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, cnpj):
         lead = self.get_lead(cnpj)
         if lead == None:
-            return Response({"status": "fail", "message": f"lead with cnpj: {cnpj} not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"status": "fail",  "data": {"message": f"lead with cnpj: {cnpj} not found"}}, status=status.HTTP_404_NOT_FOUND)
 
         lead.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
