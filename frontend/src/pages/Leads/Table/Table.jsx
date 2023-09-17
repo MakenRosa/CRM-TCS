@@ -95,7 +95,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                 <TableRow
                   aria-checked={isItemSelected}
                   hover
-                  key={row.empresa}
+                  key={row.nomeEmpresa}
                   onClick={event => handleClick(event, row)}
                   role="checkbox"
                   selected={isItemSelected}
@@ -118,13 +118,13 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                     padding="none"
                     scope="row"
                   >
-                    {row.empresa}
+                    {row.nomeEmpresa}
                   </TableCell>
                   <TableCell align="left">{row.email}</TableCell>
                   <TableCell align="left">{row.telefone}</TableCell>
                   <TableCell align="left">{row.responsavel}</TableCell>
-                  <TableCell align="left">{row.origem_lead}</TableCell>
-                  <TableCell align="left">{row.criado.toLocaleDateString('pt-BR')}</TableCell>
+                  <TableCell align="left">{row.origem}</TableCell>
+                  <TableCell align="left">{row.data_cadastro}</TableCell>
                   <TableCell align="left">{row.cnpj}</TableCell>
                 </TableRow>
               )
