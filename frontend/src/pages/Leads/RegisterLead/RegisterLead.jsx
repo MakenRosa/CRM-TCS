@@ -38,16 +38,17 @@ export const RegisterLead = () => {
     setLoading(true)
     setAtualizado(new Date().toLocaleDateString())
     const saveLead = {
-      cnpj,
-      empresa,
+      cnpj: cnpj.replace(/[^\d]+/g, ''),
+      "nomeEmpresa": empresa,
       responsavel,
       email,
       telefone,
       origem,
-      segmento,
+      "cargo": segmento,
       descricao,
-      criado,
-      atualizado
+      "data_cadastro": criado.split('/').join('-'),
+      "data_ultima_alteracao": atualizado.split('/').join('-'),
+      "user": 1
   }
   if (validateLead(saveLead)) {
     lead?.id ? updateLead(saveLead) : createLead(saveLead)
@@ -100,27 +101,31 @@ RegisterLead.propTypes = {
 const validateLead = lead => {
   const telefoneRegex = /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/g
   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+  const CNPJ_LENGTH = 14
 
   if (!lead.cnpj) {
     toast.error('O campo CNPJ é obrigatório!')
     return false
-  }
-  if (!lead.empresa) {
-    toast.error('O campo Empresa é obrigatório!')
+  } else if (lead.cnpj.length !== CNPJ_LENGTH) {
+    toast.error('O campo CNPJ está inválido!')
     return false
   }
+  if (!lead.nomeEmpresa) {
+    toast.error('O campo Empresa é obrigatório!')
+    return false
+  } 
   if (!lead.responsavel) {
     toast.error('O campo Responsável é obrigatório!')
     return false
-  }
+  } 
   if (!lead.email) {
     toast.error('O campo E-mail é obrigatório!')
     return false
-  }
+  } 
   if (!emailRegex.test(lead.email)) {
     toast.error('O campo E-mail está inválido!')
     return false
-  }
+  } 
   if (!lead.telefone) {
     toast.error('O campo Telefone é obrigatório!')
     return false
@@ -133,7 +138,7 @@ const validateLead = lead => {
     toast.error('O campo Origem do Lead é obrigatório!')
     return false
   }
-  if (!lead.segmento) {
+  if (!lead.cargo) {
     toast.error('O campo Segmento é obrigatório!')
     return false
   }

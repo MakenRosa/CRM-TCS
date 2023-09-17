@@ -11,15 +11,16 @@ const BAD_REQUEST = 400
 
 const MS_PER_SECOND = 1000
 
-
+const GET_ME = "/auth/users/me/"
 const LOGIN_URL = "/auth/jwt/create/"
 const REGISTER_URL = "/auth/users/"
 const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
 const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
-const CREATE_LEAD_URL = "/leads/"
-const GET_LEADS_URL = "/leads/"
-const UPDATE_LEAD_URL = "/leads/"
+const CREATE_LEAD_URL = "/api/leads/"
+const GET_LEADS_URL = "/api/leads/"
+const UPDATE_LEAD_URL = "/api/leads/"
+const DELETE_LEAD_URL = "/api/leads/"
 
 
 
@@ -112,11 +113,12 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   response => {
-    if (response?.data?.message) {
+    const showSuccessToast = response.config.showSuccessToast !== false
+    if (showSuccessToast && response?.data?.message) {
       toast.success(response.data.message)
-    } else {
-      toast.success("Operação realizada com sucesso")
-    }
+    } else if (showSuccessToast) {
+      toast.success("Operação realizada com sucesso.")
+    } 
     return response
   },
   handleErrorResponse
@@ -155,13 +157,14 @@ const verifyToken = async () => {
   }
 }
 
+const getMe = async () => await api.get(GET_ME)
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
-const getLeads = async () => await api.get(GET_LEADS_URL)
-const updateLead = async (id, data) => await api.put(`${ UPDATE_LEAD_URL }${ id }/`, data)
-const deleteLead = async id => await api.delete(`${ UPDATE_LEAD_URL }${ id }/`)
+const getLeads = async () => await api.get(GET_LEADS_URL, { showSuccessToast: false })
+const updateLead = async data => await api.put(`${ UPDATE_LEAD_URL }${ data.cnpj }/`, data)
+const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }/`)
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead }
+export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead }

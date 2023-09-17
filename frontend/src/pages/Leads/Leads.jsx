@@ -4,8 +4,9 @@ import { Button } from "components"
 import { useState, useCallback, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
+import { getLeads } from "utils"
 import { Table } from './Table'
-import { headCells, rows } from "./data"
+import { headCells } from "./data"
 import { StyledButtonBox, StyledLeadsContainer, StyledFilterAltOutlined, StyledLeadsFilterBox, StyledFilterSearchBox, StyledIconButton, StyledInputPaper, StyledSearchFilter, StyledLeadsTitle } from "."
 
 
@@ -13,12 +14,21 @@ export const Leads = () => {
   const [filter, setFilter] = useState('')
   const [search, setSearch] = useState('')
   const [searched, setSearched] = useState(true)
-  const [filteredRows, setFilteredRows] = useState(rows)
+  const [filteredRows, setFilteredRows] = useState([])
+  const [rows, setRows] = useState([])
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('empresa')
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    getLeads()
+    .then(response => {
+      setRows(response.data.data.leads)
+      setFilteredRows(response.data.data.leads)
+    })
+  }, [])
 
   const handleEditLead = () => {
     const selected = JSON.parse(localStorage.getItem('selectedLeads'))
