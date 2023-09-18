@@ -8,7 +8,7 @@ from .models import Prospeccao
 from .serializers import ProspeccaoSerializerInsert, ProspeccaoSerializerUpdate
 
 
-class Prospeccao(generics.GenericAPIView):
+class ProspeccaoView(generics.GenericAPIView):
     serializer_class = ProspeccaoSerializerInsert
 
     def get(self, request):

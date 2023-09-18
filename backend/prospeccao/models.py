@@ -3,7 +3,7 @@ from django.db import models
 from lead.models import Lead
 
 class Prospeccao(models.Model):
-    Lead = models.ForeignKey(Lead, on_delete=models.CASCADE , default=1)  
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE , default=1)  
     segmento = models.CharField(max_length=255)
     situacao = models.CharField(max_length=255)
     perfil = models.CharField(max_length=255)
