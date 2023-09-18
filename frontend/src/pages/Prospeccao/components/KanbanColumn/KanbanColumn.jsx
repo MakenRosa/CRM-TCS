@@ -4,9 +4,9 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material"
 import PropTypes from "prop-types"
 import { KanbanCard } from "pages/Prospeccao"
 import { Droppable } from 'react-beautiful-dnd'
-import { StyledKanbanColumn, StyledKanbanColumnArrow, StyledKanbanColumnHeader, StyledKanbanColumnTitle } from "./KanbanColumn.styles"
+import { StyledKanbanColumn, StyledKanbanColumnArrow, StyledKanbanColumnHeader, StyledKanbanColumnTitle, StyledNoCard, StyledCardsContainer } from "./KanbanColumn.styles"
 
-export const KanbanColumn = ({ title, cards, columnColor }) => {
+export const KanbanColumn = ({ title, cards, columnColor, ...props }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const toggleCollapse = () => {
@@ -14,56 +14,58 @@ export const KanbanColumn = ({ title, cards, columnColor }) => {
   }
 
   return (
-    <Droppable droppableId={ title }>
-      {provided => (
-        <StyledKanbanColumn
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-          columnColor={columnColor}
-          isCollapsed={isCollapsed} 
-          style={{ padding: "0.5em" }}
-        >
-          <StyledKanbanColumnHeader isCollapsed={isCollapsed}>
-            <StyledKanbanColumnArrow>
-              <IconButton onClick={toggleCollapse}>
-                {isCollapsed ? (
-                  <ArrowForward sx={{ color: "#9181f4" }} />
+    <StyledKanbanColumn
+      columnColor={columnColor}
+      isCollapsed={isCollapsed}
+      style={{ padding: "0.5em" }}
+      {...props}
+    >
+      <StyledKanbanColumnHeader isCollapsed={isCollapsed}>
+        <StyledKanbanColumnArrow>
+          <IconButton onClick={toggleCollapse}>
+            {isCollapsed ? (
+              <ArrowForward sx={{ color: "#9181f4" }} />
+            ) : (
+              <ArrowBack sx={{ color: "#9181f4" }} />
+            )}
+          </IconButton>
+        </StyledKanbanColumnArrow>
+        <StyledKanbanColumnTitle>
+          <Typography variant="h6">{title}</Typography>
+          <Typography sx={{ marginLeft: "0.5em" }} variant="body2">
+            {cards.length}
+          </Typography>
+        </StyledKanbanColumnTitle>
+      </StyledKanbanColumnHeader>
+
+      <Droppable droppableId={title}>
+        {provided => (
+          <Collapse in={!isCollapsed} sx={{ minHeight: "100%" }}>
+            <StyledCardsContainer ref={provided.innerRef} {...provided.droppableProps}>
+              {cards.length > 0 ? (
+                cards.map((card, index) => (
+                  <KanbanCard
+                    date={card.date}
+                    description={card.description}
+                    id={card.id}
+                    index={index}
+                    key={card.id}
+                    label={card.label}
+                    value={card.value}
+                    {...card}
+                  />
+                ))
               ) : (
-                <ArrowBack sx={{ color: "#9181f4" }} />
+                <StyledNoCard variant="body2">
+                  Sem registros nessa coluna
+                </StyledNoCard>
               )}
-              </IconButton>
-            </StyledKanbanColumnArrow>
-            <StyledKanbanColumnTitle>
-              <Typography variant="h6">{title}</Typography>
-              <Typography sx={{ marginLeft: "0.5em" }} variant="body2">
-                {cards.length}
-              </Typography>
-            </StyledKanbanColumnTitle>
-          </StyledKanbanColumnHeader>
-          <Collapse in={!isCollapsed}>
-            {cards.length > 0 ? (
-            cards.map((card, index) => (
-              <KanbanCard 
-                date={card.date}
-                description={card.description}
-                id={card.id}
-                index={index}
-                key={card.id}
-                label={card.label}
-                value={card.value} 
-                {...card}
-              />
-            ))
-          ) : (
-            <Typography align="center" variant="body2">
-              Sem registros nessa coluna
-            </Typography>
-          )}
+              {provided.placeholder}
+            </StyledCardsContainer>
           </Collapse>
-          {provided.placeholder}
-        </StyledKanbanColumn>
         )}
-    </Droppable>
+      </Droppable>
+    </StyledKanbanColumn>
   )
 }
 
