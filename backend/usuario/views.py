@@ -9,6 +9,7 @@ import requests
 from django.http import JsonResponse
 from rest_framework_simplejwt.views import TokenObtainPairView
 import json
+from django.shortcuts import render
 
 
 #Acoes relacionadas aos usuarios do sistema:
@@ -66,9 +67,8 @@ def ativacao(request):
         response = requests.post('http://127.0.0.1:8000/auth/users/activation/', data=json.dumps(post_data), headers=headers)
 
         if response.ok:
-            return JsonResponse({'deu boa': 'TOMA SOCIEDADE'})
+            return render(request, 'sucesso.html', {'fechar_pagina': True})
         else:
-            return JsonResponse({'error': 'Erro na requisição JWT'}, status=500)
+            return render(request, 'erro.html', {'message': 'Erro na requisição JWT'})
     else:
-        return JsonResponse({'error': 'URL de ativação não fornecida.'}, status=400)
-
+        return render(request, 'erro.html', {'message': 'URL de ativação não fornecida.'})
