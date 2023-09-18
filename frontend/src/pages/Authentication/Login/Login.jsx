@@ -37,12 +37,15 @@ export const Login = () => {
       .then(res => {
         sessionStorage.setItem("access", res.data.access)
         sessionStorage.setItem("refresh", res.data.refresh)
+        sessionStorage.setItem("user_id", res.data.user_id)
       })
       .then(async () => {
         setIsLogged(await verifyToken())
       })
       .catch(() => {
         sessionStorage.removeItem("access")
+        sessionStorage.removeItem("refresh")
+        sessionStorage.removeItem("user_id")
       })
       .finally(() => setLoading(false))
   }

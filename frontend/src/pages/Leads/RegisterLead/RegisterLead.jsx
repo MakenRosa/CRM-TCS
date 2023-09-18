@@ -24,6 +24,8 @@ export const RegisterLead = () => {
   const [atualizado, setAtualizado] = useState(lead?.atualizado ? new Date(lead?.atualizado).toLocaleDateString() : new Date().toLocaleDateString())
   const [loading, setLoading] = useState(false)
 
+  const userId = sessionStorage.getItem('user_id')
+
   const handleCnpj = event => setCnpj(event.target.value)
   const handleEmpresa = event => setNomeEmpresa(event.target.value)
   const handleResponsavel = event => setResponsavel(event.target.value)
@@ -48,11 +50,15 @@ export const RegisterLead = () => {
       descricao,
       "data_cadastro": criado.split('/').join('-'),
       "data_ultima_alteracao": atualizado.split('/').join('-'),
-      "user": 1
+      "user": userId
     }
     if (validateLead(saveLead)) {
       if (lead) {
         await updateLead(lead.cnpj, saveLead)
+        .catch(() => {
+          toast.error('Erro ao atualizar lead!')
+        }
+        )
       } else {
         await createLead(saveLead)
       }    

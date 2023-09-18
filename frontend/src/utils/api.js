@@ -42,7 +42,7 @@ const handleErrorResponse = async error => {
   const errorMessage = error?.response?.data?.message
 
   if (status === BAD_REQUEST) {
-    const errors = error?.response?.data 
+    const errors = error?.response?.data  
     if (errors) {
       for (const e in errors) {
         const badRequestMessage = error.config.url.endsWith(LOGIN_URL) ? `${ e }: ${ errors[e] }` : errors[e]
