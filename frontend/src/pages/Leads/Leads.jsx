@@ -21,10 +21,12 @@ export const Leads = () => {
   const [orderBy, setOrderBy] = useState('nomeEmpresa')
   const [selectedLeads, setSelectedLeads] = useState([])
   
+  const userId = localStorage.getItem('user_id')
+  
   const navigate = useNavigate()
 
   useEffect(() => {
-    getLeads()
+    getLeads(userId)
       .then(response => {
         setRows(response.data.data.leads)
         setFilteredRows(response.data.data.leads)
