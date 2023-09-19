@@ -15,5 +15,5 @@ class Prospeccao(models.Model):
     comissao = models.BooleanField()
     modalidade = models.CharField(max_length=255)
     numero_versao = models.IntegerField()
-    data_ultima_alteracao = models.DateField()
+    data_ultima_alteracao = models.DateField(default=timezone.now)
     
