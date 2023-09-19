@@ -163,7 +163,7 @@ const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
-const getLeads = async userId => await api.get(GET_LEADS_URL, { headers: {  'User-ID': userId  } })
+const getLeads = async () => await api.get(GET_LEADS_URL, { showSuccessToast: false })
 const updateLead = async (cnpj, data) => await api.patch(`${ UPDATE_LEAD_URL }${ cnpj }`, data)
 const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }`, { showSuccessToast: false })
 
