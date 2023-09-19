@@ -48,8 +48,6 @@ export const RegisterLead = () => {
       origem,
       "cargo": segmento,
       descricao,
-      "data_cadastro": criado.split('/').join('-'),
-      "data_ultima_alteracao": atualizado.split('/').join('-'),
       "user": userId
     }
     if (validateLead(saveLead)) {
