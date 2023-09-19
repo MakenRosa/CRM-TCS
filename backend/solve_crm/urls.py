@@ -31,6 +31,7 @@ urlpatterns = [
     path('activation/', ativacao, name='ativacao'),
     path('api/leads/', include('lead.urls')),
     path('auth/', include('usuario.urls')),
+    path('api/prospeccao/', include('prospeccao.urls')),
    
 ]
 
