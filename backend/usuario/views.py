@@ -7,7 +7,9 @@ from django.core.mail import send_mail
 from urllib.parse import unquote
 import requests
 from django.http import JsonResponse
+from rest_framework_simplejwt.views import TokenObtainPairView
 import json
+from django.shortcuts import render
 
 
 #Acoes relacionadas aos usuarios do sistema:
@@ -15,6 +17,22 @@ import json
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        try:
+            user = Usuario.objects.get(email=email)
+        except Usuario.DoesNotExist:
+            user = None
+        print(user)
+        response = super().post(request, *args, **kwargs)
+        if response.status_code == 200 and user:
+            user_id = user.id
+            response.data['user_id'] = user_id
+        return response
+        
 
 class InviteView(APIView):
     def post(self, request, *args, **kwargs):
@@ -38,8 +56,6 @@ def ativacao(request):
         parts = decoded_url.split('/')
         token = parts[-1]
         uid = parts[-2]
-        print(uid)
-        print(token)
 
         # Montar os dados para a requisição POST
         post_data = {

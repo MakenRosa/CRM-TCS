@@ -4,10 +4,13 @@ import { Box, Checkbox, FormControlLabel, Paper, Switch, Table as MuiTable, Tabl
 import { useEffect, useMemo, useState } from "react"
 import { getComparator, stableSort, TableHead } from '.'
 
-export const Table = ({ page, setPage, rows, headCells, order, orderBy, onRequestSort }) => {
-  const [selected, setSelected] = useState([])
+export const Table = ({ page, setPage, rows, headCells, order, orderBy, onRequestSort, selectedLeads, setSelectedLeads }) => {
   const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
+
+  useEffect(() => {
+    localStorage.setItem('selectedLeads', JSON.stringify(selectedLeads))
+  }, [selectedLeads])
 
   const handleRequestSort = (event, property) => {
     onRequestSort(event, property)
@@ -15,31 +18,26 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelected = rows
-      setSelected(newSelected)
+      const newSelected = rows.map(n => n)
+      setSelectedLeads(newSelected)
       return
     }
-    setSelected([])
+    setSelectedLeads([])
   }
 
   const handleClick = (event, row) => {
-    const selectedIndex = selected.findIndex(r => r.empresa === row.empresa)
+    const selectedIndex = selectedLeads.findIndex(r => r.cnpj === row.cnpj)
     let newSelected = []
 
     if (selectedIndex === -1) {
-      newSelected = [...selected, row]
+      newSelected = [...selectedLeads, row]
     } else {
-      newSelected = [...selected]
+      newSelected = [...selectedLeads]
       newSelected.splice(selectedIndex, 1)
     }
 
-    setSelected(newSelected)
+    setSelectedLeads(newSelected)
   }
-
-  
-  useEffect(() => {
-    localStorage.setItem('selectedLeads', JSON.stringify(selected))
-  }, [selected])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -54,7 +52,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
     setDense(event.target.checked)
   }
 
-  const isSelected = row => selected.some(selectedRow => selectedRow.empresa === row.empresa)
+  const isSelected = row => selectedLeads.some(selectedRow => selectedRow.cnpj === row.cnpj)
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
@@ -79,7 +77,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
           >
             <TableHead
               headCells={headCells}
-              numSelected={selected.length}
+              numSelected={selectedLeads.length}
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
               order={order}
@@ -95,7 +93,7 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                 <TableRow
                   aria-checked={isItemSelected}
                   hover
-                  key={row.empresa}
+                  key={row.cnpj}
                   onClick={event => handleClick(event, row)}
                   role="checkbox"
                   selected={isItemSelected}
@@ -118,13 +116,14 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
                     padding="none"
                     scope="row"
                   >
-                    {row.empresa}
+                    {row.nomeEmpresa}
                   </TableCell>
                   <TableCell align="left">{row.email}</TableCell>
                   <TableCell align="left">{row.telefone}</TableCell>
                   <TableCell align="left">{row.responsavel}</TableCell>
-                  <TableCell align="left">{row.origem_lead}</TableCell>
-                  <TableCell align="left">{row.criado.toLocaleDateString('pt-BR')}</TableCell>
+                  <TableCell align="left">{row.origem}</TableCell>
+                  <TableCell align="left">{row.data_cadastro}</TableCell>
+                  <TableCell align="left">{row.cnpj}</TableCell>
                 </TableRow>
               )
             })}
@@ -174,12 +173,26 @@ Table.propTypes = {
   page: PropTypes.number.isRequired,
   rows: PropTypes.arrayOf(
     PropTypes.shape({
-      empresa: PropTypes.string.isRequired,
+      nomeEmpresa: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,
       telefone: PropTypes.string.isRequired,
       responsavel: PropTypes.string.isRequired,
-      origem_lead: PropTypes.string.isRequired
+      origem: PropTypes.string.isRequired,
+      data_cadastro: PropTypes.string.isRequired,
+      cnpj: PropTypes.string.isRequired
     })
   ).isRequired,
-  setPage: PropTypes.func.isRequired
+  selectedLeads: PropTypes.arrayOf(
+    PropTypes.shape({
+      nomeEmpresa: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      telefone: PropTypes.string.isRequired,
+      responsavel: PropTypes.string.isRequired,
+      origem: PropTypes.string.isRequired,
+      data_cadastro: PropTypes.string.isRequired,
+      cnpj: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  setPage: PropTypes.func.isRequired,
+  setSelectedLeads: PropTypes.func.isRequired
 }

@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'usuario',
+    'dashboard',
+    'lead',
+    'prospeccao',
 ]
 
 AUTH_USER_MODEL = "usuario.Usuario"
@@ -57,6 +60,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSIONS_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DATE_FORMAT': "%d/%m/%Y",
+    'DATE_INPUT_FORMATS': ["%d-%m-%Y"],
 }
 
 SIMPLE_JWT = {

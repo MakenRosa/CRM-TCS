@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from usuario.views import UsuarioViewSet, InviteView, ativacao
 from rest_framework import routers
 from drf_yasg import openapi
@@ -22,7 +22,6 @@ schema_view = get_schema_view(
 
 #rotas
 router = routers.DefaultRouter()
-router.register(r'usuario', UsuarioViewSet)
 
 
 urlpatterns = [
@@ -30,6 +29,10 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('send_email/', InviteView.as_view(), name='send_email'),
     path('activation/', ativacao, name='ativacao'),
+    path('api/leads/', include('lead.urls')),
+    path('auth/', include('usuario.urls')),
+    path('api/prospeccao/', include('prospeccao.urls')),
+   
 ]
 
 #djoser
@@ -42,4 +45,5 @@ urlpatterns += [
 urlpatterns += [
    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # noqa E501
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),  # noqa E501
+   
 ]
