@@ -9,6 +9,7 @@ import requests
 from django.http import JsonResponse
 from rest_framework_simplejwt.views import TokenObtainPairView
 import json
+from django.shortcuts import render
 
 
 #Acoes relacionadas aos usuarios do sistema:

@@ -20,7 +20,7 @@ export const Leads = () => {
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('nomeEmpresa')
   const [selectedLeads, setSelectedLeads] = useState([])
-  
+    
   const navigate = useNavigate()
 
   useEffect(() => {
