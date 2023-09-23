@@ -2,6 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import SortOutlinedIcon from '@mui/icons-material/SortOutlined'
 import { useState } from "react"
 import { Button } from 'components'
+import { useNavigate } from "react-router-dom"
 import { KanbanBoard } from './components/KanbanBoard'
 import { sampleBoardData } from './data'
 import { StyledBar, StyledFilterListOutlinedIcon } from './prospeccao.styles'
@@ -9,6 +10,25 @@ import { StyledBar, StyledFilterListOutlinedIcon } from './prospeccao.styles'
 export const Prospeccao = () => {
   const [filter, setFilter] = useState('Todas as oportunidades')
   const [classificacao, setClassificacao] = useState('Data de criação')
+
+  const navigate = useNavigate()
+
+  const handleNewProspeccao = () => {
+    navigate('/oportunidades/register')
+  }
+
+  const filterMenuItems = [
+    'Todas as oportunidades',
+    'Oportunidades em aberto',
+    'Oportunidades ganhas',
+    'Oportunidades perdidas'
+  ]
+
+  const sortMenuItems = [
+    'Data de criação',
+    'Data de atualização'
+  ]
+
   return (
     <Box sx={{ margin: '20px' }}>
       <StyledBar>
@@ -19,7 +39,9 @@ export const Prospeccao = () => {
             sx={{ width: '200px' }}
             value={filter}
           >
-            <MenuItem value="Todas as oportunidades">Todas as oportunidades</MenuItem>
+            {filterMenuItems.map(item => (
+              <MenuItem key={item} value={item}>{item}</MenuItem>
+            ))}
           </Select>
         </FormControl>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -30,14 +52,20 @@ export const Prospeccao = () => {
               sx={{ width: '200px' }}
               value={classificacao}
             >
-              <MenuItem value="Data de criação">Data de criação</MenuItem>
+              {sortMenuItems.map(item => (
+                <MenuItem key={item} value={item}>{item}</MenuItem>
+              ))}
             </Select>
 
           </FormControl>
           <SortOutlinedIcon sx={{ color: '#000', fontSize: '30px' }} />
         </Box>
         <Box>
-          <Button variant="primary">Nova Prospecção</Button>
+          <Button 
+            onClick={handleNewProspeccao}
+            variant="primary"
+          >Nova Prospecção
+          </Button>
         </Box>
       </StyledBar>
       <Box>
