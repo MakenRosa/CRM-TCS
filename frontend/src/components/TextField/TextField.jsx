@@ -39,7 +39,7 @@ TextField.propTypes = {
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
   multiline: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   position: PropTypes.oneOf(["start", "end"]),
   readOnly: PropTypes.bool,
   size: PropTypes.oneOf(["small", "medium"]),

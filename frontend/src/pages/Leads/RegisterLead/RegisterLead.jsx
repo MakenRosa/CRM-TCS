@@ -4,7 +4,7 @@ import { Button } from "components"
 import { CircularProgress } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { createLead, updateLead } from "utils"
+import { createLead, updateLead, validateLead } from "utils"
 import { toast } from "react-toastify"
 import InputMask from "react-input-mask"
 import { StyledRegisterBox, StyledRegisterForm, StyledRegisterSection, StyledLeadTextField } from "."
@@ -50,18 +50,19 @@ export const RegisterLead = () => {
       descricao,
       "user": userId
     }
-    if (validateLead(saveLead)) {
-      if (lead) {
-        await updateLead(lead.cnpj, saveLead)
-        .catch(() => {
-          toast.error('Erro ao atualizar lead!')
+    try {
+      if (validateLead(saveLead)) {
+        if (lead) {
+          await updateLead(lead.cnpj, saveLead)
+        } else {
+          await createLead(saveLead)
         }
-        )
+        navigate('/leads')
       } else {
-        await createLead(saveLead)
-      }    
-      navigate('/leads')
-    } else {
+        setLoading(false)
+      }
+    } catch (error) {
+      toast.error('Erro ao salvar lead!')
       setLoading(false)
     }
   }
@@ -101,55 +102,4 @@ export const RegisterLead = () => {
 
 RegisterLead.propTypes = {
   lead: PropTypes.object
-}
-
-const validateLead = lead => {
-  const telefoneRegex = /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/g
-  const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-  const CNPJ_LENGTH = 14
-
-  if (!lead.cnpj) {
-    toast.error('O campo CNPJ é obrigatório!')
-    return false
-  } else if (lead.cnpj.length !== CNPJ_LENGTH) {
-    toast.error('O campo CNPJ está inválido!')
-    return false
-  }
-  if (!lead.nomeEmpresa) {
-    toast.error('O campo Empresa é obrigatório!')
-    return false
-  }
-  if (!lead.responsavel) {
-    toast.error('O campo Responsável é obrigatório!')
-    return false
-  }
-  if (!lead.email) {
-    toast.error('O campo E-mail é obrigatório!')
-    return false
-  }
-  if (!emailRegex.test(lead.email)) {
-    toast.error('O campo E-mail está inválido!')
-    return false
-  }
-  if (!lead.telefone) {
-    toast.error('O campo Telefone é obrigatório!')
-    return false
-  }
-  if (!telefoneRegex.test(lead.telefone)) {
-    toast.error('O campo Telefone está inválido!')
-    return false
-  }
-  if (!lead.origem) {
-    toast.error('O campo Origem do Lead é obrigatório!')
-    return false
-  }
-  if (!lead.cargo) {
-    toast.error('O campo Segmento é obrigatório!')
-    return false
-  }
-  if (!lead.descricao) {
-    toast.error('O campo Descrição é obrigatório!')
-    return false
-  }
-  return true
 }

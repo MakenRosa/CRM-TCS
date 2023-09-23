@@ -27,29 +27,36 @@ export const Register = () => {
     }
   }, [isLogged, navigate])
 
-  const onSubmit = e => {
+  /**
+   * Handles form submission for user registration.
+   * @param {Event} e - The event object representing the form submission.
+   */
+  const onSubmit = async e => {
     e.preventDefault()
     setLoading(true)
+
     const user = {
       email,
-      "password": senha,
-      "re_password": confirmSenha
+      password: senha,
+      re_password: confirmSenha
     }
-    if (!isValidForm(user)) {
-      setLoading(false)
-      return
-    }
-    registerUser(user)
-    .then(() => {
+
+    try {
+      if (!isValidForm(user)) {
+        setLoading(false)
+        return
+      }
+
+      await registerUser(user)
       navigate('/login')
-    })
-    .catch(() => {
-        sessionStorage.removeItem("access")
-        sessionStorage.removeItem("refresh")
-        setSenha("")
-        setConfirmSenha("")
-    })
-    .finally(() => setLoading(false))
+    } catch (error) {
+      sessionStorage.removeItem('access')
+      sessionStorage.removeItem('refresh')
+      setSenha('')
+      setConfirmSenha('')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

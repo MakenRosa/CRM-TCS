@@ -68,11 +68,11 @@ export const Navbar = () => {
   const menuItems = [
     { label: 'Início', handleOnClick: () => handleMenuClick('Início') },
     { label: 'Leads', handleOnClick: () => handleMenuClick('Leads') },
-    { label: 'Oportunidades', handleOnClick: handleCloseNavMenu },
-    { label: 'Tarefas', handleOnClick: handleCloseNavMenu },
-    { label: 'Relatórios', handleOnClick: handleCloseNavMenu },
-    { label: 'Configurações', handleOnClick: handleCloseNavMenu },
-    { label: 'Administração', handleOnClick: handleCloseNavMenu }
+    { label: 'Oportunidades', handleOnClick: () => handleMenuClick('Oportunidades') },
+    { label: 'Tarefas', handleOnClick: () => handleMenuClick('Tarefas') },
+    { label: 'Relatórios', handleOnClick: () => handleMenuClick('Relatórios') },
+    { label: 'Configurações', handleOnClick: () => handleMenuClick('Configurações') },
+    { label: 'Administração', handleOnClick: () => handleMenuClick('Administração') }
   ]
 
   return (
