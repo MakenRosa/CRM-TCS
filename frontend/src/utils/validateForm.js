@@ -40,14 +40,13 @@ const validatePassword = password => {
   return false
 }
 
-// Retorna um array de booleanos representando se a senha atende a certas características
 const validatePasswordTraits = password => {
-  const traits = [
-    hasUpperCase(password),
-    hasLowerCase(password),
-    hasNumber(password),
-    hasLength(password)
-  ]
+  const traits = {
+    hasUpperCase: hasUpperCase(password),
+    hasLowerCase: hasLowerCase(password),
+    hasNumber: hasNumber(password),
+    hasLength: hasLength(password)
+  }
   return traits
 }
 
