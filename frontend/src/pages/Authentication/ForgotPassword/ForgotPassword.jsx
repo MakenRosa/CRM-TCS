@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { StyledLinks, SectionLogin } from "pages"
 import { useEffect, useState } from "react"
 import { resetPassword, verifyToken } from "utils"
-import { toast } from "react-toastify"
 import { CircularProgress } from "@mui/material"
 
 export const ForgotPassword = () => {
@@ -26,23 +25,22 @@ export const ForgotPassword = () => {
     }
   }, [isLogged, navigate])
 
-  const onSubmitPasswordRecovery = event => {
+  const onSubmitPasswordRecovery = async event => {
     event.preventDefault()
     setLoading(true)
     const user = {
       email
     }
-    resetPassword(user)
-      .then(() => {
-        navigate('/login')
-        toast.success("Um e-mail foi enviado para você com instruções para redefinir sua senha.")
-      })
-      .catch(() => {
-        sessionStorage.removeItem("access")
-        sessionStorage.removeItem("refresh")
-        setEmail('')
-      })
-      .finally(() => setLoading(false))
+    try {
+      await resetPassword(user)
+      navigate('/login')
+    } catch (error) {
+      sessionStorage.removeItem("access")
+      sessionStorage.removeItem("refresh")
+      setEmail('')
+    } finally {
+      setLoading(false)
+    }
     }
       
   return (

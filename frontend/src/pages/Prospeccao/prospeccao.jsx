@@ -1,7 +1,7 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import SortOutlinedIcon from '@mui/icons-material/SortOutlined'
-import { useState } from "react"
 import { Button } from 'components'
+import { useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { KanbanBoard } from './components/KanbanBoard'
 import { sampleBoardData } from './data'
@@ -13,20 +13,26 @@ export const Prospeccao = () => {
 
   const navigate = useNavigate()
 
-  const handleNewProspeccao = () => {
+  const handleNewProspeccao = useCallback(() => {
     navigate('/oportunidades/register')
   }
+  , [])
+
+
+  const handleFilterChange = useCallback(event => {
+    setFilter(event.target.value)
+  }, [])
 
   const filterMenuItems = [
-    'Todas as oportunidades',
-    'Oportunidades em aberto',
-    'Oportunidades ganhas',
-    'Oportunidades perdidas'
+    "Todas as oportunidades",
+    "Oportunidades abertas",
+    "Oportunidades ganhas",
+    "Oportunidades perdidas"
   ]
 
   const sortMenuItems = [
-    'Data de criação',
-    'Data de atualização'
+    "Data de criação",
+    "Data de atualização"
   ]
 
   return (
@@ -35,7 +41,7 @@ export const Prospeccao = () => {
         <FormControl sx={{ m: 1, minWidth: 120, display: 'flex', flexDirection: 'row' }} variant="standard">
           <StyledFilterListOutlinedIcon />
           <Select
-            onChange={event => setFilter(event.target.value)}
+            onChange={handleFilterChange}
             sx={{ width: '200px' }}
             value={filter}
           >
@@ -72,4 +78,5 @@ export const Prospeccao = () => {
         <KanbanBoard boardData={sampleBoardData} />
       </Box>
     </Box>
-)}
+  )
+}

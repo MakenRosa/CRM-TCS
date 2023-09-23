@@ -1,16 +1,12 @@
 import PropTypes from "prop-types"
 import { StyledSection } from "."
 
-export const SectionLogin = ({ title, h, children }) => {
-  const height = h
-
-  return (
-    <StyledSection height={height}>
-      <h1>{title}</h1> 
-      {children} 
-    </StyledSection>
+export const SectionLogin = ({ title, h, children }) => (
+  <StyledSection height={h}>
+    <h1>{title}</h1> 
+    {children} 
+  </StyledSection>
   )
-}
 
 SectionLogin.propTypes = {
   children: PropTypes.node.isRequired, 

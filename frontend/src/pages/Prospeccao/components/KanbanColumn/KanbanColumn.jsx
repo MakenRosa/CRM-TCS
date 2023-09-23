@@ -45,14 +45,9 @@ export const KanbanColumn = ({ title, cards, columnColor, ...props }) => {
               {cards.length > 0 ? (
                 cards.map((card, index) => (
                   <KanbanCard
-                    date={card.date}
-                    description={card.description}
-                    id={card.id}
+                    {...card}
                     index={index}
                     key={card.id}
-                    label={card.label}
-                    value={card.value}
-                    {...card}
                   />
                 ))
               ) : (
