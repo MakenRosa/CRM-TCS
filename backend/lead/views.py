@@ -17,8 +17,7 @@ class Leads(generics.GenericAPIView):
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
-        print(request.META.get('HTTP_USER_ID'))
-        leads = Lead.objects.get(user=request.META.get('HTTP_USER_ID'))
+        leads = Lead.objects.all()
         total_leads = leads.count()
         if search_param:
             leads = leads.filter(criar_filtro_pesquisa_lead(search_param))
@@ -92,6 +91,5 @@ def criar_filtro_pesquisa_lead(search_param):
     search_conditions |= Q(origem__icontains=search_param)
     search_conditions |= Q(responsavel__icontains=search_param)
     search_conditions |= Q(telefone__icontains=search_param)
-    search_conditions |= Q(user__icontains=search_param)
     return search_conditions
 
