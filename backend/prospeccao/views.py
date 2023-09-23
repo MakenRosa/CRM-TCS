@@ -67,7 +67,6 @@ class ProspeccaoDetails(generics.GenericAPIView):
         serializer = self.serializer_class(
             prospeccao, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.validated_data['dataUltimoContato'] = datetime.now()
             serializer.save()
             return Response({"status": "success", "data": {"message": "Prospecção atualizada com sucesso", "prospecção": serializer.data}})
         return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -84,8 +83,12 @@ class ProspeccaoDetails(generics.GenericAPIView):
 def criar_filtro_pesquisa_prospeccao(search_param):
     search_conditions = Q()
     search_conditions |= Q(segmento__icontains=search_param)
-    search_conditions |= Q(situacao__icontains=search_param)
-    search_conditions |= Q(perfil__icontains=search_param)
+    search_conditions |= Q(status__icontains=search_param)
+    search_conditions |= Q(nome_negocio__icontains=search_param)
     search_conditions |= Q(data_proxima_acao__icontains=search_param)
-    search_conditions |= Q(data_cadastro__icontains=search_param)
+    search_conditions |= Q(data_inicio_prospeccao__icontains=search_param)
+    search_conditions |= Q(participacao_comercial__icontains=search_param)
+    search_conditions |= Q(participacao_efetiva__icontains=search_param)
+    search_conditions |= Q(consultor__icontains=search_param)
+    search_conditions |= Q(servicos_produtos__icontains=search_param)
     return search_conditions
