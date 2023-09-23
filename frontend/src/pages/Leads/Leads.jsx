@@ -1,13 +1,13 @@
 import { Search } from "@mui/icons-material"
 import { Box, FormControl, InputBase, InputLabel, MenuItem, Select } from "@mui/material"
-import { Button } from "components"
+import { Button, StyledRegisterContainer, StyledRegisterTitle } from "components"
 import { useState, useCallback, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { deleteLead, getLeads } from "utils"
 import { Table } from './Table'
 import { headCells } from "./data"
-import { StyledButtonBox, StyledLeadsContainer, StyledFilterAltOutlined, StyledLeadsFilterBox, StyledFilterSearchBox, StyledIconButton, StyledInputPaper, StyledSearchFilter, StyledLeadsTitle } from "."
+import { StyledButtonBox, StyledFilterAltOutlined, StyledLeadsFilterBox, StyledFilterSearchBox, StyledIconButton, StyledInputPaper, StyledSearchFilter } from "."
 
 
 export const Leads = () => {
@@ -101,8 +101,8 @@ export const Leads = () => {
   }, [filteredRows])
 
   return (
-    <StyledLeadsContainer>
-      <StyledLeadsTitle variant="h1">Leads/Contatos</StyledLeadsTitle>
+    <StyledRegisterContainer>
+      <StyledRegisterTitle variant="h1">Leads/Contatos</StyledRegisterTitle>
       <StyledButtonBox>
         <Button onClick={handleDeleteLead} variant="danger">Excluir</Button>
         <Button onClick={handleEditLead}>Editar</Button>
@@ -163,6 +163,6 @@ export const Leads = () => {
           />
         </Box>
       </Box>
-    </StyledLeadsContainer>
+    </StyledRegisterContainer>
   )
 }

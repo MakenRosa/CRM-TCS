@@ -1,13 +1,12 @@
 import PropTypes from "prop-types"
-import { StyledButtonBox, StyledLeadsContainer, StyledLeadsTitle } from "pages"
-import { Button } from "components"
+import { StyledButtonBox  } from "pages"
+import { Button, StyledRegisterBox, StyledRegisterContainer, StyledRegisterForm, StyledRegisterSection, StyledRegisterTextField, StyledRegisterTitle } from "components"
 import { CircularProgress } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { createLead, updateLead } from "utils"
 import { toast } from "react-toastify"
 import InputMask from "react-input-mask"
-import { StyledRegisterBox, StyledRegisterForm, StyledRegisterSection, StyledLeadTextField } from "."
 
 export const RegisterLead = () => {
   const navigate = useNavigate()
@@ -67,27 +66,27 @@ export const RegisterLead = () => {
   }
 
   return (
-    <StyledLeadsContainer>
-      <StyledLeadsTitle variant="h1">{lead ? 'Editar' : 'Cadastrar'} Lead</StyledLeadsTitle>
+    <StyledRegisterContainer>
+      <StyledRegisterTitle variant="h1">{lead ? 'Editar' : 'Cadastrar'} Lead</StyledRegisterTitle>
       <StyledRegisterForm>
         <StyledRegisterBox>
           <StyledRegisterSection>
             <InputMask label="CNPJ" mask={'99.999.999/9999-99'} onChange={handleCnpj} size="small" value={cnpj}>
-              {inputProps => <StyledLeadTextField {...inputProps} />}
+              {inputProps => <StyledRegisterTextField {...inputProps} />}
             </InputMask>
-            <StyledLeadTextField label="Empresa" name="nomeEmpresa" onChange={handleEmpresa} size="small" value={nomeEmpresa} />
-            <StyledLeadTextField label="Responsável" name="responsavel" onChange={handleResponsavel} size="small" value={responsavel} />
-            <StyledLeadTextField label="E-mail" name="email" onChange={handleEmail} size="small" type="email" value={email} />
+            <StyledRegisterTextField label="Empresa" name="nomeEmpresa" onChange={handleEmpresa} size="small" value={nomeEmpresa} />
+            <StyledRegisterTextField label="Responsável" name="responsavel" onChange={handleResponsavel} size="small" value={responsavel} />
+            <StyledRegisterTextField label="E-mail" name="email" onChange={handleEmail} size="small" type="email" value={email} />
             <InputMask label="Telefone" mask={'(99) 99999-9999'} onChange={handleTelefone} size="small" value={telefone}>
-              {inputProps => <StyledLeadTextField {...inputProps} />}
+              {inputProps => <StyledRegisterTextField {...inputProps} />}
             </InputMask>
-            <StyledLeadTextField label="Origem do Lead" name="origem" onChange={handleOrigem} size="small" value={origem} />
+            <StyledRegisterTextField label="Origem do Lead" name="origem" onChange={handleOrigem} size="small" value={origem} />
           </StyledRegisterSection>
           <StyledRegisterSection>
-            <StyledLeadTextField label="Segmento" name="segmento" onChange={handleSegmento} size="small" value={segmento} />
-            <StyledLeadTextField label="Descrição" multiline name="descricao" onChange={handleDescricao} rows={5} value={descricao} />
-            <StyledLeadTextField label="Criado em" name="criado" readOnly size="small" value={criado} />
-            <StyledLeadTextField label="Atualizado em" name="atualizado" readOnly size="small" value={atualizado} />
+            <StyledRegisterTextField label="Segmento" name="segmento" onChange={handleSegmento} size="small" value={segmento} />
+            <StyledRegisterTextField label="Descrição" multiline name="descricao" onChange={handleDescricao} rows={5} value={descricao} />
+            <StyledRegisterTextField label="Criado em" name="criado" readOnly size="small" value={criado} />
+            <StyledRegisterTextField label="Atualizado em" name="atualizado" readOnly size="small" value={atualizado} />
           </StyledRegisterSection>
         </StyledRegisterBox>
         <StyledButtonBox gap="40px">
@@ -95,7 +94,7 @@ export const RegisterLead = () => {
           <Button disabled={loading} onClick={handleSubmit} type="submit" variant="primary">{loading ? <CircularProgress color="inherit" size={24} /> : 'Salvar'}</Button>
         </StyledButtonBox>
       </StyledRegisterForm>
-    </StyledLeadsContainer>
+    </StyledRegisterContainer>
   )
 }
 

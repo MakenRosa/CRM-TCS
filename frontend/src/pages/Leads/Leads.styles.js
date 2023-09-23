@@ -1,26 +1,5 @@
 import { FilterAltOutlined } from "@mui/icons-material"
-import { Box, IconButton, Paper, Typography, styled } from "@mui/material"
-
-export const StyledLeadsContainer = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  margin: 50px;
-
-  @media (max-width: 512px) {
-    margin: 30px 0px;
-  }
-`
-
-export const StyledLeadsTitle = styled(Typography)`
-  font-size: 36px;  
-  font-weight: bold;
-
-  @media (max-width: 512px) {
-    justify-content: center;
-    margin-left: 20px;
-    margin-bottom: 20px;
-  }
-`
+import { Box, IconButton, Paper, styled } from "@mui/material"
 
 export const StyledButtonBox = styled(Box)`
   display: flex;
