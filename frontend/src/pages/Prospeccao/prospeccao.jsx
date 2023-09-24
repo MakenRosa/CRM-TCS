@@ -2,6 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import SortOutlinedIcon from '@mui/icons-material/SortOutlined'
 import { Button } from 'components'
 import { useCallback, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { KanbanBoard } from './components/KanbanBoard'
 import { sampleBoardData } from './data'
 import { StyledBar, StyledFilterListOutlinedIcon } from './prospeccao.styles'
@@ -9,6 +10,14 @@ import { StyledBar, StyledFilterListOutlinedIcon } from './prospeccao.styles'
 export const Prospeccao = () => {
   const [filter, setFilter] = useState('Todas as oportunidades')
   const [classificacao, setClassificacao] = useState('Data de criação')
+
+  const navigate = useNavigate()
+
+  const handleNewProspeccao = useCallback(() => {
+    navigate('/oportunidades/register')
+  }
+  , [])
+
 
   const handleFilterChange = useCallback(event => {
     setFilter(event.target.value)
@@ -58,7 +67,11 @@ export const Prospeccao = () => {
           <SortOutlinedIcon sx={{ color: '#000', fontSize: '30px' }} />
         </Box>
         <Box>
-          <Button variant="primary">Nova Prospecção</Button>
+          <Button 
+            onClick={handleNewProspeccao}
+            variant="primary"
+          >Nova Prospecção
+          </Button>
         </Box>
       </StyledBar>
       <Box>

@@ -101,4 +101,59 @@ const validateLead = lead => {
   return true
 }
 
-export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword, validateLead }
+const validateProspection = prospection => {
+  // data must be in the format dd-mm-yyyy
+  console.log(prospection)
+  const datePattern = /^\d{2}-\d{2}-\d{4}$/
+
+  if (!datePattern.test(prospection.data_inicio_prospeccao)) {
+    toast.error('A Data de início da prospecção é inválida!')
+    return false
+  }
+
+  if (!datePattern.test(prospection.data_contato_incial)) {
+    toast.error('A Data de contato inicial é inválida!')
+    return false
+  }
+
+  if (!prospection.preferencia_contato || prospection.preferencia_contato.length < 1) {
+    toast.error('A preferência de contato é obrigatória!')
+    return false
+  }
+
+  if (!prospection.horario_contato || prospection.horario_contato.length < 1) {
+    toast.error('O horário de contato é obrigatório!')
+    return false
+  }
+
+  const fields = [
+    { field: 'nome_negocio', minLength: 1, maxLength: 255, message: 'Nome do negócio' },
+    { field: 'segmento', minLength: 1, maxLength: 255, message: 'Segmento' },
+    { field: 'servicos_produtos', minLength: 1, maxLength: 255, message: 'Serviços/Produtos' },
+    { field: 'participacao_comercial', minLength: 1, maxLength: 255, message: 'Participação comercial' },
+    { field: 'participacao_efetiva', minLength: 1, maxLength: 255, message: 'Participação efetiva' },
+    { field: 'consultor', minLength: 1, maxLength: 255, message: 'Consultor' }
+  ]
+
+  for (const { field, minLength, maxLength, message } of fields) {
+    if (!prospection[field] || prospection[field].length < minLength || prospection[field].length > maxLength) {
+      toast.error(`O campo ${ message } é obrigatório e deve ter entre ${ minLength } e ${ maxLength } caracteres!`)
+      return false
+    }
+  }
+
+  if (!datePattern.test(prospection.data_proxima_acao)) {
+    toast.error('A Data da próxima ação é inválida!')
+    return false
+  }
+
+  if (typeof prospection.lead !== 'number' || prospection.lead < 0) {
+    toast.error('O lead deve ser um número válido!')
+    return false
+  }
+
+  return true
+}
+
+
+export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword, validateLead, validateProspection }
