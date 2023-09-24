@@ -53,12 +53,13 @@ const validateConfirmPassword = (password, confirmPassword) => {
 const validateLead = lead => {
   const telefoneRegex = /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/g
   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-  const CNPJ_LENGTH = 14
+  // CNPJ without special characters
+  const cnpjRegex = /^[0-9]{14}$/
 
   if (!lead.cnpj) {
     toast.error('O campo CNPJ é obrigatório!')
     return false
-  } else if (lead.cnpj.length !== CNPJ_LENGTH) {
+  } else if (!cnpjRegex.test(lead.cnpj)) {
     toast.error('O campo CNPJ está inválido!')
     return false
   }

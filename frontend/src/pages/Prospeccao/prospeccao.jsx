@@ -25,6 +25,7 @@ export const Prospeccao = () => {
 
   const handleNewProspeccao = useCallback(() => {
     localStorage.removeItem('leadToProspect')
+    localStorage.removeItem('edit_prospeccao')
     navigate('/oportunidades/register')
   }, [])
 

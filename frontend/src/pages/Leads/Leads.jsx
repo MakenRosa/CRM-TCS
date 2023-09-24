@@ -26,6 +26,7 @@ export const Leads = () => {
 
   useEffect(() => {
     localStorage.removeItem('leadToProspect')
+    localStorage.removeItem('edit_prospeccao')
     getLeads()
       .then(response => {
         setRows(response.data.data.leads)
