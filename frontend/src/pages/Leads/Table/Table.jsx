@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import PropTypes from 'prop-types'
 import { Box, Checkbox, FormControlLabel, Paper, Switch, Table as MuiTable, TableBody, TableCell, TableContainer, TablePagination, TableRow } from "@mui/material"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { getComparator, stableSort, TableHead } from '.'
 
 export const Table = ({ page, setPage, rows, headCells, order, orderBy, onRequestSort, selectedLeads, setSelectedLeads }) => {
@@ -12,20 +12,20 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
     localStorage.setItem('selectedLeads', JSON.stringify(selectedLeads))
   }, [selectedLeads])
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = useCallback((event, property) => {
     onRequestSort(event, property)
-  }
+  }, [onRequestSort])
 
-  const handleSelectAllClick = event => {
+  const handleSelectAllClick = useCallback(event => {
     if (event.target.checked) {
       const newSelected = rows.map(n => n)
       setSelectedLeads(newSelected)
       return
     }
     setSelectedLeads([])
-  }
+  }, [rows, setSelectedLeads])
 
-  const handleClick = (event, row) => {
+  const handleClick = useCallback((event, row) => {
     const selectedIndex = selectedLeads.findIndex(r => r.cnpj === row.cnpj)
     let newSelected = []
 
@@ -37,20 +37,20 @@ export const Table = ({ page, setPage, rows, headCells, order, orderBy, onReques
     }
 
     setSelectedLeads(newSelected)
-  }
+  }, [selectedLeads, setSelectedLeads])
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = useCallback((event, newPage) => {
     setPage(newPage)
-  }
+  }, [setPage])
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = useCallback(event => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
-  }
+  }, [setPage, setRowsPerPage])
 
-  const handleChangeDense = event => {
+  const handleChangeDense = useCallback(event => {
     setDense(event.target.checked)
-  }
+  }, [setDense])
 
   const isSelected = row => selectedLeads.some(selectedRow => selectedRow.cnpj === row.cnpj)
 

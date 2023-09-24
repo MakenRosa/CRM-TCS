@@ -3,13 +3,15 @@ import { Menu as MenuIcon } from '@mui/icons-material'
 import { useState } from 'react'
 import { logoutUser } from 'utils'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { StyledNavContainer, StyledNavTitle } from '.'
 
 const NavButton = ({ page, ...props }) => {  
   const Navigate = useNavigate()
   const urlPage = page === 'Início' ? 'dashboard' : page.toLowerCase()
-  const active = window.location.pathname.includes(urlPage)
+
+  const location = useLocation()
+  const active = location.pathname.includes(urlPage)
 
   return (
     <Button
@@ -63,6 +65,16 @@ export const Navbar = () => {
     handleCloseNavMenu()
   }
 
+  const menuItems = [
+    { label: 'Início', handleOnClick: () => handleMenuClick('Início') },
+    { label: 'Leads', handleOnClick: () => handleMenuClick('Leads') },
+    { label: 'Oportunidades', handleOnClick: () => handleMenuClick('Oportunidades') },
+    { label: 'Tarefas', handleOnClick: () => handleMenuClick('Tarefas') },
+    { label: 'Relatórios', handleOnClick: () => handleMenuClick('Relatórios') },
+    { label: 'Configurações', handleOnClick: () => handleMenuClick('Configurações') },
+    { label: 'Administração', handleOnClick: () => handleMenuClick('Administração') }
+  ]
+
   return (
     <AppBar position="static">
       <StyledNavContainer maxWidth="xl">
@@ -109,27 +121,11 @@ export const Navbar = () => {
                 horizontal: 'left'
               }}
             >
-              <MenuItem onClick={() => handleMenuClick('Início')}>
-                <Typography textAlign="center">Início</Typography>
-              </MenuItem>
-              <MenuItem onClick={() => handleMenuClick('Leads')}>
-                <Typography textAlign="center">Leads</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Oportunidades</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Tarefas</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Relatórios</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Configurações</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Administração</Typography>
-              </MenuItem>
+              {menuItems.map(item => (
+                <MenuItem key={item.label} onClick={item.handleOnClick}>
+                  <Typography textAlign="center">{item.label}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
           <StyledNavTitle
@@ -146,18 +142,14 @@ export const Navbar = () => {
             SOLVE
           </StyledNavTitle>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <NavButton page="Início" />
-            <NavButton page="Leads" />
-            <NavButton page="Oportunidades" />
-            <NavButton page="Tarefas" />
-            <NavButton page="Relatórios" />
-            <NavButton page="Configurações" />
-            <NavButton page="Administração" />
+            {menuItems.map(
+              item => <NavButton key={item.label} page={item.label} />
+            )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="https://placeholder.co/40" />
+                <Avatar alt="Placeholder" src="https://placeholder.co/40" />
               </IconButton>
             </Tooltip>
             <Menu

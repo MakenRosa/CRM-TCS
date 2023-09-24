@@ -14,7 +14,7 @@ export const KanbanCard = ({ label, description, value, date, id, index }) => (
         <CardContent>
           <StyledCardLabel variant="subtitle1">{label}</StyledCardLabel>
           <StyledCardDescription variant="body2">{description}</StyledCardDescription>
-          <StyledCardFooter style={{ display: "flex", justifyContent: "space-between" }}>
+          <StyledCardFooter>
             <Typography variant="caption">{value}</Typography>
             <StyledKanbanCardDate variant="caption">{date}</StyledKanbanCardDate>
           </StyledCardFooter>

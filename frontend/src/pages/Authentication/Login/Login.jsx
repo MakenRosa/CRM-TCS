@@ -26,28 +26,29 @@ export const Login = () => {
     }
   }, [isLogged, navigate])
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault()
     setLoading(true)
+
     const user = {
       email,
-      "password": senha
+      password: senha
     }
-    loginUser(user)
-      .then(res => {
-        sessionStorage.setItem("access", res.data.access)
-        sessionStorage.setItem("refresh", res.data.refresh)
-        sessionStorage.setItem("user_id", res.data.user_id)
-      })
-      .then(async () => {
-        setIsLogged(await verifyToken())
-      })
-      .catch(() => {
-        sessionStorage.removeItem("access")
-        sessionStorage.removeItem("refresh")
-        sessionStorage.removeItem("user_id")
-      })
-      .finally(() => setLoading(false))
+
+    try {
+      const res = await loginUser(user)
+      sessionStorage.setItem("access", res.data.access)
+      sessionStorage.setItem("refresh", res.data.refresh)
+      sessionStorage.setItem("user_id", res.data.user_id)
+
+      setIsLogged(await verifyToken())
+    } catch (error) {
+      sessionStorage.removeItem("access")
+      sessionStorage.removeItem("refresh")
+      sessionStorage.removeItem("user_id")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

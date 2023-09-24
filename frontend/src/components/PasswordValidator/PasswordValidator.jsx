@@ -15,13 +15,13 @@ const UncheckedIcon = () => <Cancel sx={[{ color: 'red' }, { fontSize: '20px' }]
 
 export const PasswordValidator = ({ password, ...props }) => {
   const traits = validatePasswordTraits(password)
-  const [upperCase, lowerCase, number, length] = traits
+  const { hasUpperCase, hasLowerCase, hasNumber, hasLength } = traits
   return (
     <StyledBox {...props}>
-      <Trait title="Maiúscula" trait={upperCase} />
-      <Trait title="Minúscula" trait={lowerCase} />
-      <Trait title="Número" trait={number} />
-      <Trait title="Mínimo de 8 caracteres" trait={length} />
+      <Trait title="Maiúscula" trait={hasUpperCase} />
+      <Trait title="Minúscula" trait={hasLowerCase} />
+      <Trait title="Número" trait={hasNumber} />
+      <Trait title="Mínimo de 8 caracteres" trait={hasLength} />
     </StyledBox>
   )
 }
