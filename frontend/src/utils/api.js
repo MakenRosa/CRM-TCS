@@ -172,7 +172,7 @@ const updateLead = async (cnpj, data) => await api.patch(`${ UPDATE_LEAD_URL }${
 const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }`, { showSuccessToast: false })
 const createProspeccao = async data => await api.post(CREATE_PROSPECCAO_URL, data)
 const getProspeccao = async () => await api.get(GET_PROSPECCAO_URL, { showSuccessToast: false })
-const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }`, data)
-const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }`, { showSuccessToast: false })
+const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }/`, data, { showSuccessToast: false })
+const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
 
 export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao }

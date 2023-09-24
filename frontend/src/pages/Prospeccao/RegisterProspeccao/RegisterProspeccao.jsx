@@ -39,10 +39,12 @@ const formatDate = date => {
 
 export const RegisterProspeccao = prospeccao => {
   const navigate = useNavigate()
+
+  const leadToProspect = JSON.parse(localStorage.getItem('leadToProspect'))
+
   const [leads, setLeads] = useState([])
-  
   const [nomeNegocio, setNomeNegocio] = useState(prospeccao?.nome_negocio || '')
-  const [lead, setLead] = useState(prospeccao?.lead || '')
+  const [lead, setLead] = useState(leadToProspect?.id || prospeccao?.lead || '')
   const [segmento, setSegmento] = useState(prospeccao?.segmento || '')
   const [servicosProdutos, setServicosProdutos] = useState(prospeccao?.servicos_produtos || '')
   const [participacaoComercial, setParticipacaoComercial] = useState(prospeccao?.participacao_comercial || '')

@@ -102,8 +102,6 @@ const validateLead = lead => {
 }
 
 const validateProspection = prospection => {
-  // data must be in the format dd-mm-yyyy
-  console.log(prospection)
   const datePattern = /^\d{2}-\d{2}-\d{4}$/
 
   if (!datePattern.test(prospection.data_inicio_prospeccao)) {
