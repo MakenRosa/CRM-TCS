@@ -38,7 +38,7 @@ export const RegisterLead = () => {
     event.preventDefault()
     setLoading(true)
     setAtualizado(new Date().toLocaleDateString())
-    const saveLead = {
+    const data = {
       "cnpj": cnpj.split('.').join('').split('/').join('').split('-').join(''),
       nomeEmpresa,
       responsavel,
@@ -50,18 +50,17 @@ export const RegisterLead = () => {
       "user": userId
     }
     try {
-      if (validateLead(saveLead)) {
+      if (validateLead(data)) {
         if (lead) {
-          await updateLead(lead.cnpj, saveLead)
+          await updateLead(lead.cnpj, data)
         } else {
-          await createLead(saveLead)
+          await createLead(data)
         }
         navigate('/leads')
-      } else {
-        setLoading(false)
       }
     } catch (error) {
       toast.error('Erro ao salvar lead!')
+    } finally {
       setLoading(false)
     }
   }
