@@ -82,7 +82,6 @@ export const RegisterProspeccao = prospeccao => {
       participacao_comercial: participacaoComercial,
       participacao_efetiva: participacaoEfetiva,
       consultor,
-      // converter para dd-mm-yyyy (replace '/' por '-')
       data_inicio_prospeccao: new Date(dataInicioProspeccao).toLocaleDateString('pt-BR').replace(/\//g, '-'),
       data_contato_incial: new Date(dataContatoInicial).toLocaleDateString('pt-BR').replace(/\//g, '-'),
       data_proxima_acao: new Date(dataProximaAcao).toLocaleDateString('pt-BR').replace(/\//g, '-'),
@@ -94,7 +93,7 @@ export const RegisterProspeccao = prospeccao => {
     try {
       if (validateProspection(data)) {
         prospeccao.id ? await updateProspeccao(prospeccao.id, data) : await createProspeccao(data)
-        navigate('/prospeccoes')
+        navigate('/oportunidades')
       }
     } catch (error) {
       toast.error('Erro ao salvar prospecção!')
@@ -166,7 +165,7 @@ export const RegisterProspeccao = prospeccao => {
         </StyledRegisterBox>
 
         <StyledButtonBox gap="40px">
-          <Button href="/prospeccoes">Cancelar</Button>
+          <Button href="/oportunidades">Cancelar</Button>
           <Button disabled={loading} onSubmit={handleSubmit} type="submit" variant="primary">
             {loading ? <CircularProgress color="inherit" size={24} /> : 'Salvar'}
           </Button>
