@@ -57,7 +57,6 @@ def ativacao(request):
         token = parts[-1]
         uid = parts[-2]
 
-        # Montar os dados para a requisição POST
         post_data = {
             'uid': uid,
             'token': token
@@ -67,9 +66,10 @@ def ativacao(request):
         response = requests.post('http://127.0.0.1:8000/auth/users/activation/', data=json.dumps(post_data), headers=headers)
 
         if response.ok:
-            return JsonResponse({'deu boa': 'TOMA SOCIEDADE'})
+            return render(request, 'sucesso.html', {'fechar_pagina': True})
         else:
-            return JsonResponse({'error': 'Erro na requisição JWT'}, status=500)
+            return render(request, 'erro.html', {'message': 'Erro na requisição JWT'})
     else:
-        return JsonResponse({'error': 'URL de ativação não fornecida.'}, status=400)
+        return render(request, 'erro.html', {'message': 'URL de ativação não fornecida.'})
+
 
