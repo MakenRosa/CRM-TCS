@@ -1,22 +1,33 @@
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import SortOutlinedIcon from '@mui/icons-material/SortOutlined'
 import { Button } from 'components'
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { getProspeccao } from "utils"
 import { KanbanBoard } from './components/KanbanBoard'
-import { sampleBoardData } from './data'
 import { StyledBar, StyledFilterListOutlinedIcon } from './prospeccao.styles'
 
 export const Prospeccao = () => {
   const [filter, setFilter] = useState('Todas as oportunidades')
   const [classificacao, setClassificacao] = useState('Data de criação')
+  const [prospeccoes, setProspeccoes] = useState([])
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    getProspeccao()
+      .then(response => {
+        setProspeccoes(response.data.data.prospeccoes)
+      })
+  }, [])
+
+
+
   const handleNewProspeccao = useCallback(() => {
+    localStorage.removeItem('leadToProspect')
+    localStorage.removeItem('edit_prospeccao')
     navigate('/oportunidades/register')
-  }
-  , [])
+  }, [])
 
 
   const handleFilterChange = useCallback(event => {
@@ -75,7 +86,7 @@ export const Prospeccao = () => {
         </Box>
       </StyledBar>
       <Box>
-        <KanbanBoard boardData={sampleBoardData} />
+        <KanbanBoard boardData={prospeccoes} />
       </Box>
     </Box>
   )

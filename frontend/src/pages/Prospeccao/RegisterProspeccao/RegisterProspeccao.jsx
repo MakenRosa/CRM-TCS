@@ -13,7 +13,7 @@ import {
 import { Box, CircularProgress, MenuItem, Typography, styled } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { createProspeccao, getLeads, updateProspeccao, validateProspection } from "utils"
+import { createProspeccao, getLeads, getUniqueProspeccao, updateProspeccao, validateProspection } from "utils"
 import { toast } from "react-toastify"
 
 const StyledRegisterProspeccaoSection = styled(Box)`
@@ -32,18 +32,22 @@ const StyledSectionTitle = styled(Typography)`
 
 const formatDate = date => {
   if (date) {
-    return new Date(date).toISOString()
+    const dateParts = date.split('/')
+    return `${ dateParts[2] }-${ dateParts[1] }-${ dateParts[0] }`
   }
   return ''
 }
 
-export const RegisterProspeccao = prospeccao => {
-  const navigate = useNavigate()
+export const RegisterProspeccao = () => {
+  const idProspeccao = JSON.parse(localStorage.getItem('edit_prospeccao'))
+  const leadToProspect = JSON.parse(localStorage.getItem('leadToProspect'))
+
+  const [prospeccao, setProspeccao] = useState()
   const [leads, setLeads] = useState([])
-  
   const [nomeNegocio, setNomeNegocio] = useState(prospeccao?.nome_negocio || '')
-  const [lead, setLead] = useState(prospeccao?.lead || '')
+  const [lead, setLead] = useState(leadToProspect?.id || prospeccao?.lead || '')
   const [segmento, setSegmento] = useState(prospeccao?.segmento || '')
+  const [status, setStatus] = useState(prospeccao?.status || 'Em prospecção' || '' )
   const [servicosProdutos, setServicosProdutos] = useState(prospeccao?.servicos_produtos || '')
   const [participacaoComercial, setParticipacaoComercial] = useState(prospeccao?.participacao_comercial || '')
   const [participacaoEfetiva, setParticipacaoEfetiva] = useState(prospeccao?.participacao_efetiva || '')
@@ -54,8 +58,45 @@ export const RegisterProspeccao = prospeccao => {
   const [preferenciaContato, setPreferenciaContato] = useState(prospeccao?.preferencia_contato || '')
   const [horarioContato, setHorarioContato] = useState(prospeccao?.horario_contato || '')
   const [observacoesAdicionais, setObservacoesAdicionais] = useState(prospeccao?.observacao || '')
-  const [loading, setLoading] = useState(false)
 
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchProspeccao = async () => {
+      if (idProspeccao) {
+        try {
+          const response = await getUniqueProspeccao(idProspeccao)
+          const data = response.data.data.prospecção
+
+          // Atualizar o estado principal da prospecção
+          setProspeccao(data)
+
+          // Atualizar estados dos campos diretamente com os dados da resposta
+          setNomeNegocio(data.nome_negocio)
+          setLead(data.lead)
+          setStatus(data.status)
+          setSegmento(data.segmento)
+          setServicosProdutos(data.servicos_produtos)
+          setParticipacaoComercial(data.participacao_comercial)
+          setParticipacaoEfetiva(data.participacao_efetiva)
+          setConsultor(data.consultor)
+          setDataInicioProspeccao(formatDate(data.data_inicio_prospeccao) || new Date().toISOString())
+          setDataContatoInicial(formatDate(data.data_contato_incial) || new Date().toISOString())
+          setDataProximaAcao(formatDate(data.data_proxima_acao) || '')
+          setPreferenciaContato(data.preferencia_contato)
+          setHorarioContato(data.horario_contato)
+          setObservacoesAdicionais(data.observacao)
+
+        } catch (error) {
+          console.error("Erro ao buscar prospecção:", error)
+        }
+      }
+    }
+
+    fetchProspeccao()
+  }, [idProspeccao])
+
+  const [loading, setLoading] = useState(false)
 
   const handleNomeNegocio = event => setNomeNegocio(event.target.value)
   const handleLead = event => setLead(event.target.value)
@@ -82,22 +123,23 @@ export const RegisterProspeccao = prospeccao => {
       participacao_comercial: participacaoComercial,
       participacao_efetiva: participacaoEfetiva,
       consultor,
-      // converter para dd-mm-yyyy (replace '/' por '-')
-      data_inicio_prospeccao: new Date(dataInicioProspeccao).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_contato_incial: new Date(dataContatoInicial).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_proxima_acao: new Date(dataProximaAcao).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_inicio_prospeccao: new Date(`${ dataInicioProspeccao  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_contato_incial: new Date(`${ dataContatoInicial  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_proxima_acao: new Date(`${ dataProximaAcao  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
       preferencia_contato: preferenciaContato,
       horario_contato: horarioContato,
-      observacao: observacoesAdicionais,
-      status: 'Em prospecção'
+      observacao: observacoesAdicionais || '.',
+      status
     }
     try {
       if (validateProspection(data)) {
-        prospeccao.id ? await updateProspeccao(prospeccao.id, data) : await createProspeccao(data)
-        navigate('/prospeccoes')
+        console.log('valida')
+        prospeccao?.id ? await updateProspeccao(prospeccao.id, data) : await createProspeccao(data)
+        navigate('/oportunidades')
       }
     } catch (error) {
       toast.error('Erro ao salvar prospecção!')
+      console.error(error)
     } finally {
       setLoading(false)
     }
@@ -166,7 +208,7 @@ export const RegisterProspeccao = prospeccao => {
         </StyledRegisterBox>
 
         <StyledButtonBox gap="40px">
-          <Button href="/prospeccoes">Cancelar</Button>
+          <Button href="/oportunidades">Cancelar</Button>
           <Button disabled={loading} onSubmit={handleSubmit} type="submit" variant="primary">
             {loading ? <CircularProgress color="inherit" size={24} /> : 'Salvar'}
           </Button>
