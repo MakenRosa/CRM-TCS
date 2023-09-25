@@ -3,6 +3,8 @@ from django.db.models import Q
 from rest_framework.response import Response
 import math
 from datetime import date, datetime
+from usuario.models import Usuario
+from lead.models import Lead
 
 from .models import Prospeccao
 from .serializers import ProspeccaoSerializerInsert, ProspeccaoSerializerUpdate
@@ -67,6 +69,7 @@ class ProspeccaoDetails(generics.GenericAPIView):
         serializer = self.serializer_class(
             prospeccao, data=request.data, partial=True)
         if serializer.is_valid():
+            verificar_status(serializer, id)
             serializer.save()
             return Response({"status": "success", "data": {"message": "Prospecção atualizada com sucesso", "prospecção": serializer.data}})
         return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -92,3 +95,20 @@ def criar_filtro_pesquisa_prospeccao(search_param):
     search_conditions |= Q(consultor__icontains=search_param)
     search_conditions |= Q(servicos_produtos__icontains=search_param)
     return search_conditions
+
+def verificar_status(serializer, id):
+    if serializer.validated_data['status'] == 'Em negociação':
+        serializer.validated_data['responsavel'] = get_nome_usuario(serializer.validated_data['lead'].user)
+        serializer.validated_data['versao'] = gerar_versao(id)
+
+def gerar_versao(id):
+    ultima_versao = Prospeccao.objects.get(id=id).versao
+    return ultima_versao + 1
+
+
+def get_nome_usuario(usuario):
+    usuario = Usuario.objects.get(email=usuario)
+    return usuario.email.split('@')[0]
+
+
+

@@ -12,10 +12,12 @@ class Prospeccao(models.Model):
     consultor = models.CharField(max_length=255)
     comissao = models.BooleanField()
     data_inicio_prospeccao = models.DateField()
-    data_contato_incial= models.DateField()
+    data_contato_inicial= models.DateField()
     data_proxima_acao = models.DateField()
     preferencia_contato = models.CharField(max_length=255)
     horario_contato = models.CharField(max_length=255)
     observacao = models.CharField(max_length=255)
     status = models.CharField(max_length=255)
+    responsavel = models.CharField(max_length=255)
+    versao = models.IntegerField(null=0)
     
