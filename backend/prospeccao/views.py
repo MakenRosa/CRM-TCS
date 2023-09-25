@@ -98,7 +98,7 @@ def criar_filtro_pesquisa_prospeccao(search_param):
 
 def verificar_status(serializer, id):
     if serializer.validated_data['status'] == 'Em negociação':
-        serializer.validated_data['responsavel'] = get_nome_usuario(serializer.validated_data['lead'].user)
+        serializer.validated_data['responsavel'] = get_nome_usuario(id)
         serializer.validated_data['versao'] = gerar_versao(id)
 
 def gerar_versao(id):
@@ -106,9 +106,11 @@ def gerar_versao(id):
     return ultima_versao + 1
 
 
-def get_nome_usuario(usuario):
-    usuario = Usuario.objects.get(email=usuario)
-    return usuario.email.split('@')[0]
+def get_nome_usuario(id_prospecao):
+    lead = Prospeccao.objects.get(id=id_prospecao).lead
+    user = Lead.objects.get(id=lead.id).user
+    email = Usuario.objects.get(id=user.id).email
+    return email.split('@')[0]
 
 
 
