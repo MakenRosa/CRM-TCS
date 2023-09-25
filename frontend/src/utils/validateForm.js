@@ -2,7 +2,14 @@ import { toast } from "react-toastify"
 
 const MIN_PASSWORD_LENGTH = 8 
 
-const isValidForm = ({ email, password: senha, re_password: confirmSenha }) => validateEmail(email) && validatePassword(senha) && validateConfirmPassword(senha, confirmSenha)
+const isValidForm = ({ email, password: senha, re_password: confirmSenha }, login=false) => {
+  if (!validateEmail(email)) {
+    return false
+  }
+
+  return !login ? validatePassword(senha) && validateConfirmPassword(senha, confirmSenha) : login && !confirmSenha && validatePassword(senha, login=true)
+}
+
 
 const validateEmail = email => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -21,14 +28,17 @@ const hasNumber = password => /\d/.test(password)
 
 const hasLength = password => password.length >= MIN_PASSWORD_LENGTH
 
-const validatePassword = password => {
+const validatePassword = (password, login) => {
   if(hasUpperCase(password) &&
          hasLowerCase(password) &&
          hasNumber(password) &&
          hasLength(password)) {
     return true
+  } else if (login) {
+    toast.error('Senha inválida')
+  } else {
+    toast.error('A senha deve cumprir os requisitos mínimos')
   }
-  toast.error('A senha deve cumprir os requisitos mínimos')
   return false
 }
 

@@ -42,13 +42,10 @@ export const Register = () => {
     }
 
     try {
-      if (!isValidForm(user)) {
-        setLoading(false)
-        return
+      if (isValidForm(user, false)) {
+        await registerUser(user)
+        navigate('/login')
       }
-
-      await registerUser(user)
-      navigate('/login')
     } catch (error) {
       sessionStorage.removeItem('access')
       sessionStorage.removeItem('refresh')
