@@ -27,6 +27,8 @@ const GET_UNIQUE_PROSPECCAO_URL = "/api/prospeccao/"
 const UPDATE_PROSPECCAO_URL = "/api/prospeccao/"
 const DELETE_PROSPECCAO_URL = "/api/prospeccao/"
 
+const GET_TOTALS_URL = "/api/totals/"
+
 
 
 const refreshToken = async () => {
@@ -176,5 +178,6 @@ const getProspeccao = async () => await api.get(GET_PROSPECCAO_URL, { showSucces
 const getUniqueProspeccao = async id => await api.get(`${ GET_UNIQUE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
 const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }/`, data, { showSuccessToast: false })
 const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
+const getTotals = async user_id => await api.get("/api/totals/", { params: { user_id }, showSuccessToast: false })
 
-export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao }
+export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals }

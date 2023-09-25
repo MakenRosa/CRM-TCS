@@ -1,37 +1,74 @@
 import { MenuItem } from '@mui/material'
 import { Button } from 'components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AccountTree, Leaderboard, Person } from '@mui/icons-material'
+import { getTotals } from 'utils'
 import { DashboardCard, StyledCardsBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
-
-const cardData = [
-  {
-    icon: <AccountTree />,
-    title: "Total de prospecções",
-    value: "23"
-  },
-  {
-    icon: <Person />,
-    title: "Total de clientes",
-    value: "20"
-  },
-  {
-    icon: <Leaderboard />,
-    title: "Total de leads",
-    value: "3"
-  }
-]
 
 export const Dashboard = () => {
   const [team, setTeam] = useState('Equipe Rocket')
   const [funnel, setFunnel] = useState('Todos')
   const [period, setPeriod] = useState('Diário')
+  const [totals, setTotals] = useState({
+    total_prospeccao: 0,
+    total_negociacao: 0,
+    total_lead: 0
+  })
+  
+
+  const [cardData, setCardData] = useState([
+    {
+      icon: <AccountTree />,
+      title: "Total de prospecções",
+      value: "0"
+    },
+    {
+      icon: <Person />,
+      title: "Total de negociações",
+      value: "0"
+    },
+    {
+      icon: <Leaderboard />,
+      title: "Total de leads",
+      value: "0"
+    }
+  ])
+
+  useEffect(() => {
+    if (totals && typeof totals.total_prospeccao !== 'undefined' && typeof totals.total_negociacao !== 'undefined' && typeof totals.total_lead !== 'undefined') {
+      setCardData(prevData => [
+        {
+          ...prevData[0],
+          value: totals.total_prospeccao.toString()
+        },
+        {
+          ...prevData[1],
+          value: totals.total_negociacao.toString()
+        },
+        {
+          ...prevData[2],
+          value: totals.total_lead.toString()
+        }
+      ])
+    }
+  }, [totals])
+
+  const user_id = sessionStorage.getItem('user_id')
 
   const ClearFilters = () => {
     setTeam('Equipe Rocket')
     setFunnel('Todos')
     setPeriod('Diário')
   }
+
+  useEffect(() => {
+    const getDashboardData = async () => {
+      const response = await getTotals(user_id)
+      setTotals(response.data.data)
+    }
+    getDashboardData()
+  }
+  , [])
 
   return (
     <StyledDashboard>
