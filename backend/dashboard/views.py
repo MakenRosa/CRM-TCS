@@ -30,7 +30,6 @@ class OportunityTotals(generics.GenericAPIView):
         leads = Lead.objects.filter(user=user_id)
         for lead in leads:
             leads_id.append(lead.id)
-        print(leads_id)
         prospeccoes = Prospeccao.objects.filter(lead__in=leads_id)
         for prospeccao in prospeccoes:
             if prospeccao.status == 'Em negociação':

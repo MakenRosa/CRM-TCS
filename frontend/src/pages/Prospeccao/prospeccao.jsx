@@ -7,6 +7,8 @@ import { getProspeccao } from "utils"
 import { KanbanBoard } from './components/KanbanBoard'
 import { StyledBar, StyledFilterListOutlinedIcon } from './prospeccao.styles'
 
+const user_id = sessionStorage.getItem('user_id')
+
 export const Prospeccao = () => {
   const [filter, setFilter] = useState('Todas as oportunidades')
   const [classificacao, setClassificacao] = useState('Data de criação')
@@ -15,7 +17,7 @@ export const Prospeccao = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    getProspeccao()
+    getProspeccao(user_id)
       .then(response => {
         setProspeccoes(response.data.data.prospeccoes)
       })
