@@ -17,7 +17,8 @@ class Leads(generics.GenericAPIView):
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
-        leads = Lead.objects.all()
+        user_id = request.GET.get("user_id")
+        leads = Lead.objects.filter(user=user_id)
         total_leads = leads.count()
         if search_param:
             leads = leads.filter(criar_filtro_pesquisa_lead(search_param))

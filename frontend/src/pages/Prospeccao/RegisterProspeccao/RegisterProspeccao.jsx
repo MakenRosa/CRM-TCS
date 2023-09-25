@@ -112,6 +112,8 @@ export const RegisterProspeccao = () => {
   const handleHorarioContato = event => setHorarioContato(event.target.value)
   const handleObservacoesAdicionais = event => setObservacoesAdicionais(event.target.value)
 
+  const user_id = sessionStorage.getItem('user_id')
+
   const handleSubmit = async event => {
     event.preventDefault()
     setLoading(true)
@@ -148,7 +150,7 @@ export const RegisterProspeccao = () => {
 
   useEffect(() => {
     const fetchLeads = async () => {
-      const response = await getLeads()
+      const response = await getLeads(user_id)
       setLeads(response.data.data.leads)
     }
     fetchLeads()
