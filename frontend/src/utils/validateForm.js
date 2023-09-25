@@ -110,7 +110,7 @@ const validateProspection = prospection => {
     return false
   }
 
-  if (!datePattern.test(prospection.data_contato_incial)) {
+  if (!datePattern.test(prospection.data_contato_inicial)) {
     toast.error('A Data de contato inicial é inválida!')
     return false
   }

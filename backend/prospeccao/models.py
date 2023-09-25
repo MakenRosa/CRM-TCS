@@ -19,5 +19,5 @@ class Prospeccao(models.Model):
     observacao = models.CharField(max_length=255, null=True)
     status = models.CharField(max_length=255)
     responsavel = models.CharField(max_length=255)
-    versao = models.IntegerField(null=0)
+    versao = models.IntegerField()
     

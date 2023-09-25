@@ -53,7 +53,7 @@ export const RegisterProspeccao = () => {
   const [participacaoEfetiva, setParticipacaoEfetiva] = useState(prospeccao?.participacao_efetiva || '')
   const [consultor, setConsultor] = useState(prospeccao?.consultor || '')
   const [dataInicioProspeccao, setDataInicioProspeccao] = useState(formatDate(prospeccao?.data_inicio_prospeccao) || new Date().toISOString())
-  const [dataContatoInicial, setDataContatoInicial] = useState(formatDate(prospeccao?.data_contato_incial) || new Date().toISOString())
+  const [dataContatoInicial, setDataContatoInicial] = useState(formatDate(prospeccao?.data_contato_inicial) || new Date().toISOString())
   const [dataProximaAcao, setDataProximaAcao] = useState(formatDate(prospeccao?.data_proxima_acao) || new Date().toISOString())
   const [preferenciaContato, setPreferenciaContato] = useState(prospeccao?.preferencia_contato || '')
   const [horarioContato, setHorarioContato] = useState(prospeccao?.horario_contato || '')
@@ -81,7 +81,7 @@ export const RegisterProspeccao = () => {
           setParticipacaoEfetiva(data.participacao_efetiva)
           setConsultor(data.consultor)
           setDataInicioProspeccao(formatDate(data.data_inicio_prospeccao) || new Date().toISOString())
-          setDataContatoInicial(formatDate(data.data_contato_incial) || new Date().toISOString())
+          setDataContatoInicial(formatDate(data.data_contato_inicial) || new Date().toISOString())
           setDataProximaAcao(formatDate(data.data_proxima_acao) || '')
           setPreferenciaContato(data.preferencia_contato)
           setHorarioContato(data.horario_contato)
@@ -124,7 +124,7 @@ export const RegisterProspeccao = () => {
       participacao_efetiva: participacaoEfetiva,
       consultor,
       data_inicio_prospeccao: new Date(`${ dataInicioProspeccao  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_contato_incial: new Date(`${ dataContatoInicial  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_contato_inicial: new Date(`${ dataContatoInicial  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
       data_proxima_acao: new Date(`${ dataProximaAcao  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
       preferencia_contato: preferenciaContato,
       horario_contato: horarioContato,
