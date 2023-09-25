@@ -24,7 +24,7 @@ const transformData = data => {
         id: item.id,
         label: item.nome_negocio,
         description: item.observacao,
-        value: item.comissao ? `R$ ${ item.comissao }` : 'R$ 0,00', 
+        value: 'R$ 0,00', 
         date: item.data_inicio_prospeccao 
       }))
     }))
