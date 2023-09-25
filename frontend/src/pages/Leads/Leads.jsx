@@ -22,12 +22,13 @@ export const Leads = () => {
   const [selectedLeads, setSelectedLeads] = useState([])
   const navigate = useNavigate()
 
+  const user_id = sessionStorage.getItem('user_id')
 
 
   useEffect(() => {
     localStorage.removeItem('leadToProspect')
     localStorage.removeItem('edit_prospeccao')
-    getLeads()
+    getLeads(user_id)
       .then(response => {
         setRows(response.data.data.leads)
         setFilteredRows(response.data.data.leads)
