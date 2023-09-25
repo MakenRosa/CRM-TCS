@@ -25,7 +25,7 @@ const transformData = data => {
         label: item.nome_negocio,
         description: item.observacao,
         value: 'R$ 0,00', 
-        date: item.data_inicio_prospeccao 
+        date: item.data_proxima_acao 
       }))
     }))
   return transformedData
