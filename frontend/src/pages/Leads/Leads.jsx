@@ -20,16 +20,33 @@ export const Leads = () => {
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('nomeEmpresa')
   const [selectedLeads, setSelectedLeads] = useState([])
-    
   const navigate = useNavigate()
 
+  const user_id = sessionStorage.getItem('user_id')
+
+
   useEffect(() => {
-    getLeads()
+    localStorage.removeItem('leadToProspect')
+    localStorage.removeItem('edit_prospeccao')
+    getLeads(user_id)
       .then(response => {
         setRows(response.data.data.leads)
         setFilteredRows(response.data.data.leads)
       })
   }, [])
+
+  const handleCreateProspect = () => {
+    const selected = JSON.parse(localStorage.getItem('selectedLeads'))
+    localStorage.setItem('leadToProspect', JSON.stringify(selected[0])) 
+    if (selected.length === 0) {
+      toast.error('Selecione pelo menos um lead para criar uma prospecção')
+      return
+    } else if (selected.length > 1) {
+      toast.error('Selecione apenas um lead para criar uma prospecção')
+      return
+    }
+    navigate('/oportunidades/register')
+  }
 
   const handleDeleteLead = async () => {
     if (selectedLeads.length === 0) {
@@ -104,9 +121,10 @@ export const Leads = () => {
     <StyledRegisterContainer>
       <StyledRegisterTitle variant="h1">Leads/Contatos</StyledRegisterTitle>
       <StyledButtonBox>
-        <Button onClick={handleDeleteLead} variant="danger">Excluir</Button>
+        <Button onClick={handleDeleteLead}>Excluir</Button>
         <Button onClick={handleEditLead}>Editar</Button>
         <Button onClick={handleNewLead} variant="primary">Novo</Button>
+        <Button onClick={handleCreateProspect}>Criar Prospecção</Button>
       </StyledButtonBox>
       <Box>
         <StyledFilterSearchBox>

@@ -23,8 +23,11 @@ const UPDATE_LEAD_URL = "/api/leads/"
 const DELETE_LEAD_URL = "/api/leads/"
 const CREATE_PROSPECCAO_URL = "/api/prospeccao/"
 const GET_PROSPECCAO_URL = "/api/prospeccao/"
+const GET_UNIQUE_PROSPECCAO_URL = "/api/prospeccao/"
 const UPDATE_PROSPECCAO_URL = "/api/prospeccao/"
 const DELETE_PROSPECCAO_URL = "/api/prospeccao/"
+
+const GET_TOTALS_URL = "/api/totals/"
 
 
 
@@ -167,12 +170,14 @@ const registerUser = user => api.post(REGISTER_URL, user)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
-const getLeads = async () => await api.get(GET_LEADS_URL, { showSuccessToast: false })
+const getLeads = async user_id => await api.get(GET_LEADS_URL, { params: { user_id }, showSuccessToast: false })
 const updateLead = async (cnpj, data) => await api.patch(`${ UPDATE_LEAD_URL }${ cnpj }`, data)
 const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }`, { showSuccessToast: false })
 const createProspeccao = async data => await api.post(CREATE_PROSPECCAO_URL, data)
-const getProspeccao = async () => await api.get(GET_PROSPECCAO_URL, { showSuccessToast: false })
-const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }`, data)
-const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }`, { showSuccessToast: false })
+const getProspeccao = async user_id => await api.get(GET_PROSPECCAO_URL, { params: { user_id }, showSuccessToast: false })
+const getUniqueProspeccao = async id => await api.get(`${ GET_UNIQUE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
+const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }/`, data, { showSuccessToast: false })
+const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
+const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { user_id }, showSuccessToast: false })
 
-export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao }
+export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals }

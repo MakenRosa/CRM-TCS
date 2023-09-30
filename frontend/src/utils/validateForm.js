@@ -2,7 +2,14 @@ import { toast } from "react-toastify"
 
 const MIN_PASSWORD_LENGTH = 8 
 
-const isValidForm = ({ email, password: senha, re_password: confirmSenha }) => validateEmail(email) && validatePassword(senha) && validateConfirmPassword(senha, confirmSenha)
+const isValidForm = ({ email, password: senha, re_password: confirmSenha }, login=false) => {
+  if (!validateEmail(email)) {
+    return false
+  }
+
+  return !login ? validatePassword(senha) && validateConfirmPassword(senha, confirmSenha) : login && !confirmSenha && validatePassword(senha, login=true)
+}
+
 
 const validateEmail = email => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -21,14 +28,17 @@ const hasNumber = password => /\d/.test(password)
 
 const hasLength = password => password.length >= MIN_PASSWORD_LENGTH
 
-const validatePassword = password => {
+const validatePassword = (password, login) => {
   if(hasUpperCase(password) &&
          hasLowerCase(password) &&
          hasNumber(password) &&
          hasLength(password)) {
     return true
+  } else if (login) {
+    toast.error('Senha inválida')
+  } else {
+    toast.error('A senha deve cumprir os requisitos mínimos')
   }
-  toast.error('A senha deve cumprir os requisitos mínimos')
   return false
 }
 
@@ -53,12 +63,13 @@ const validateConfirmPassword = (password, confirmPassword) => {
 const validateLead = lead => {
   const telefoneRegex = /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/g
   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-  const CNPJ_LENGTH = 14
+  // CNPJ without special characters
+  const cnpjRegex = /^[0-9]{14}$/
 
   if (!lead.cnpj) {
     toast.error('O campo CNPJ é obrigatório!')
     return false
-  } else if (lead.cnpj.length !== CNPJ_LENGTH) {
+  } else if (!cnpjRegex.test(lead.cnpj)) {
     toast.error('O campo CNPJ está inválido!')
     return false
   }
@@ -102,8 +113,6 @@ const validateLead = lead => {
 }
 
 const validateProspection = prospection => {
-  // data must be in the format dd-mm-yyyy
-  console.log(prospection)
   const datePattern = /^\d{2}-\d{2}-\d{4}$/
 
   if (!datePattern.test(prospection.data_inicio_prospeccao)) {
@@ -111,7 +120,7 @@ const validateProspection = prospection => {
     return false
   }
 
-  if (!datePattern.test(prospection.data_contato_incial)) {
+  if (!datePattern.test(prospection.data_contato_inicial)) {
     toast.error('A Data de contato inicial é inválida!')
     return false
   }

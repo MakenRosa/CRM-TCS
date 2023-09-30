@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import loginImage from "assets/login.png"
+import loginImage from "assets/login.jpg"
 import { StyledContainer, StyledSectionImage } from "."
 
 export const AuthLayout = () => 

@@ -1,19 +1,39 @@
-from django.http import JsonResponse
 from lead.models import Lead
-from django.db.models import Sum
-from rest_framework.permissions import IsAuthenticated
+from prospeccao.models import Prospeccao
+from rest_framework import generics
+from rest_framework.response import Response
 
-# def total_dashboard(request):
-#     total_vendas_dinheiro = Venda.objects.aggregate(Sum('valor_venda'))['valor_venda__sum'] or 0
-#     total_vendas_conquistadas = Venda.objects.count()
-#     total_clientes_cadastrados = Lead.objects.count()
 
-#     permission_classes = (IsAuthenticated,)
+class OportunityTotals(generics.GenericAPIView):
 
-#     data = {
-#         'total_vendas_dinheiro': total_vendas_dinheiro,
-#         'total_vendas_conquistadas': total_vendas_conquistadas,
-#         'total_clientes_cadastrados': total_clientes_cadastrados,
-#     }
-
-#     return JsonResponse(data)
+    def get(self, request):
+        total_lead = self.get_leads(request)
+        total_prospeccao, total_negociacao = self.get_prospeccao(request)
+        return Response({
+            "data": {"message": "Total found",
+                     "total_lead": total_lead,
+                     "total_prospeccao": total_prospeccao,
+                     "total_negociacao": total_negociacao}
+        },)
+    
+    def get_leads(self, request):
+        user_id = request.GET.get("user_id")
+        leads = Lead.objects.filter(user=user_id)
+        total_leads = leads.count()
+        return total_leads
+    
+    def get_prospeccao(self, request):
+        total_negociacao = 0
+        total_prospeccao = 0
+        leads_id = []
+        user_id = request.GET.get("user_id")
+        leads = Lead.objects.filter(user=user_id)
+        for lead in leads:
+            leads_id.append(lead.id)
+        prospeccoes = Prospeccao.objects.filter(lead__in=leads_id)
+        for prospeccao in prospeccoes:
+            if prospeccao.status == 'Em negociação':
+                total_negociacao += 1
+            elif prospeccao.status == 'Em prospecção':
+                total_prospeccao += 1
+        return total_prospeccao, total_negociacao

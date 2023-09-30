@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/leads/', include('lead.urls')),
     path('auth/', include('usuario.urls')),
     path('api/prospeccao/', include('prospeccao.urls')),
+    path('api/totals/', include('dashboard.urls')),
    
 ]
 

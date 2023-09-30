@@ -5,7 +5,7 @@
 {% endblock subject %}
 
 {% block text_body %}
-{% blocktrans %}Você está recebendo este email porque você precisa terminar o processo em Solve CRM.{% endblocktrans %}
+{% blocktrans %}Você está recebendo este email porque você precisa terminar o processo de ativação de conta em Solve CRM.{% endblocktrans %}
 
 {% trans "Por gentileza, acesse o link abaixo para ativar sua conta" %}
 {{ protocol }}://{{ domain }}/{{ url|safe }}
@@ -18,8 +18,7 @@
 {% block html_body %}
 <p>{% blocktrans %}Você está recebendo este email porque você precisa terminar o processo em Solve CRM.{% endblocktrans %}</p>
 
-<p>{% trans "Por gentileza, acesse o link abaixo para ativar sua conta" %}</p>
-<p>Por gentileza, clique no link abaixo para ativar sua conta:</p>
+<p>Por gentileza, acesse no link abaixo para ativar sua conta:</p>
 <p><a href="http://127.0.0.1:8000/activation/?url={{ url|safe }}">Ativar conta</a></p>
 
 <p>{% trans "Obrigado por escolher Solve CRM!" %}</p>
