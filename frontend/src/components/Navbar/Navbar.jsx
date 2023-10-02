@@ -1,41 +1,50 @@
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Avatar, Button, Tooltip, MenuItem } from '@mui/material'
-import { Menu as MenuIcon } from '@mui/icons-material'
-import { useState } from 'react'
-import { logoutUser } from 'utils'
-import PropTypes from 'prop-types'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { StyledNavContainer, StyledNavTitle } from '.'
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Avatar,
+  Button,
+  Tooltip,
+  MenuItem
+} from "@mui/material"
+import { Menu as MenuIcon } from "@mui/icons-material"
+import { useState } from "react"
+import { logoutUser } from "utils"
+import PropTypes from "prop-types"
+import { useNavigate, useLocation } from "react-router-dom"
+import { StyledNavContainer, StyledNavTitle } from "."
 
-const NavButton = ({ page, ...props }) => {  
+const NavButton = ({ label, route, ...props }) => {
   const Navigate = useNavigate()
-  const urlPage = page === 'Início' ? 'dashboard' : page.toLowerCase()
-
-  const location = useLocation()
-  const active = location.pathname.includes(urlPage)
+  const active = useLocation().pathname.includes(route)
 
   return (
     <Button
-      onClick={() => Navigate(`/${ urlPage }`)}
-      sx={{ 
-        my: 2, 
-        display: 'block', 
-        backgroundColor: active ? 'white' : 'transparent', 
-        color: active ? '#9181f4' : 'inherit',
-        '&:hover': {
-          backgroundColor: 'white',
-          color: '#9181f4'
+      onClick={() => Navigate(`/${ route }`)}
+      sx={{
+        my: 2,
+        display: "block",
+        backgroundColor: active ? "white" : "transparent",
+        color: active ? "#9181f4" : "inherit",
+        "&:hover": {
+          backgroundColor: "white",
+          color: "#9181f4"
         }
       }}
       variant="text"
       {...props}
     >
-      {page}
+      {label}
     </Button>
   )
 }
 
 NavButton.propTypes = {
-  page: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired
 }
 
 export const Navbar = () => {
@@ -47,6 +56,7 @@ export const Navbar = () => {
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget)
   }
+
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
   }
@@ -59,20 +69,19 @@ export const Navbar = () => {
     setAnchorElUser(null)
   }
 
-  const handleMenuClick = page => {
-    const urlPage = page === 'Início' ? 'dashboard' : page.toLowerCase()
-    navigate(`/${ urlPage }`)
+  const handleMenuClick = route => {
+    navigate(`/${ route }`)
     handleCloseNavMenu()
   }
 
   const menuItems = [
-    { label: 'Início', handleOnClick: () => handleMenuClick('Início') },
-    { label: 'Leads', handleOnClick: () => handleMenuClick('Leads') },
-    { label: 'Oportunidades', handleOnClick: () => handleMenuClick('Oportunidades') },
-    { label: 'Tarefas', handleOnClick: () => handleMenuClick('Tarefas') },
-    { label: 'Relatórios', handleOnClick: () => handleMenuClick('Relatórios') },
-    { label: 'Configurações', handleOnClick: () => handleMenuClick('Configurações') },
-    { label: 'Administração', handleOnClick: () => handleMenuClick('Administração') }
+    { label: "Início", route: "dashboard" },
+    { label: "Leads", route: "leads" },
+    { label: "Oportunidades", route: "oportunidades" },
+    { label: "Tarefas", route: "tarefas" },
+    { label: "Relatórios", route: "relatorios" },
+    { label: "Configurações", route: "configuracoes" },
+    { label: "Administração", route: "equipes" }
   ]
 
   return (
@@ -85,14 +94,13 @@ export const Navbar = () => {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' }
-
+              display: { xs: "none", md: "flex" }
             }}
             variant="h1"
           >
             SOLVE
           </StyledNavTitle>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -106,23 +114,23 @@ export const Navbar = () => {
             <Menu
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
+                vertical: "bottom",
+                horizontal: "left"
               }}
               id="menu-appbar"
               keepMounted
               onClose={handleCloseNavMenu}
               open={Boolean(anchorElNav)}
               sx={{
-                display: { xs: 'block', md: 'none' }
+                display: { xs: "block", md: "none" }
               }}
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
+                vertical: "top",
+                horizontal: "left"
               }}
             >
               {menuItems.map(item => (
-                <MenuItem key={item.label} onClick={item.handleOnClick}>
+                <MenuItem key={item.label} onClick={() => handleMenuClick(item.route)}>
                   <Typography textAlign="center">{item.label}</Typography>
                 </MenuItem>
               ))}
@@ -134,17 +142,17 @@ export const Navbar = () => {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1
             }}
             variant="h1"
           >
             SOLVE
           </StyledNavTitle>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {menuItems.map(
-              item => <NavButton key={item.label} page={item.label} />
-            )}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {menuItems.map(item => (
+              <NavButton key={item.label} label={item.label} route={item.route} />
+            ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -155,17 +163,17 @@ export const Navbar = () => {
             <Menu
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
+                vertical: "top",
+                horizontal: "right"
               }}
               id="menu-appbar"
               keepMounted
               onClose={handleCloseUserMenu}
               open={Boolean(anchorElUser)}
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
+                vertical: "top",
+                horizontal: "right"
               }}
             >
               <MenuItem onClick={() => logoutUser()}>
