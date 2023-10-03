@@ -1,6 +1,7 @@
 import { Box, Paper, Typography, styled } from "@mui/material"
 
 export const StyledKanbanCard = styled(Paper)`
+  user-select: none;
   margin-top: 10px;
   padding: 0px;
   background: #FFFFFF;

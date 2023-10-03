@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
 import PropTypes from "prop-types"
 
-export const Form = ({ children, sx, ...props }) => 
+export const Form = ({ children, sx = {}, ...props }) => 
   <Box
     component="form"
     sx={{
@@ -17,10 +17,6 @@ export const Form = ({ children, sx, ...props }) =>
   </Box>
 
 Form.propTypes = {
-  children: PropTypes.node.isRequired, 
+  children: PropTypes.node,
   sx: PropTypes.object
-}
-
-Form.defaultProps = {
-  sx: {} 
 }

@@ -14,30 +14,32 @@ export const ResetPassword = () => {
     const queryParameters = new URLSearchParams(location.search)
     const navigate = useNavigate()
     
-    const  handleResetPassword = async e => {
-      e.preventDefault()
+    const handleResetPassword = async event => {
+      event.preventDefault()
+
       if (validatePassword(password) && validateConfirmPassword(password, confirmPassword)) {
         const data = {
           uid: queryParameters.get("uid"),
           token: queryParameters.get("token"),
           new_password: password
         }
+
         setLoading(true)
-        await resetConfirmPassword(data)
-        .then(() => {
+
+        try {
+          await resetConfirmPassword(data)
           navigate('/login')
-        })
-        .catch(() => {
+        } catch (error) {
           sessionStorage.removeItem("access")
           sessionStorage.removeItem("refresh")
           setPassword("")
           setConfirmPassword("")
-        })
-        .finally(() => setLoading(false))
+        } finally {
+          setLoading(false)
+        }
       }
     }
 
-  
     return (
       <SectionLogin h="50%" title="Redefinir Senha">
         <Form>

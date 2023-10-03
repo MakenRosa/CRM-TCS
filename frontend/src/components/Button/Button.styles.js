@@ -2,7 +2,7 @@ import { Button, styled } from "@mui/material"
 
 export const StyledButton = styled(Button)`
   ${ ({ variant }) => (variant === 'primary' ? primaryStyles : secondaryStyles) }
-  border-radius: ${ ({ borderRadius }) => borderRadius || '8px' };
+  border-radius: var(--border-radius, 8px);
 `
 
 const primaryStyles = `

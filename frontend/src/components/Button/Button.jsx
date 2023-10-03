@@ -9,5 +9,5 @@ export const Button = ({ children, disabled, variant, ...props }) =>
 Button.propTypes = {
   children: PropTypes.node.isRequired, 
   disabled: PropTypes.bool, 
-  variant: PropTypes.string 
+  variant: PropTypes.oneOf(['primary', 'secondary']) 
 }

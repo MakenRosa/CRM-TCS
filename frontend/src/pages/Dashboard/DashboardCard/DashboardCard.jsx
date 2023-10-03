@@ -1,7 +1,8 @@
 import { PropTypes } from 'prop-types'
+import { memo } from 'react'
 import { StyledCard, StyledCardBox, StyledCardIcon, StyledCardTitle, StyledCardValue } from '.'
 
-export const DashboardCard = ({ title, value, icon, color }) => (
+export const DashboardCard = memo(({ title, value, icon, color }) => (
   <StyledCard color={color}>
     <StyledCardTitle>
       {title}
@@ -15,11 +16,13 @@ export const DashboardCard = ({ title, value, icon, color }) => (
       </StyledCardValue>
     </StyledCardBox>
   </StyledCard>
-)
+  ))
+
+DashboardCard.displayName = 'DashboardCard'
 
 DashboardCard.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
 }
