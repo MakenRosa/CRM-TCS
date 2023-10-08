@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from urllib.parse import unquote
 import requests
-from django.http import JsonResponse
+from django.contrib.auth.models import Group
 from rest_framework_simplejwt.views import TokenObtainPairView
 import json
 from django.shortcuts import render
@@ -36,13 +36,16 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class InviteView(APIView):
     def post(self, request, *args, **kwargs):
+
         serializer = InviteSerializer(data=request.data)
         if serializer.is_valid():
+            user = Usuario.objects.get(id=request.GET.get("user_id"))
+
             to = serializer.validated_data['to']
             subject = "Invite Solve CRM"
-            message = "Participe do time: http://localhost:3000/register"
+            message = f"Participe do time: http://localhost:3000/register?cd_grupo={user.cd_grupo}"
 
-            send_mail(subject, message, 'solvecrmconfig@gmail.com', [to])
+            send_mail(subject, message, user.email, [to])
 
             return Response({'message': 'E-mail sent successfully'})
         return Response(serializer.errors, status=400)
