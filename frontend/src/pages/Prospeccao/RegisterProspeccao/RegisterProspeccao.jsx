@@ -158,7 +158,7 @@ export const RegisterProspeccao = () => {
 
   return (
     <StyledRegisterContainer>
-      <StyledRegisterTitle variant="h1">Cadastro Prospecção</StyledRegisterTitle>
+      <StyledRegisterTitle variant="h1">{prospeccao?.id ? 'Editar' : 'Cadastrar'} Prospecção</StyledRegisterTitle>
       <StyledRegisterForm onSubmit={handleSubmit}>
         <StyledRegisterBox>
           <StyledRegisterSection>

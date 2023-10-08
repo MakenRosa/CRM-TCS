@@ -1,13 +1,8 @@
-import { Box, styled } from "@mui/material"
+import { Box } from "@mui/material"
 import { Button, StyledRegisterBox, StyledRegisterContainer, StyledRegisterForm, StyledRegisterTitle } from "components"
 import { Team } from "./Team/Team"
 import { mockTimes } from "./data"
-
-const StyledTeams = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`
+import { StyledTeams } from "./Teams.styles"
 
 export const Teams = () => (
   <StyledRegisterContainer>
