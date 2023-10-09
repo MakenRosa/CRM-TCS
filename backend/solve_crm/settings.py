@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'dashboard',
     'lead',
     'prospeccao',
+    'grupo',
 ]
 
 AUTH_USER_MODEL = "usuario.Usuario"
