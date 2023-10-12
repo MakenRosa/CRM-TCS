@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.contrib.auth.models import Group
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, nm_grupo, password=None, **extra_fields):
+    def create_user(self, email, nm_grupo, first_name, last_name, password=None, **extra_fields):
         if not email:
             raise ValueError('Usuario precisa de um e-mail')
 
@@ -15,7 +15,8 @@ class UserAccountManager(BaseUserManager):
         else:
             nm_grupo = Group.objects.get(name=nm_grupo)
         
-        user = self.model(email=email, cd_grupo=nm_grupo,  nm_grupo=nm_grupo.name, is_staff=admin **extra_fields)
+        user = self.model(
+            email=email, cd_grupo=nm_grupo,  nm_grupo=nm_grupo.name, is_staff=admin, first_name=first_name, last_name=last_name, **extra_fields)
 
         user.set_password(password)
         user.save()
@@ -35,7 +36,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nm_grupo']
+    REQUIRED_FIELDS = ['nm_grupo', 'first_name', 'last_name']
 
     def get_full_name(self):
         return self.first_name
