@@ -14,6 +14,7 @@ const MS_PER_SECOND = 1000
 const GET_ME = "/auth/users/me/"
 const LOGIN_URL = "/auth/jwt/create/"
 const REGISTER_URL = "/auth/users/"
+const DELETE_USER_URL = "/auth/users/"
 const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
 const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
@@ -26,6 +27,9 @@ const GET_PROSPECCAO_URL = "/api/prospeccao/"
 const GET_UNIQUE_PROSPECCAO_URL = "/api/prospeccao/"
 const UPDATE_PROSPECCAO_URL = "/api/prospeccao/"
 const DELETE_PROSPECCAO_URL = "/api/prospeccao/"
+const GET_TEAMS_URL = "/api/grupo/"
+
+const SEND_GROUP_INVITE_URL = "/send_email/"
 
 const GET_TOTALS_URL = "/api/totals/"
 
@@ -167,6 +171,7 @@ const verifyToken = async () => {
 const getMe = async () => await api.get(GET_ME)
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
+const deleteUser = async id => await api.delete(`${ DELETE_USER_URL }${ id }`)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
@@ -179,5 +184,7 @@ const getUniqueProspeccao = async id => await api.get(`${ GET_UNIQUE_PROSPECCAO_
 const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }/`, data, { showSuccessToast: false })
 const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
 const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { user_id }, showSuccessToast: false })
+const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_id }, showSuccessToast: false })
+const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id }, showSuccessToast: true })
 
-export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals }
+export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUser }

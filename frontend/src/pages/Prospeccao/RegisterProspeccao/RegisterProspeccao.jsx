@@ -68,10 +68,7 @@ export const RegisterProspeccao = () => {
           const response = await getUniqueProspeccao(idProspeccao)
           const data = response.data.data.prospecção
 
-          // Atualizar o estado principal da prospecção
           setProspeccao(data)
-
-          // Atualizar estados dos campos diretamente com os dados da resposta
           setNomeNegocio(data.nome_negocio)
           setLead(data.lead)
           setStatus(data.status)
