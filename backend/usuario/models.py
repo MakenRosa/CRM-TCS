@@ -1,13 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import Group
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email, nm_grupo, password=None, **extra_fields):
         if not email:
             raise ValueError('Usuario precisa de um e-mail')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
+        print(nm_grupo)
+        if nm_grupo == 'novo_grupo':
+            nm_grupo = Group.objects.create(name=f"grupo_{email.split('@')[0]}") 
+        else:
+            nm_grupo = Group.objects.get(name=nm_grupo)
+        
+        user = self.model(email=email, cd_grupo=nm_grupo,  **extra_fields)
 
         user.set_password(password)
         user.save()
@@ -15,6 +22,8 @@ class UserAccountManager(BaseUserManager):
         return user
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    cd_grupo = models.ForeignKey(Group, on_delete=models.DO_NOTHING)
+    nm_grupo = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -25,6 +34,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nm_grupo']
 
     def get_full_name(self):
         return self.first_name
