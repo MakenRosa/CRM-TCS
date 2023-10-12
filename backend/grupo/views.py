@@ -13,7 +13,6 @@ class Grupo(generics.GenericAPIView):
         user_id = request.GET.get("user_id")
         usuario = Usuario.objects.get(id=user_id)
         usuarios_grupos = Usuario.objects.filter(cd_grupo=usuario.cd_grupo)
-        print(usuarios_grupos)
 
         total_usuarios = usuarios_grupos.count()
         if total_usuarios == 0 :
@@ -21,6 +20,7 @@ class Grupo(generics.GenericAPIView):
         serializer = self.serializer_class(usuarios_grupos, many=True)
         return Response({
             "data": {"message": "Users found",
+                     "nome_grupo": usuario.nm_grupo,
                      "groups": serializer.data}
         },)
 
