@@ -8,13 +8,14 @@ class UserAccountManager(BaseUserManager):
             raise ValueError('Usuario precisa de um e-mail')
 
         email = self.normalize_email(email)
-        print(nm_grupo)
+        admin = False
         if nm_grupo == 'novo_grupo':
             nm_grupo = Group.objects.create(name=f"grupo_{email.split('@')[0]}") 
+            admin = True
         else:
             nm_grupo = Group.objects.get(name=nm_grupo)
         
-        user = self.model(email=email, cd_grupo=nm_grupo,  **extra_fields)
+        user = self.model(email=email, cd_grupo=nm_grupo,  nm_grupo=nm_grupo.name, is_staff=admin **extra_fields)
 
         user.set_password(password)
         user.save()
