@@ -96,6 +96,9 @@ DJOSER = {
         'password_reset': 'usuario.email.PasswordResetEmail',
         'password_changed_confirmation': 'usuario.email.PasswordChangedConfirmationEmail',
     },
+    'PERMISSIONS': {
+        'user_delete': ['rest_framework.permissions.AllowAny'],
+    }
 
 }
 
