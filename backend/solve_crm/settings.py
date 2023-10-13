@@ -98,6 +98,7 @@ DJOSER = {
     },
     'PERMISSIONS': {
         'user_delete': ['rest_framework.permissions.AllowAny'],
+        'user': ['rest_framework.permissions.AllowAny'],
     }
 
 }
