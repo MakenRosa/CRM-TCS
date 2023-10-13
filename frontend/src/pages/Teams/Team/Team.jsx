@@ -1,17 +1,21 @@
 import { ExpandLess, ExpandMore, GroupsOutlined, RadioButtonUnchecked } from "@mui/icons-material"
-import { Box, Checkbox, Typography } from "@mui/material"
+import { Box, Checkbox, CircularProgress, Typography } from "@mui/material"
 import { Button, Invite } from "components"
 import { useState } from "react"
 import PropTypes from 'prop-types'
 import { deleteUser } from "utils"
+import { toast } from "react-toastify"
 import { StyledCheckedIcon, StyledTeam } from "./Team.styles"
 
 export const Team = ({ team, title }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isInviteOpen, setIsInviteOpen] = useState(false)
-  const [isUserStaff, setIsUserStaff] = useState(false)
+  const [isUserStaff, setIsUserStaff] = useState(true)
+  const [loading, setLoading] = useState(false)
   
   const [selectedIds, setSelectedIds] = useState([])
+
+  const current_user_id = sessionStorage.getItem('user_id')
 
   const openInviteModal = () => {
     setIsInviteOpen(true)
@@ -26,13 +30,24 @@ export const Team = ({ team, title }) => {
   }
   
   const handleDelete = () => {
-    selectedIds.forEach(id => {
-      deleteUser(id)
+    selectedIds.map(async id => {
+      if (id === current_user_id) {
+        toast.error('Você não pode excluir a si mesmo!')
+      } else {
+        setLoading(true)
+        await deleteUser(id)
         .then(() => {
-          setSelectedIds(selectedIds.filter(selectedId => selectedId !== id))
+          toast.success('Usuário excluído com sucesso!')
         })
-    }
-  )}
+        .catch(() => {
+          toast.error('Erro ao excluir usuário!')
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+      }
+    })
+  }
 
   return (
     <>
@@ -92,7 +107,7 @@ export const Team = ({ team, title }) => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '100px', gap: '1rem' }}>
             <Button onClick={openInviteModal} variant="primary">Convidar</Button>
-            <Button variant="secondary">Excluir</Button>
+            <Button disabled={!isUserStaff} loading={loading} onClick={handleDelete} variant="secondary">{loading ? <CircularProgress color="inherit" size={24} /> : "Excluir"}</Button>
           </Box>
         </Box>
       )}

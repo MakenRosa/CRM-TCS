@@ -171,7 +171,7 @@ const verifyToken = async () => {
 const getMe = async () => await api.get(GET_ME)
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
-const deleteUser = async id => await api.delete(`${ DELETE_USER_URL }${ id }`)
+const deleteUser = async id => await api.delete(`${ DELETE_USER_URL }${ id }/`)
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
