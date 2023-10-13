@@ -31,6 +31,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         if response.status_code == 200 and user:
             user_id = user.id
             response.data['user_id'] = user_id
+            response.data['is_admin'] = user.is_staff
         return response
         
 
