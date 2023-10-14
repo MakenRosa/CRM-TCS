@@ -10,6 +10,8 @@ from django.contrib.auth.models import Group
 from rest_framework_simplejwt.views import TokenObtainPairView
 import json
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 
 #Acoes relacionadas aos usuarios do sistema:
@@ -75,5 +77,14 @@ def ativacao(request):
             return render(request, 'erro.html', {'message': 'Erro na requisição JWT'})
     else:
         return render(request, 'erro.html', {'message': 'URL de ativação não fornecida.'})
+    
+@csrf_exempt 
+def exclusao_membro(request):
+    usuario_excluido = Usuario.objects.get(id=request.GET.get("id_excluido"))
+    usuario_excluido.nm_grupo = None
+    usuario_excluido.cd_grupo = None
+    usuario_excluido.save()
+    return HttpResponse(status=204)
+    
 
 

@@ -24,8 +24,8 @@ class UserAccountManager(BaseUserManager):
         return user
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
-    cd_grupo = models.ForeignKey(Group, on_delete=models.DO_NOTHING)
-    nm_grupo = models.CharField(max_length=255)
+    cd_grupo = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=True)
+    nm_grupo = models.CharField(max_length=255, null=True)
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
