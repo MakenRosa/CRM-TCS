@@ -34,6 +34,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             user_id = user.id
             response.data['user_id'] = user_id
             response.data['is_admin'] = user.is_staff
+            response.data['first_name'] = user.first_name
+            response.data['last_name'] = user.last_name
         return response
         
 
