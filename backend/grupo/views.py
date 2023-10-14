@@ -21,6 +21,8 @@ class Grupo(generics.GenericAPIView):
         return Response({
             "data": {"message": "Users found",
                      "nome_grupo": usuario.nm_grupo,
+                     "first_name": usuario.first_name,
+                     "last_name": usuario.last_name,
                      "groups": serializer.data}
         },)
 
