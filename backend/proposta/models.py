@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from backend.lead.models import Lead
-from backend.prospeccao.models import Prospeccao
+from lead.models import Lead
+from prospeccao.models import Prospeccao
 
 User = get_user_model()
 

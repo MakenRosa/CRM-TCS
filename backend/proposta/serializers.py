@@ -3,8 +3,34 @@ from datetime import date
 from .models import Proposta
 
 
-class PropostasSerializerInsert(serializers.ModelSerializer):
-    data_proposta = serializers.DateField(required=False, default=date.today())
+from rest_framework import serializers
+from datetime import date
+from .models import Proposta
+
+class PropostaSerializerInsert(serializers.ModelSerializer):
+    data_cadastro = serializers.DateField(required=False, default=date.today())
+    tipo_projeto = serializers.CharField(required=False)
+    perfil_orcamento = serializers.CharField(required=False)
+    prob_fechamento = serializers.CharField(required=False)
+    status_proposta = serializers.CharField(required=False)
+    valor_proposta = serializers.FloatField(required=False)
+    material_insumo = serializers.TextField(required=False)
+    servicos = serializers.TextField(required=False)
+    
+    class Meta:
+        model = Proposta
+        fields = '__all__'
+
+class PropostaSerializerUpdate(serializers.ModelSerializer):
+    data_cadastro = serializers.DateField(required=False)
+    tipo_projeto = serializers.CharField(required=False)
+    perfil_orcamento = serializers.CharField(required=False)
+    prob_fechamento = serializers.CharField(required=False)
+    status_proposta = serializers.CharField(required=False)
+    valor_proposta = serializers.FloatField(required=False)
+    material_insumo = serializers.TextField(required=False)
+    servicos = serializers.TextField(required=False)
+
     class Meta:
         model = Proposta
         fields = '__all__'
