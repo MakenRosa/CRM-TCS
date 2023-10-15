@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { AccountCircle, Check, Email, Lock } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
 import { Button, Form, PasswordValidator, TextField } from "components"
@@ -52,12 +53,13 @@ export const Register = () => {
       if (isValidForm(user, false)) {
         await registerUser(user)
         navigate('/login')
+        toast.success('Cadastro realizado com sucesso!\nPor favor, verifique seu email para confirmar o cadastro.')
       }
     } catch (error) {
       sessionStorage.removeItem('access')
       sessionStorage.removeItem('refresh')
-      setSenha('')
-      setConfirmSenha('')
+      sessionStorage.removeItem('user_id')
+      toast.error(error.response.data.email[0] || error.response.data.password[0] || error.response.data.re_password[0] || "Erro ao efetuar cadastro!")
     } finally {
       setLoading(false)
     }

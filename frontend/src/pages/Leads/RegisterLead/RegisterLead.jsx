@@ -53,8 +53,10 @@ export const RegisterLead = () => {
       if (validateLead(data)) {
         if (lead) {
           await updateLead(lead.cnpj, data)
+          toast.success('Lead atualizado com sucesso!')
         } else {
           await createLead(data)
+          toast.success('Lead criado com sucesso!')
         }
         navigate('/leads')
       }

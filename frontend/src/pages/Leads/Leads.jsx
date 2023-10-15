@@ -39,10 +39,10 @@ export const Leads = () => {
     const selected = JSON.parse(localStorage.getItem('selectedLeads'))
     localStorage.setItem('leadToProspect', JSON.stringify(selected[0])) 
     if (selected.length === 0) {
-      toast.error('Selecione pelo menos um lead para criar uma prospecção')
+      toast.warning('Selecione pelo menos um lead para criar uma prospecção')
       return
     } else if (selected.length > 1) {
-      toast.error('Selecione apenas um lead para criar uma prospecção')
+      toast.warning('Selecione apenas um lead para criar uma prospecção')
       return
     }
     navigate('/oportunidades/register')
@@ -70,17 +70,16 @@ export const Leads = () => {
 
       toast.success('Leads excluídos com sucesso.')
     })
-    .catch(err => {
+    .catch(() => {
       toast.error('Erro ao excluir leads.')
-      console.error(err)
     })
   }
 
   const handleEditLead = () => {
     const selected = JSON.parse(localStorage.getItem('selectedLeads'))
     selected.length === 1 ? navigate(`/leads/register`) :
-      selected.length > 1 ? toast.error('Selecione apenas um lead para editar') :
-        toast.error('Selecione um lead para editar')
+      selected.length > 1 ? toast.warning('Selecione apenas um lead para editar') :
+        toast.warning('Selecione um lead para editar')
   }
 
   const handleNewLead = () => {

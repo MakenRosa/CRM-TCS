@@ -10,25 +10,12 @@ import {
   StyledRegisterTextField,
   StyledRegisterTitle
 } from "components"
-import { Box, CircularProgress, MenuItem, Typography, styled } from "@mui/material"
+import {  CircularProgress, MenuItem } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { createProspeccao, getLeads, getUniqueProspeccao, updateProspeccao, validateProspection } from "utils"
 import { toast } from "react-toastify"
-
-const StyledRegisterProspeccaoSection = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-`
-
-const StyledSectionTitle = styled(Typography)`
-  color: var(--secondary-color);
-  font-weight: bold;
-  margin-bottom: 10px;
-  line-height: 1.2;
-`
+import { StyledRegisterProspeccaoSection, StyledSectionTitle } from "./RegisterProspeccao.styles"
 
 const formatDate = date => {
   if (date) {
@@ -132,8 +119,8 @@ export const RegisterProspeccao = () => {
     }
     try {
       if (validateProspection(data)) {
-        console.log('valida')
         prospeccao?.id ? await updateProspeccao(prospeccao.id, data) : await createProspeccao(data)
+        toast.success('Prospecção salva com sucesso!')
         navigate('/oportunidades')
       }
     } catch (error) {
