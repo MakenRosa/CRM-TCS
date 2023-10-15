@@ -1,20 +1,16 @@
 import axios from "axios"
 import jwtDecode from "jwt-decode"
-import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-const CONFLICT = 409
-const FORBIDDEN = 403
-const INTERNAL_SERVER_ERROR = 500
 const UNAUTHORIZED = 401
-const BAD_REQUEST = 400
 
 const MS_PER_SECOND = 1000
 
-const GET_ME = "/auth/users/me/"
 const LOGIN_URL = "/auth/jwt/create/"
 const REGISTER_URL = "/auth/users/"
+const GET_USER_URL = "/auth/users/"
 const DELETE_USER_URL = "/auth/users/"
+const DELETE_USER_FROM_GROUP_URL = "/api/grupo/excluir/"
 const REFRESH_TOKEN_URL = "/auth/jwt/refresh/"
 const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
@@ -50,25 +46,8 @@ const refreshToken = async () => {
 
 const handleErrorResponse = async error => {
   const status = error?.response?.status
-  const errorMessage = error?.response?.data?.message
-
-  if (status === BAD_REQUEST) {
-    const errors = error?.response?.data  
-    if (errors) {
-      for (const e in errors) {
-        const badRequestMessage = error.config.url.endsWith(LOGIN_URL) ? `${ e }: ${ errors[e] }` : errors[e]
-        toast.error(`${ badRequestMessage }`)
-      }
-    }
-    return Promise.reject(error)
-  }
 
   if (status === UNAUTHORIZED) {
-    if (error.config.url.endsWith(LOGIN_URL)) {
-      toast.error("Usuário e/ou senha inválidos.")
-      return Promise.reject(error)
-    }
-
     if (error.config.url !== REFRESH_TOKEN_URL) {
       try {
         const newToken = await refreshToken()
@@ -83,28 +62,17 @@ const handleErrorResponse = async error => {
       return Promise.reject(error)
     }
   }
-
-  const message = getErrorMessage(status, errorMessage)
-  toast.error(message)
   return Promise.reject(error)
-}
-
-const getErrorMessage = (status, errorMessage) => {
-  const defaultMessages = {
-    [CONFLICT]: "Este E-mail já está cadastrado.",
-    [FORBIDDEN]: "Você não tem permissão para acessar este recurso.",
-    [INTERNAL_SERVER_ERROR]: "Erro interno do servidor. Tente novamente mais tarde.",
-    [UNAUTHORIZED]: "Você não está autenticado.",
-    [BAD_REQUEST]: "Erro de requisição. Por favor, tente novamente."
-  }
-
-  return errorMessage || defaultMessages[status] || "Um erro ocorreu. Por favor, tente novamente."
 }
 
 const logoutUser = () => {
   sessionStorage.removeItem("access")
   sessionStorage.removeItem("refresh")
-  window.location.href = "/login"
+  sessionStorage.removeItem("user_id")
+  sessionStorage.removeItem("username")
+  if (window.location.pathname !== "/login") {
+    window.location.href = "/login"
+  }
 }
 
 const api = axios.create({
@@ -123,15 +91,7 @@ api.interceptors.request.use(
 )
 
 api.interceptors.response.use(
-  response => {
-    const showSuccessToast = response.config.showSuccessToast !== false
-    if (showSuccessToast && response?.data?.message) {
-      toast.success(response.data.message)
-    } else if (showSuccessToast) {
-      toast.success("Operação realizada com sucesso.")
-    } 
-    return response
-  },
+  response => response,
   handleErrorResponse
 )
 
@@ -168,23 +128,24 @@ const verifyToken = async () => {
   }
 }
 
-const getMe = async () => await api.get(GET_ME)
+const getUser = async id => await api.get(`${ GET_USER_URL }${ id }/`)
 const loginUser = user => api.post(LOGIN_URL, user)
 const registerUser = user => api.post(REGISTER_URL, user)
-const deleteUser = async id => await api.delete(`${ DELETE_USER_URL }${ id }/`)
+const deleteUser = async data => await api.delete(`${ DELETE_USER_URL }${ data.id }/`, data)
+const deleteUserFromGroup = async id_excluido => await api.delete(`${ DELETE_USER_FROM_GROUP_URL }`, { params: { id_excluido } })
 const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
-const getLeads = async user_id => await api.get(GET_LEADS_URL, { params: { user_id }, showSuccessToast: false })
+const getLeads = async user_id => await api.get(GET_LEADS_URL, { params: { user_id }  })
 const updateLead = async (cnpj, data) => await api.patch(`${ UPDATE_LEAD_URL }${ cnpj }`, data)
-const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }`, { showSuccessToast: false })
+const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }` )
 const createProspeccao = async data => await api.post(CREATE_PROSPECCAO_URL, data)
-const getProspeccao = async user_id => await api.get(GET_PROSPECCAO_URL, { params: { user_id }, showSuccessToast: false })
-const getUniqueProspeccao = async id => await api.get(`${ GET_UNIQUE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
-const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }/`, data, { showSuccessToast: false })
-const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }/`, { showSuccessToast: false })
-const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { user_id }, showSuccessToast: false })
-const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_id }, showSuccessToast: false })
-const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id }, showSuccessToast: true })
+const getProspeccao = async user_id => await api.get(GET_PROSPECCAO_URL, { params: { user_id }  })
+const getUniqueProspeccao = async id => await api.get(`${ GET_UNIQUE_PROSPECCAO_URL }${ id }/` )
+const updateProspeccao = async (id, data) => await api.patch(`${ UPDATE_PROSPECCAO_URL }${ id }/`, data )
+const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL }${ id }/` )
+const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { user_id }  })
+const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_id }  })
+const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id } })
 
-export { api, getMe, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUser }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser }
