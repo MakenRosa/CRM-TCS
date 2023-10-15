@@ -1,10 +1,10 @@
-import { Button, TextField } from 'components'
+import { Button, TextField, StyledModalBox, StyledModal } from 'components'
 import { Email } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 import { sendGroupInvite, validateEmail } from 'utils'
 import { useState } from 'react'
 import { CircularProgress } from '@mui/material'
-import { StyledModalBox, StyledModal } from '.'
+import { toast } from 'react-toastify'
 
 export const Invite = ({ open, onClose }) => {  
   const [email, setEmail] = useState('')
@@ -17,6 +17,7 @@ export const Invite = ({ open, onClose }) => {
       setLoading(true)
       try {
         await sendGroupInvite({ "to": email }, user_id)
+        toast.success('Convite enviado com sucesso!')
         setEmail('')
         onClose()
       } finally {

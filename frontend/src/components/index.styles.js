@@ -31,7 +31,4 @@ export const StyledModalBox = styled(Box)`
     margin: 0 auto;
     margin-top: 20px;
   }
-
-  input {
-  }
 `
