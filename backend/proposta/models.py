@@ -1,0 +1,25 @@
+from django.db import models
+from django.contrib.auth import get_user_model
+from backend.lead.models import Lead
+from backend.prospeccao.models import Prospeccao
+
+User = get_user_model()
+
+class Proposta(models.Model):
+    nome_proposta = models.CharField(max_length=255)
+    data_cadastro = models.DateField()
+    desc_proposta = models.TextField()
+    consultor_prop = models.ForeignKey(User, on_delete=models.CASCADE)
+    tipo_projeto = models.CharField(max_length=255)
+    influenciador_decisor = models.CharField(max_length=255)
+    perfil_orcamento = models.CharField(max_length=255)
+    prob_fechamento = models.CharField(max_length=255)
+    status_proposta = models.CharField(max_length=255)
+    valor_proposta = models.FloatField()
+    material_insumo = models.TextField(max_length=500)
+    servicos = models.TextField()
+    tipo_contato = models.TextField()
+    data_tarefa = models.DateField()
+
+    prospeccao = models.ForeignKey(Prospeccao, on_delete=models.CASCADE, related_name='propostas')
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='propostas_lead')
