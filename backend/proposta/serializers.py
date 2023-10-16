@@ -14,8 +14,8 @@ class PropostaSerializerInsert(serializers.ModelSerializer):
     prob_fechamento = serializers.CharField(required=False)
     status_proposta = serializers.CharField(required=False)
     valor_proposta = serializers.FloatField(required=False)
-    material_insumo = serializers.TextField(required=False)
-    servicos = serializers.TextField(required=False)
+    material_insumo = serializers.CharField(required=False)
+    servicos = serializers.CharField(required=False)
     
     class Meta:
         model = Proposta
@@ -28,8 +28,8 @@ class PropostaSerializerUpdate(serializers.ModelSerializer):
     prob_fechamento = serializers.CharField(required=False)
     status_proposta = serializers.CharField(required=False)
     valor_proposta = serializers.FloatField(required=False)
-    material_insumo = serializers.TextField(required=False)
-    servicos = serializers.TextField(required=False)
+    material_insumo = serializers.CharField(required=False)
+    servicos = serializers.CharField(required=False)
 
     class Meta:
         model = Proposta

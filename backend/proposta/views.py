@@ -2,7 +2,7 @@ import math
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Proposta
-from .serializers import PropostasSerializerInsert
+from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate
 from django.db.models import Q
 from usuario.models import Usuario
 from lead.models import Lead
@@ -48,7 +48,7 @@ class PropostaView(generics.GenericAPIView):
             return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
 
 class PropostaDetails(generics.GenericAPIView):
-    serializer_class = PropostaSerializer
+    serializer_class = PropostaSerializerUpdate
 
     def get_proposta(self, id):
         try:
@@ -72,7 +72,6 @@ class PropostaDetails(generics.GenericAPIView):
         serializer = self.serializer_class(
             proposta, data=request.data, partial=True)
         if serializer.is_valid():
-            # Implemente lógica adicional, se necessário
             serializer.save()
             return Response({"status": "success", "data": {"message": "Proposta atualizada com sucesso", "proposta": serializer.data}})
         return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -101,8 +100,8 @@ def criar_filtro_pesquisa_proposta(search_param):
     return search_conditions
 
 def gerar_versao(id):
-    ultima_versao = Proposta.objects.get(id=id).versao
-    return ultima_versao + 1
+    ultima_versao_proposta = Proposta.objects.get(id=id).versao
+    return ultima_versao_proposta + 1
 
 def get_nome_usuario(id_prospecao):
     lead = Proposta.objects.get(id=id_prospecao).lead
