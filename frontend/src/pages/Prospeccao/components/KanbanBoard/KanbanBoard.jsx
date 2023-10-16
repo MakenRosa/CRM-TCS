@@ -4,6 +4,8 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { useCallback, useEffect, useState } from "react"
 import { updateProspeccao } from "utils"
 import { toast } from "react-toastify"
+import { Box, Divider, Typography } from "@mui/material"
+import { TouchApp } from "@mui/icons-material"
 import { StyledKanbanContainer } from "./KanbanBoard.styles"
 
 const transformData = data => {
@@ -33,10 +35,45 @@ const transformData = data => {
 
 export const KanbanBoard = ({ boardData }) => {
   const [boardDataState, setBoardDataState] = useState(transformData(boardData))
+  const [collapsedColumns, setCollapsedColumns] = useState({})
+
+  const collapseProspect = () => {
+    setCollapsedColumns(prevState => ({
+      ...prevState,
+      'Em prospecção': !prevState['Em prospecção']
+    }))
+  }
+  
+  const collapseProposal = () => {
+    const proposalColumns = [
+      'Em elaboração', 'Em negociação', 'Em revisão', 
+      'Descontinuado', 'Suspenso', 'Perdido', 'Vendido'
+    ]
+    const areAllCollapsed = proposalColumns.every(column => collapsedColumns[column])
+  
+    const updatedState = {}
+    for (const column of proposalColumns) {
+      updatedState[column] = !areAllCollapsed
+    }
+  
+    setCollapsedColumns(prevState => ({
+      ...prevState,
+      ...updatedState
+    }))
+  }
+  
 
   useEffect(() => {
   setBoardDataState(transformData(boardData))
-}, [boardData])
+  }, [boardData])
+
+  const toggleColumnCollapse = columnName => {
+    setCollapsedColumns(prevState => ({
+      ...prevState,
+      [columnName]: !prevState[columnName]
+    }))
+  }
+
 
   const onDragEnd = useCallback(async result => {
     const { destination, source } = result
@@ -64,14 +101,47 @@ export const KanbanBoard = ({ boardData }) => {
   }, [boardDataState, setBoardDataState])
 
   return (
-    <DragDropContext onDragEnd={onDragEnd} >
+    <DragDropContext onDragEnd={onDragEnd}>
       <StyledKanbanContainer>
-        {boardDataState.map(columnData => (
-          <KanbanColumn 
-            key={columnData.title}
-            {...columnData}
-          />
-        ))}
+        <Box className="columnGroup">
+          <Typography className="columnTitle" component="h1" gutterBottom onClick={collapseProspect} variant="h4">
+            Prospecção {collapsedColumns['Em prospecção'] ? <TouchApp sx={{ color: '#9181f4' }} /> : <TouchApp />}
+          </Typography>
+          {boardDataState.map(columnData => {
+            if (columnData.title === 'Em prospecção') {
+              return (
+                <KanbanColumn 
+                  isCollapsed={collapsedColumns[columnData.title]}
+                  key={columnData.title}
+                  toggleColumnCollapse={toggleColumnCollapse}
+                  {...columnData}
+                />
+              )
+            }
+            return null
+          })}
+        </Box>
+        <Divider flexItem orientation="vertical" />
+        <Box className="columnGroup">
+          <Typography className="columnTitle" component="h1" gutterBottom onClick={collapseProposal} variant="h4">
+            Proposta {collapsedColumns['Em elaboração'] && collapsedColumns['Em negociação'] && collapsedColumns['Em revisão'] && collapsedColumns['Descontinuado'] && collapsedColumns['Suspenso'] && collapsedColumns['Perdido'] && collapsedColumns['Vendido'] ? <TouchApp sx={{ color: '#9181f4' }} /> : <TouchApp />}
+          </Typography>
+          <Box className="propostaColumns">
+            {boardDataState.map(columnData => {
+              if (columnData.title !== 'Em prospecção') {
+                return (
+                  <KanbanColumn 
+                    isCollapsed={collapsedColumns[columnData.title]}
+                    key={columnData.title}
+                    toggleColumnCollapse={toggleColumnCollapse}
+                    {...columnData}
+                  />
+                )
+              }
+              return null
+            })}
+          </Box>
+        </Box>
       </StyledKanbanContainer>
     </DragDropContext>
   )
