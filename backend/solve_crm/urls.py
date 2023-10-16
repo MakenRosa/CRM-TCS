@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/totals/', include('dashboard.urls')),
     path('api/grupo/', include('grupo.urls')),
     path('api/grupo/excluir/', exclusao_membro, name='exclusao'),
+    path('api/historico/', include('historico.urls')),
    
 ]
 
