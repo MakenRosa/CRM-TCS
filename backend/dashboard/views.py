@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 
-class OportunityTotals(generics.GenericAPIView):
+class OportunityTotalsView(generics.GenericAPIView):
 
     def get(self, request):
         total_lead = self.get_leads(request)

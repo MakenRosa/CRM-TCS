@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { resetConfirmPassword, validateConfirmPassword, validatePassword } from 'utils'
 import { Button, Form, PasswordValidator, TextField } from 'components'
@@ -25,13 +26,14 @@ export const ResetPassword = () => {
         }
 
         setLoading(true)
-
         try {
           await resetConfirmPassword(data)
+          toast.success("Senha redefinida com sucesso!")
           navigate('/login')
         } catch (error) {
           sessionStorage.removeItem("access")
           sessionStorage.removeItem("refresh")
+          toast.error("Erro ao redefinir senha!")
           setPassword("")
           setConfirmPassword("")
         } finally {

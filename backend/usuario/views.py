@@ -6,10 +6,12 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from urllib.parse import unquote
 import requests
-from django.http import JsonResponse
+from django.contrib.auth.models import Group
 from rest_framework_simplejwt.views import TokenObtainPairView
 import json
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 
 #Acoes relacionadas aos usuarios do sistema:
@@ -31,18 +33,24 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         if response.status_code == 200 and user:
             user_id = user.id
             response.data['user_id'] = user_id
+            response.data['is_admin'] = user.is_staff
+            response.data['first_name'] = user.first_name
+            response.data['last_name'] = user.last_name
         return response
         
 
 class InviteView(APIView):
     def post(self, request, *args, **kwargs):
+
         serializer = InviteSerializer(data=request.data)
         if serializer.is_valid():
+            user = Usuario.objects.get(id=request.GET.get("user_id"))
+
             to = serializer.validated_data['to']
             subject = "Invite Solve CRM"
-            message = "Participe do time: http://localhost:3000/register"
+            message = f"Participe do time: http://localhost:3000/register?cd_grupo={user.cd_grupo}"
 
-            send_mail(subject, message, 'solvecrmconfig@gmail.com', [to])
+            send_mail(subject, message, user.email, [to])
 
             return Response({'message': 'E-mail sent successfully'})
         return Response(serializer.errors, status=400)
@@ -71,5 +79,14 @@ def ativacao(request):
             return render(request, 'erro.html', {'message': 'Erro na requisição JWT'})
     else:
         return render(request, 'erro.html', {'message': 'URL de ativação não fornecida.'})
+    
+@csrf_exempt 
+def exclusao_membro(request):
+    usuario_excluido = Usuario.objects.get(id=request.GET.get("id_excluido"))
+    usuario_excluido.nm_grupo = None
+    usuario_excluido.cd_grupo = None
+    usuario_excluido.save()
+    return HttpResponse(status=204)
+    
 
 

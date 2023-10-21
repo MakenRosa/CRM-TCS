@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { AccountCircle, Lock } from "@mui/icons-material"
 import { useEffect, useState } from "react"
 import { Button, Form, TextField } from "components"
@@ -41,13 +42,15 @@ export const Login = () => {
       sessionStorage.setItem("access", res.data.access)
       sessionStorage.setItem("refresh", res.data.refresh)
       sessionStorage.setItem("user_id", res.data.user_id)
-
+      sessionStorage.setItem("username", `${ res.data.first_name  } ${  res.data.last_name }`)
       setIsLogged(await verifyToken())
+      toast.success("Login realizado com sucesso!")
       }
     } catch (error) {
       sessionStorage.removeItem("access")
       sessionStorage.removeItem("refresh")
       sessionStorage.removeItem("user_id")
+      toast.error("Erro ao realizar login!", { autoClose: 5000 })
     } finally {
       setLoading(false)
     }
