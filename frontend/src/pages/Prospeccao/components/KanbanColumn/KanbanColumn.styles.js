@@ -6,8 +6,8 @@ export const StyledKanbanColumn = styled(Box, {
   flex-direction: column;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 240px;
-  min-height: 100%;
+  width: 255px;
+  min-height:calc(100vh - 350px);
   border: 1px solid #8F8B8B;
   border-top: 3px solid ${ ({ columnColor }) => columnColor || "#8F8B8B" };
   background: #E6E4E4;
@@ -36,6 +36,19 @@ export const StyledKanbanColumnHeader = styled(Box, {
 
   @media (max-width: 768px) {
     flex-direction: column;
+  }
+
+  .cards-number {
+    margin-left: 0.5em;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .cards-number-collapsed {
+    writing-mode: horizontal-tb;
+    margin-top: 1em;
+    font-weight: 700;
+    font-size: 1.2rem;
   }
 `
 
