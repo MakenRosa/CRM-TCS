@@ -1,6 +1,6 @@
 from django.urls import path
-from dashboard.views import OportunityTotals
+from dashboard.views import OportunityTotalsView
 
 urlpatterns = [
-    path('', OportunityTotals.as_view()),
+    path('', OportunityTotalsView.as_view()),
 ]
