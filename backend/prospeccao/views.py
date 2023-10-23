@@ -21,7 +21,6 @@ class ProspeccaoView(generics.GenericAPIView):
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
         user_id = request.GET.get("user_id")
-        print(user_id)
         leads = Lead.objects.filter(user=user_id)
         for lead in leads:
             leads_id.append(lead.id)
