@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/leads/', include('lead.urls')),
     path('auth/', include('usuario.urls')),
     path('api/prospeccao/', include('prospeccao.urls')),
+    path('api/proposta/', include('proposta.urls')),
     path('api/totals/', include('dashboard.urls')),
     path('api/grupo/', include('grupo.urls')),
     path('api/grupo/excluir/', exclusao_membro, name='exclusao'),
