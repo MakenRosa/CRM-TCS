@@ -4,12 +4,16 @@ import { Draggable } from 'react-beautiful-dnd'
 import { useNavigate } from "react-router-dom"
 import { StyledCardDescription, StyledCardFooter, StyledCardLabel, StyledKanbanCard, StyledKanbanCardDate } from "./KanbanCard.styles"
 
-export const KanbanCard = ({ label, description, value, date, id, index }) => {
+export const KanbanCard = ({ label, description, value, date, status, id, index }) => {
   const navigate = useNavigate()
 
   const handleEditProspeccao = () => {
-    localStorage.setItem('edit_prospeccao', id)
-    navigate(`/oportunidades/register`)
+    if (status === "Em prospecção") {
+      localStorage.setItem('edit_prospeccao', id)
+      navigate(`/oportunidades/register`)
+    } else {
+      navigate(`/oportunidades/${ id }`)
+    }
   }
   return (
     <Draggable draggableId={ String(id) } index={index}>
@@ -38,5 +42,6 @@ KanbanCard.propTypes = {
   id: PropTypes.number,
   index: PropTypes.number,
   label: PropTypes.string,
+  status: PropTypes.string,
   value: PropTypes.string
 }
