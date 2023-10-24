@@ -1,10 +1,36 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Tab } from "@mui/material"
+import { useNavigate, useParams } from "react-router-dom"
+import { getUniqueLead, getUniqueProspeccao } from "utils"
 import { ContatoInicial } from "./ContatoInicial"
 import { MainContainer, StyledLeadDetailInfo, StyledLeadDetailInfoTitle, StyledLeadDetailInfoValue, StyledLeadDetails, StyledLeadDetailsInfo, StyledLeadDetailsTitle, StyledLeadInfo, StyledLeadTitle, StyledOportunidade, StyledProposta, StyledTabs } from "./Oportunidade.styles"
+import { Propostas } from "./Propostas"
 
 export const Oportunidade = () => {
   const [selectedTab, setSelectedTab] = useState(0)
+  const [lead, setLead] = useState({})
+  const [prospect, setProspect] = useState({})
+  const { leadId, prospectId } = useParams()
+  const userId = sessionStorage.getItem('user_id')
+
+  const navigate = useNavigate()
+
+  useEffect( () => {
+    const getLead = async () => {
+      const leadInfo = await getUniqueLead(leadId)
+      .then(response => response.data.data.lead)
+      .catch(() => navigate('/NotFound'))
+      setLead(leadInfo)
+    }
+    const getProspect = async () => {
+      const prospeccao = await getUniqueProspeccao(prospectId)
+      .then(response => response.data.data.prospecção)
+      .catch(() => navigate('/NotFound'))
+      setProspect(prospeccao)
+    }
+    getLead()
+    getProspect()
+  }, [leadId, prospectId, userId])
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue)
@@ -13,9 +39,9 @@ export const Oportunidade = () => {
   const renderTabContent = () => {
     switch (selectedTab) {
       case 0:
-        return <ContatoInicial />
+        return <ContatoInicial empresa={lead.nomeEmpresa} {...prospect} />
       case 1:
-        return <div>Conteúdo das Propostas</div>
+        return <Propostas />
         // eslint-disable-next-line no-magic-numbers
       case 2:
         return <div>Conteúdo das Tarefas</div>
@@ -31,7 +57,7 @@ export const Oportunidade = () => {
     <StyledOportunidade>
       <StyledLeadInfo>
         <StyledLeadTitle component="h1" gutterBottom variant="h4">
-          Nome do Negócio
+          {prospect.nome_negocio}
         </StyledLeadTitle>
         <StyledLeadDetails>
           <StyledLeadDetailsTitle component="h2" gutterBottom variant="h6">
@@ -43,15 +69,15 @@ export const Oportunidade = () => {
                 Empresa
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
-                Netflix
+                {lead.nomeEmpresa}
               </StyledLeadDetailInfoValue>
             </StyledLeadDetailInfo>
             <StyledLeadDetailInfo>
               <StyledLeadDetailInfoTitle component="p" gutterBottom variant="body1">
-                Cargo
+                Responsável
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
-                CEO
+                {lead.responsavel}
               </StyledLeadDetailInfoValue>
             </StyledLeadDetailInfo>
             <StyledLeadDetailInfo>
@@ -59,7 +85,7 @@ export const Oportunidade = () => {
                 Email
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
-                Exemplo@gmail.com
+                {lead.email}
               </StyledLeadDetailInfoValue>
             </StyledLeadDetailInfo>
             <StyledLeadDetailInfo>
@@ -67,23 +93,23 @@ export const Oportunidade = () => {
                 Telefone
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
-                (11) 99999-9999
+                {lead.telefone}
               </StyledLeadDetailInfoValue>
             </StyledLeadDetailInfo>
             <StyledLeadDetailInfo>
               <StyledLeadDetailInfoTitle component="p" gutterBottom variant="body1">
-                Site
+                Cargo
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
-                www.netflix.com
+                {lead.cargo}
               </StyledLeadDetailInfoValue>
             </StyledLeadDetailInfo>
             <StyledLeadDetailInfo>
               <StyledLeadDetailInfoTitle component="p" gutterBottom variant="body1">
-                LinkedIn
+                Descrição
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
-                www.linkedin.com/netflix
+                {lead.descricao}
               </StyledLeadDetailInfoValue>
             </StyledLeadDetailInfo>
           </StyledLeadDetailsInfo>
@@ -94,7 +120,7 @@ export const Oportunidade = () => {
           aria-label="tabs"
           indicatorColor="none"
           onChange={handleTabChange}
-          textColor="none"
+          textColor="inherit"
           value={selectedTab}
         >
           <Tab label="Contato Inicial" />

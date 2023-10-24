@@ -7,6 +7,7 @@ export const StyledOportunidade = styled(Box) `
   gap: 20px;
   width: 90%;
   height: 100%;
+  max-height: 650px;
   background-color: #F3EFEF;
   border: 1px solid #968B8B;
   box-sizing: border-box;
@@ -94,7 +95,8 @@ export const StyledProposta = styled(Box) `
 export const MainContainer = styled(Box)`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 550px;
+  max-height: 535px;
   margin: 0px 20px;
   padding: 10px 40px;
   background-color: #FFFFFF;

@@ -16,6 +16,7 @@ const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
 const CREATE_LEAD_URL = "/api/leads/"
 const GET_LEADS_URL = "/api/leads/"
+const GET_UNIQUE_LEAD_URL = "/api/leads/"
 const UPDATE_LEAD_URL = "/api/leads/"
 const DELETE_LEAD_URL = "/api/leads/"
 const CREATE_PROSPECCAO_URL = "/api/prospeccao/"
@@ -137,6 +138,7 @@ const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
 const getLeads = async user_id => await api.get(GET_LEADS_URL, { params: { user_id }  })
+const getUniqueLead = async id => await api.get(`${ GET_UNIQUE_LEAD_URL }${ id }/`)
 const updateLead = async (cnpj, data) => await api.patch(`${ UPDATE_LEAD_URL }${ cnpj }`, data)
 const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }` )
 const createProspeccao = async data => await api.post(CREATE_PROSPECCAO_URL, data)
@@ -148,4 +150,4 @@ const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { use
 const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_id }  })
 const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id } })
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getUniqueLead }
