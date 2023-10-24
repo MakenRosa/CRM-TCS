@@ -28,7 +28,7 @@ export const AppRouter = () =>
         <Route element={<RegisterLead />} path="leads/register" />
         <Route element={<Prospeccao />} path="oportunidades" />
         <Route element={<RegisterProspeccao />} path="oportunidades/register" />
-        <Route element={<Oportunidade />} path="oportunidades/:id" />
+        <Route element={<Oportunidade />} path="oportunidades/:leadId/:prospectId" />
         <Route element={<Teams />} path="equipes" />
       </Route>
       <Route element={<NotFound />} path="*" />

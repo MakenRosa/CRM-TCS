@@ -1,0 +1,85 @@
+[
+  {
+    "proposta": {
+      "nome": "Nome da Proposta",
+      "data": "01/01/2022",
+      "status": "Em andamento",
+      "somatorio": 1000,
+      "probabilidade": 0.8,
+      "tipoProjeto": "Projeto A",
+      "descricao": "Descrição da Proposta",
+      "consultor": "Consultor A",
+      "influenciador": "Influenciador A",
+      "perfilOrcamento": "Perfil A",
+      "materialInsumo": "Material A",
+      "servicos": "Serviço A",
+      "versao": "1"
+    },
+    "subPropostas": [
+      {
+        "nome": "Subproposta 1",
+        "data": "01/01/2022",
+        "status": "Em andamento",
+        "somatorio": 500,
+        "probabilidade": 0.6,
+        "tipoProjeto": "Projeto B",
+        "descricao": "Descrição da Subproposta 1",
+        "consultor": "Consultor B",
+        "influenciador": "Influenciador B",
+        "perfilOrcamento": "Perfil B",
+        "materialInsumo": "Material B",
+        "servicos": "Serviço B",
+        "versao": "1-A"
+      }
+    ]
+  },
+  {
+    "proposta": {
+      "nome": "Nome da Proposta",
+      "data": "01/01/2022",
+      "status": "Em andamento",
+      "somatorio": 1000,
+      "probabilidade": 0.8,
+      "tipoProjeto": "Projeto A",
+      "descricao": "Descrição da Proposta",
+      "consultor": "Consultor A",
+      "influenciador": "Influenciador A",
+      "perfilOrcamento": "Perfil A",
+      "materialInsumo": "Material A",
+      "servicos": "Serviço A",
+      "versao": "2"
+    },
+    "subPropostas": [
+      {
+        "nome": "Subproposta 1",
+        "data": "01/01/2022",
+        "status": "Em andamento",
+        "somatorio": 500,
+        "probabilidade": 0.6,
+        "tipoProjeto": "Projeto B",
+        "descricao": "Descrição da Subproposta 1",
+        "consultor": "Consultor B",
+        "influenciador": "Influenciador B",
+        "perfilOrcamento": "Perfil B",
+        "materialInsumo": "Material B",
+        "servicos": "Serviço B",
+        "versao": "2-A"
+      },
+      {
+        "nome": "Subproposta 2",
+        "data": "01/01/2022",
+        "status": "Em andamento",
+        "somatorio": 700,
+        "probabilidade": 0.7,
+        "tipoProjeto": "Projeto C",
+        "descricao": "Descrição da Subproposta 2",
+        "consultor": "Consultor C",
+        "influenciador": "Influenciador C",
+        "perfilOrcamento": "Perfil C",
+        "materialInsumo": "Material C",
+        "servicos": "Serviço C",
+        "versao": "2-B"
+      }
+    ]
+  }
+]
