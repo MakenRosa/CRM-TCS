@@ -18,8 +18,9 @@ class Proposta(models.Model):
     valor_proposta = models.FloatField()
     material_insumo = models.CharField(max_length=500)
     servicos = models.CharField()
+    somatorio = models.FloatField()
     tipo_contato = models.CharField()
-    data_tarefa = models.DateField()
+    versao = models.CharField()
+    ativa = models.BooleanField()
 
     prospeccao = models.ForeignKey(Prospeccao, on_delete=models.CASCADE, related_name='propostas')
-    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='propostas_lead')
