@@ -1,4 +1,4 @@
-import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout, Leads, RegisterLead, Prospeccao, RegisterProspeccao } from "pages"
+import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout, Leads, RegisterLead, Prospeccao, RegisterProspeccao, Teams } from "pages"
 import {
   Navigate,
   Route,
@@ -27,6 +27,7 @@ export const AppRouter = () =>
         <Route element={<RegisterLead />} path="leads/register" />
         <Route element={<Prospeccao />} path="oportunidades" />
         <Route element={<RegisterProspeccao />} path="oportunidades/register" />
+        <Route element={<Teams />} path="equipes" />
       </Route>
       <Route element={<NotFound />} path="*" />
     </Routes>

@@ -10,10 +10,8 @@ Usuario = get_user_model()
 class UsuarioSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = Usuario
-        fields = ('id', 'email', 'password', 'first_name', 'cpf')
+        fields = ('id', 'email', 'password', 'first_name', 'cpf', 'last_name', 'is_staff')
 
 class InviteSerializer(serializers.Serializer):
     to = serializers.EmailField()
-    subject = serializers.CharField(max_length=200)
-    message = serializers.CharField()
 

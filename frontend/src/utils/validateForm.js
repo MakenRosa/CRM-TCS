@@ -1,8 +1,24 @@
 import { toast } from "react-toastify"
 
+const MIN_NAME_LENGTH = 2
 const MIN_PASSWORD_LENGTH = 8 
 
-const isValidForm = ({ email, password: senha, re_password: confirmSenha }, login=false) => {
+const isValidForm = ({ first_name, last_name, email, password: senha, re_password: confirmSenha }, login=false) => {
+  if(!login) {
+    if (!first_name) {
+      toast.error('O nome é obrigatório')
+      return false
+    } else if (first_name.length < MIN_NAME_LENGTH) {
+      toast.error('O nome deve ter no mínimo 2 caracteres')
+      return false
+    } else if (!last_name) {
+      toast.error('O sobrenome é obrigatório')
+      return false
+    } else if (last_name.length < MIN_NAME_LENGTH) {
+      toast.error('O sobrenome deve ter no mínimo 2 caracteres')
+      return false
+    } 
+  }
   if (!validateEmail(email)) {
     return false
   }
@@ -165,4 +181,4 @@ const validateProspection = prospection => {
 }
 
 
-export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword, validateLead, validateProspection }
+export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword, validateLead, validateProspection, validateEmail }

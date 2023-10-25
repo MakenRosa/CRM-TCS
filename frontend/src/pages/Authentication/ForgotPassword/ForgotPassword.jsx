@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { Button, Form, TextField } from "components"
 import { Email } from "@mui/icons-material"
 import { Link, useNavigate } from "react-router-dom"
@@ -33,10 +34,13 @@ export const ForgotPassword = () => {
     }
     try {
       await resetPassword(user)
+      toast.success("Um e-mail foi enviado para você com o link para redefinir sua senha!")
       navigate('/login')
     } catch (error) {
       sessionStorage.removeItem("access")
       sessionStorage.removeItem("refresh")
+      sessionStorage.removeItem("user_id")
+      toast.error("Erro ao enviar e-mail!")
       setEmail('')
     } finally {
       setLoading(false)

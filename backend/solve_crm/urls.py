@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
-from usuario.views import UsuarioViewSet, InviteView, ativacao
+from usuario.views import UsuarioViewSet, InviteView, ativacao, exclusao_membro
 from rest_framework import routers
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -32,7 +32,10 @@ urlpatterns = [
     path('api/leads/', include('lead.urls')),
     path('auth/', include('usuario.urls')),
     path('api/prospeccao/', include('prospeccao.urls')),
+    path('api/proposta/', include('proposta.urls')),
     path('api/totals/', include('dashboard.urls')),
+    path('api/grupo/', include('grupo.urls')),
+    path('api/grupo/excluir/', exclusao_membro, name='exclusao'),
    
 ]
 
