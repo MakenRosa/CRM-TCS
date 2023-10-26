@@ -24,3 +24,13 @@ class Proposta(models.Model):
     ativa = models.BooleanField()
 
     prospeccao = models.ForeignKey(Prospeccao, on_delete=models.CASCADE, related_name='propostas')
+
+class Tarefa(models.Model):
+    tipo_contato = models.CharField(max_length=100)
+    data_cadastro = models.DateField()
+    hora_cadastrado = models.TimeField()
+    membro_equipe = models.CharField(max_length=100)
+    nome_negocio = models.CharField(max_length=100)
+    responsavel_negocio = models.CharField(max_length=100)
+    concluida = models.BooleanField()
+    proposta = models.ForeignKey(Proposta, on_delete=models.DO_NOTHING)

@@ -2,10 +2,10 @@ import math
 from rest_framework import generics, status
 from rest_framework.response import Response
 
-from .models import Proposta
-from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate
+
+from .models import Proposta, Tarefa
+from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate, TarefaSerializerInsert
 from django.db.models import Q
-from usuario.models import Usuario
 from django.db.models import Max
 from .utils import Versionamento
 
@@ -118,3 +118,33 @@ def organizar_propostas(propostas):
             propostas_agrupadas[versao]["proposta"] = PropostaSerializerInsert(proposta).data
     
     return propostas_agrupadas
+
+class TarefaView(generics.GenericAPIView):
+    serializer_class = TarefaSerializerInsert
+
+    def get(self, request):
+        page_num = int(request.GET.get("page", 1))
+        limit_num = int(request.GET.get("limit", 10))
+        start_num = (page_num - 1) * limit_num
+        end_num = limit_num * page_num
+        proposta_id = request.GET.get("proposta_id")
+        tarefas = Tarefa.objects.filter(proposta=proposta_id)
+        total_tarefas = len(tarefas)
+        tarefas_paginadas = list(tarefas.values())[start_num:end_num]
+
+
+        return Response({
+                "message": "Tarefas encontradas",
+                "total": total_tarefas,
+                "page": page_num,
+                "last_page": math.ceil(total_tarefas / limit_num),
+                "tarefas": tarefas_paginadas
+        })
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": {"message": "Tarefa registrada com sucesso", "tarefa": serializer.data}}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
