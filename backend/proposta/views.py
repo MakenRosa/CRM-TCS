@@ -6,6 +6,7 @@ from .models import Proposta
 from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate
 from django.db.models import Q
 from usuario.models import Usuario
+from django.db.models import Max
 from .utils import Versionamento
 
 
@@ -100,8 +101,8 @@ def gerar_versao(data):
     id = data.get('id')
     versao = Versionamento.incrementar_versao(id)
     data['versao'] = str(versao)
-    if id:
-        data['id'] = id + 1
+    maior_id = Proposta.objects.aggregate(maior_id=Max('id'))['maior_id']
+    data['id'] = maior_id + 1
     return data
 
 def organizar_propostas(propostas):
