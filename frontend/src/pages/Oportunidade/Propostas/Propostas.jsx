@@ -33,7 +33,7 @@ const StyledFlexBox = styled(Box)`
 `
 
 export const Propostas = () => (
-  <Box display={"flex"} flexDirection={"column"} margin={"20px"} minHeight={"500px"} paddingBottom={"20px"} width={1}>
+  <Box display={"flex"} flexDirection={"column"} margin={"10px"} minHeight={"500px"} width={1}>
     <StyledButtons>
       <StyledButtonsGroup>
         <StyledButton variant={"primary"}>Venda</StyledButton>

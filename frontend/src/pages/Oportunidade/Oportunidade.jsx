@@ -5,6 +5,7 @@ import { getUniqueLead, getUniqueProspeccao } from "utils"
 import { ContatoInicial } from "./ContatoInicial"
 import { MainContainer, StyledLeadDetailInfo, StyledLeadDetailInfoTitle, StyledLeadDetailInfoValue, StyledLeadDetails, StyledLeadDetailsInfo, StyledLeadDetailsTitle, StyledLeadInfo, StyledLeadTitle, StyledOportunidade, StyledProposta, StyledTabs } from "./Oportunidade.styles"
 import { Propostas } from "./Propostas"
+import { Tarefas } from "./Tarefas"
 
 export const Oportunidade = () => {
   const [selectedTab, setSelectedTab] = useState(0)
@@ -44,7 +45,7 @@ export const Oportunidade = () => {
         return <Propostas />
         // eslint-disable-next-line no-magic-numbers
       case 2:
-        return <div>Conteúdo das Tarefas</div>
+        return <Tarefas />
         // eslint-disable-next-line no-magic-numbers
       case 3:
         return <div>Conteúdo do Histórico Lead</div>

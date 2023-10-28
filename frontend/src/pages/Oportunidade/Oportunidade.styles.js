@@ -89,16 +89,15 @@ export const StyledLeadDetailInfoValue = styled(Typography) `
 export const StyledProposta = styled(Box) `
   width: 75%;
   height: 100%;
-  margin-top: 20px;
   margin-right: 50px;
 `
 export const MainContainer = styled(Box)`
   display: flex;
   width: 100%;
-  height: 550px;
-  max-height: 535px;
+  height: 100%;
+  max-height: 550px;
   margin: 0px 20px;
-  padding: 10px 40px;
+  padding: 10px 20px;
   background-color: #FFFFFF;
   border: 1px solid #E0E0E0;
   gap: 10px;
