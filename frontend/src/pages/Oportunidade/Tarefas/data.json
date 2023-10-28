@@ -1,0 +1,34 @@
+{
+  "tarefas": [
+    {
+      "id": 1,
+      "titulo": "Tarefa 1",
+      "data": "01/01/2022",
+      "negocio": "Negócio 1",
+      "responsavel": "Responsável 1",
+      "consultor": "Consultor 1",
+      "tipo": "Mensagem",
+      "status": "Planejada"
+    },
+    {
+      "id": 2,
+      "titulo": "Tarefa 2",
+      "data": "23/11/2023",
+      "negocio": "Negócio 2",
+      "responsavel": "Responsável 2",
+      "consultor": "Consultor 2",
+      "tipo": "Reunião",
+      "status": "Planejada"
+    },
+    {
+      "id": 3,
+      "titulo": "Tarefa 3",
+      "data": "03/01/2022",
+      "negocio": "Negócio 3",
+      "responsavel": "Responsável 3",
+      "consultor": "Consultor 3",
+      "tipo": "Ligação",
+      "status": "Concluida"
+    }
+  ]
+}
