@@ -6,6 +6,7 @@ import { ContatoInicial } from "./ContatoInicial"
 import { MainContainer, StyledLeadDetailInfo, StyledLeadDetailInfoTitle, StyledLeadDetailInfoValue, StyledLeadDetails, StyledLeadDetailsInfo, StyledLeadDetailsTitle, StyledLeadInfo, StyledLeadTitle, StyledOportunidade, StyledProposta, StyledTabs } from "./Oportunidade.styles"
 import { Propostas } from "./Propostas"
 import { Tarefas } from "./Tarefas"
+import { HistoricoLead } from "./HistoricoLead"
 
 export const Oportunidade = () => {
   const [selectedTab, setSelectedTab] = useState(0)
@@ -48,7 +49,7 @@ export const Oportunidade = () => {
         return <Tarefas />
         // eslint-disable-next-line no-magic-numbers
       case 3:
-        return <div>Conteúdo do Histórico Lead</div>
+        return <HistoricoLead />
       default:
         return null
     }
