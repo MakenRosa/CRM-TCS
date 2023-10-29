@@ -1,8 +1,8 @@
 import { PropTypes } from 'prop-types'
 import { memo } from 'react'
-import { StyledCard, StyledCardBox, StyledCardIcon, StyledCardTitle, StyledCardValue } from '.'
+import { StyledCard, StyledCardBox, StyledCardIcon, StyledCardTitle, StyledCardValue } from './InfoCard.styles'
 
-export const DashboardCard = memo(({ title, value, icon, color }) => (
+export const InfoCard = memo(({ title, value, icon, color }) => (
   <StyledCard color={color}>
     <StyledCardTitle>
       {title}
@@ -18,9 +18,9 @@ export const DashboardCard = memo(({ title, value, icon, color }) => (
   </StyledCard>
   ))
 
-DashboardCard.displayName = 'DashboardCard'
+InfoCard.displayName = 'InfoCard'
 
-DashboardCard.propTypes = {
+InfoCard.propTypes = {
   color: PropTypes.string,
   icon: PropTypes.element.isRequired,
   title: PropTypes.string.isRequired,
