@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/grupo/', include('grupo.urls')),
     path('api/grupo/excluir/', exclusao_membro, name='exclusao'),
     path('api/historico/', include('historico.urls')),
+    path('api/graficos/', include('motor_bi.urls')),
    
 ]
 
