@@ -34,3 +34,16 @@ class Tarefa(models.Model):
     responsavel_negocio = models.CharField(max_length=100)
     concluida = models.BooleanField()
     proposta = models.ForeignKey(Proposta, on_delete=models.DO_NOTHING)
+
+
+class Venda(models.Model):
+    data_fechamento = models.DateField()
+    status_proposta = models.CharField(max_length=255)
+    valor_proposta = models.FloatField()
+    proposta = models.ForeignKey(Proposta, on_delete=models.DO_NOTHING)
+
+class Perdido(models.Model):
+    data_fechamento = models.DateField()
+    status_proposta = models.CharField(max_length=255)
+    motivo = models.CharField(max_length=255)
+    proposta = models.ForeignKey(Proposta, on_delete=models.DO_NOTHING)
