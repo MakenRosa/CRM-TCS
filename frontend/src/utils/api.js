@@ -35,7 +35,9 @@ const GET_TOTALS_URL = "/api/totals/"
 const refreshToken = async () => {
   const refresh_token = sessionStorage.getItem("refresh")
   try {
-    const response = await api.post(REFRESH_TOKEN_URL, {}, {
+    const response = await api.post(REFRESH_TOKEN_URL, {
+      refresh: refresh_token
+    }, {
       headers: { Authorization: `Bearer ${ refresh_token }` }
     })
     sessionStorage.setItem("access", response.data.access)
@@ -114,20 +116,17 @@ const verifyToken = async () => {
   const token = sessionStorage.getItem("access")
   if (!token) {return false}
   
-  try {
     const decoded = jwtDecode(token)
     const currentTime = Date.now() / MS_PER_SECOND
     const isValid = decoded.exp > currentTime
     
-    if (!isValid) {
+    if (isValid) {
       await refreshToken()
+      return isValid
     }
-    
-    return isValid
-  } catch (error) {
     return false
-  }
 }
+
 
 const getUser = async id => await api.get(`${ GET_USER_URL }${ id }/`)
 const loginUser = user => api.post(LOGIN_URL, user)
