@@ -1,89 +1,45 @@
 /* eslint-disable no-magic-numbers */
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PropTypes from "prop-types"
-import { ExpandLess, ExpandMore, MoreHorizOutlined, RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material"
-import { Box, Card, Checkbox, Divider, IconButton, Typography, styled } from "@mui/material"
+import { ExpandLess, ExpandMore, RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material"
+import { Box, IconButton, Typography } from "@mui/material"
+import { getUser } from "utils"
+import { toast } from "react-toastify"
+import { CircleNumber, InsideContent, PropostaCard, PropostaHeader, StyledCheckbox, StyledDivider, StyledSubPropostas } from "./Proposta.styles"
 
-const PropostaCard = styled(Card)`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px 20px 20px;
-  margin-top: 10px;
-  border: 1px solid #8F8B8B;
-  box-shadow: none;
-  border-radius: 8px;
-  overflow: visible;  
-`
-
-const PropostaHeader = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`
-
-const StyledCheckbox = styled(Checkbox)`
-  margin-left: -20px;
-  margin-top: -20px;
-  margin-right: 15px;
-`  
-
-const InsideContent = styled(Box)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  gap: 120px;
-`
-
-const StyledSubPropostas = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  margin-left: 80px;
-  overflow: visible;
-`
-
-const StyledDivider = styled(Divider)`
-  margin-left: 30px;
-  margin-right: -60px;
-`
-
-const CircleNumber = styled(Box)`
-  display: flex;
-  font-size: 14px;
-  font-weight: 600;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #8d8d8d;
-  color: #fff;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  position: absolute;
-  left: -36px;
-  top: 40%;
-  z-index: 10;
-`
-
-
-export const Proposta = ({ proposta, subPropostas, marginBottom }) => {
+export const Proposta = ({ proposta, subPropostas, marginBottom, onCheckboxChange, isChecked, showCheckbox=true }) => {
   const [collapsed, setCollapsed] = useState(false)
+  const [consultor, setConsultor] = useState("")
+
+  useEffect(() => {
+    async function fetchConsultor () {
+      try {
+        const response = await getUser(proposta.consultor_prop)
+        setConsultor(`${ response.data.first_name  } ${  response.data.last_name }`)
+      }
+      catch (error) {
+        toast.error("Erro ao buscar consultor")
+      }
+    }
+    fetchConsultor()
+  }, [])
 
   return (
     <Box display="flex" flexDirection="column" marginBottom={marginBottom}>
       <PropostaCard>
         <CircleNumber>{proposta.versao}</CircleNumber>
         <PropostaHeader>
-          <StyledCheckbox checkedIcon={<RadioButtonChecked />} icon={<RadioButtonUnchecked />} size="small" />
+          {showCheckbox && <StyledCheckbox
+            checked={isChecked}
+            checkedIcon={<RadioButtonChecked />}
+            icon={<RadioButtonUnchecked />}
+            onChange={() => onCheckboxChange(proposta)}
+            size="small"
+          />}
           <Typography component="div" sx={{ flexGrow: 1 }} variant="h5">
-            {proposta.nome}
+            {proposta.nome_proposta}
           </Typography>
           <Box>
-            <IconButton>
-              <MoreHorizOutlined fontSize="large" />
-            </IconButton>
             <IconButton onClick={() => setCollapsed(!collapsed)}>
               {collapsed ? <ExpandLess sx={{ color: "#5038ed" }} /> : <ExpandMore sx={{ color: "#5038ed" }} />}
             </IconButton>
@@ -91,29 +47,29 @@ export const Proposta = ({ proposta, subPropostas, marginBottom }) => {
         </PropostaHeader>
         { !collapsed &&
           <Box display="flex" flexDirection="row" fontSize="12px" justifyContent="space-between" marginX="40px">
-            <Typography variant="body1">{proposta.data}</Typography>
-            <Typography variant="body1">{proposta.status}</Typography>
-            <Typography variant="body1">{proposta.somatorio}</Typography>
-            <Typography variant="body1">{proposta.probabilidade * 100}%</Typography>
-            <Typography variant="body1">{proposta.tipoProjeto}</Typography>
+            <Typography variant="body1">{proposta.data_cadastro}</Typography>
+            <Typography variant="body1">{proposta.status_proposta}</Typography>
+            <Typography variant="body1">R${proposta.valor_proposta.toFixed(2).replace('.', ',')}</Typography>
+            <Typography variant="body1">{proposta.prob_fechamento.includes("%") ? proposta.prob_fechamento : `${ proposta.prob_fechamento }%`} </Typography>
+            <Typography variant="body1">{proposta.tipo_projeto}</Typography>
           </Box>
             }
         {collapsed && (
           <InsideContent>
             <Box display="flex" flexDirection="column" gap="10px">
-              <Typography variant="body1">{proposta.descricao}</Typography>
-              <Typography variant="body1">{proposta.consultor}</Typography>
-              <Typography variant="body1">{proposta.tipoProjeto}</Typography>
-              <Typography variant="body1">{proposta.influenciador}</Typography>
-              <Typography variant="body1">{proposta.perfilOrcamento}</Typography>
+              <Typography variant="body1">{proposta.desc_proposta}</Typography>
+              <Typography variant="body1">{consultor}</Typography>
+              <Typography variant="body1">{proposta.tipo_projeto}</Typography>
+              <Typography variant="body1">{proposta.influenciador_decisor}</Typography>
+              <Typography variant="body1">{proposta.perfil_orcamento}</Typography>
             </Box>
             <Box display="flex" flexDirection="column" gap="10px" marginTop="-20px">
-              <Typography variant="body1">{proposta.data}</Typography>
-              <Typography variant="body1">{proposta.probabilidade * 100}%</Typography>
-              <Typography variant="body1">{proposta.status}</Typography>
-              <Typography variant="body1">{proposta.materialInsumo}</Typography>
+              <Typography variant="body1">{proposta.data_cadastro}</Typography>
+              <Typography variant="body1">{proposta.prob_fechamento.includes("%") ? proposta.prob_fechamento : `${ proposta.prob_fechamento }%`} </Typography>
+              <Typography variant="body1">{proposta.status_proposta}</Typography>
+              <Typography variant="body1">{proposta.material_insumo}</Typography>
               <Typography variant="body1">{proposta.servicos}</Typography>
-              <Typography variant="body1">{proposta.somatorio}</Typography>
+              <Typography variant="body1">{proposta.valor_proposta}</Typography>
             </Box>
           </InsideContent>
             )}
@@ -122,7 +78,7 @@ export const Proposta = ({ proposta, subPropostas, marginBottom }) => {
         <StyledDivider flexItem orientation="vertical" />
         <StyledSubPropostas marginLeft="20px" overflow={"auto"} width={1}>
           {subPropostas && subPropostas.map((subProposta, index) => (
-            <Proposta key={index} proposta={subProposta} />
+            <Proposta key={index} proposta={subProposta} showCheckbox={false} />
             ))}
         </StyledSubPropostas>
       </Box>
@@ -131,7 +87,10 @@ export const Proposta = ({ proposta, subPropostas, marginBottom }) => {
 }
 
 Proposta.propTypes = {
+  isChecked: PropTypes.bool,
   marginBottom: PropTypes.string,
+  onCheckboxChange: PropTypes.func,
   proposta: PropTypes.object,
+  showCheckbox: PropTypes.bool,
   subPropostas: PropTypes.arrayOf(PropTypes.object)
 }
