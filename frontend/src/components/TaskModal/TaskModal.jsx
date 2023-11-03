@@ -80,7 +80,6 @@ const formatDate = dateStr => {
 
 export const TaskModal = ({ open, onClose, setSelectedTarefa, task = null }) => {  
   const [selectedValue, setSelectedValue] = useState( task?.tipo ? task.tipo : 'Ligação')
-  console.log(task)
   const [data, setData] = useState({})
 
   useEffect(() => {
