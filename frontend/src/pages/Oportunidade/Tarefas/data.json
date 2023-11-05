@@ -2,33 +2,47 @@
   "tarefas": [
     {
       "id": 1,
-      "titulo": "Tarefa 1",
-      "data": "01/01/2022",
-      "negocio": "Negócio 1",
-      "responsavel": "Responsável 1",
-      "consultor": "Consultor 1",
-      "tipo": "Mensagem",
-      "status": "Planejada"
+      "tipo_contato": "Reunião",
+      "data_cadastro": "2020-10-10",
+      "hora_cadastrado": "10:00",
+      "membro_equipe": "João",
+      "nome_negocio": "Negócio 1",
+      "responsavel_negocio": "João",
+      "concluida": true,
+      "proposta": 1
     },
     {
       "id": 2,
-      "titulo": "Tarefa 2",
-      "data": "23/11/2023",
-      "negocio": "Negócio 2",
-      "responsavel": "Responsável 2",
-      "consultor": "Consultor 2",
-      "tipo": "Reunião",
-      "status": "Planejada"
+      "tipo_contato": "E-mail",
+      "data_cadastro": "2024-11-11",
+      "hora_cadastrado": "11:00",
+      "membro_equipe": "Maria",
+      "nome_negocio": "Negócio 2",
+      "responsavel_negocio": "Maria",
+      "concluida": false,
+      "proposta": 2
     },
     {
       "id": 3,
-      "titulo": "Tarefa 3",
-      "data": "03/01/2022",
-      "negocio": "Negócio 3",
-      "responsavel": "Responsável 3",
-      "consultor": "Consultor 3",
-      "tipo": "Ligação",
-      "status": "Concluida"
+      "tipo_contato": "Ligação",
+      "data_cadastro": "2023-12-12",
+      "hora_cadastrado": "12:00",
+      "membro_equipe": "Carlos",
+      "nome_negocio": "Negócio 3",
+      "responsavel_negocio": "Carlos",
+      "concluida": false,
+      "proposta": 3
+    },
+    {
+      "id": 4,
+      "tipo_contato": "Mensagem",
+      "data_cadastro": "2021-01-01",
+      "hora_cadastrado": "13:00",
+      "membro_equipe": "Ana",
+      "nome_negocio": "Negócio 4",
+      "responsavel_negocio": "Ana",
+      "concluida": true,
+      "proposta": 4
     }
   ]
 }

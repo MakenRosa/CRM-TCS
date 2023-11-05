@@ -27,6 +27,7 @@ const DELETE_PROSPECCAO_URL = "/api/prospeccao/"
 const GET_TEAMS_URL = "/api/grupo/"
 const GET_PROPOSTA_URL = "/api/proposta/"
 const CREATE_PROPOSTA_URL = "/api/proposta/"
+const GET_TAREFA_URL = "/api/proposta/tarefa/"
 
 const SEND_GROUP_INVITE_URL = "/send_email/"
 
@@ -152,5 +153,6 @@ const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_i
 const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id } })
 const getProposta = async user_id => await api.get(GET_PROPOSTA_URL, { params: { user_id }  })
 const createProposta = async data => await api.post(CREATE_PROPOSTA_URL, data)
+const getTarefa = async user_id => await api.get(GET_TAREFA_URL, { params: { user_id }  })
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getUniqueLead, getProposta, createProposta }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getUniqueLead, getProposta, createProposta, getTarefa }
