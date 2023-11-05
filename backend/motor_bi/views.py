@@ -4,7 +4,26 @@ import matplotlib.gridspec as gridspec
 from django.http import FileResponse
 from .processamento import ProcessamentoBi
 from proposta.models import Venda
+from django.http import JsonResponse
 
+
+def gerar_dados_bi(request):
+    motor = ProcessamentoBi()
+    dados_prospeccao_lead = motor.indice_prospeccoes_por_leads(request.GET.get("user_id"))
+    dados_proposta_prospeccao = motor.indice_proposta_por_prospeccoes(request.GET.get("user_id"))
+    dados_vendas_proposta = motor.indice_vendas_por_propostas(request.GET.get("user_id"))
+    dados_vendas_prospeccoes = motor.indice_vendas_por_prospeccoes(request.GET.get("user_id"))
+    funil = motor.funil(request.GET.get("user_id"))
+    data = {
+            'prospeccao_lead': dados_prospeccao_lead,
+            'proposta_prospeccao': dados_proposta_prospeccao,
+            'vendas_proposta': dados_vendas_proposta,
+            'vendas_prospeccao': dados_vendas_prospeccoes,
+            'funil': funil
+        }
+        
+    return JsonResponse(data)
+        
 
 def criar_grafico_pizza_barras(item_1, item_2, nome_item_1, nome_item_2, filepath="/tmp/chart.png", filename="chart.png"):
     labels = [nome_item_1, nome_item_2]
