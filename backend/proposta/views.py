@@ -1,11 +1,13 @@
 import math
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .models import Proposta
-from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate
+
+
+from .models import Proposta, Tarefa
+from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate, TarefaSerializerInsert
 from django.db.models import Q
-from usuario.models import Usuario
-from lead.models import Lead
+from django.db.models import Max
+from .utils import Versionamento
 
 
 class PropostaView(generics.GenericAPIView):
@@ -17,30 +19,26 @@ class PropostaView(generics.GenericAPIView):
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
-
-        propostas = Proposta.objects.all()
-
+        user_id = request.GET.get("user_id")
+        propostas = Proposta.objects.filter(consultor_prop=user_id)
         if search_param:
             propostas = propostas.filter(criar_filtro_pesquisa_proposta(search_param))
 
-        total_propostas = propostas.count()
+        propostas_agrupadas = organizar_propostas(propostas)
+        total_propostas = len(propostas_agrupadas)
+        propostas_paginadas = list(propostas_agrupadas.values())[start_num:end_num]
 
-        propostas_paginadas = propostas[start_num:end_num]
-
-        serializer = self.serializer_class(propostas_paginadas, many=True)
 
         return Response({
-            "data": {
                 "message": "Propostas encontradas",
                 "total": total_propostas,
                 "page": page_num,
                 "last_page": math.ceil(total_propostas / limit_num),
-                "propostas": serializer.data
-            }
+                "propostas": propostas_paginadas
         })
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=gerar_versao(request.data))
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": {"message": "Proposta registrada com sucesso", "proposta": serializer.data}}, status=status.HTTP_201_CREATED)
@@ -99,12 +97,54 @@ def criar_filtro_pesquisa_proposta(search_param):
 
     return search_conditions
 
-def gerar_versao(id):
-    ultima_versao_proposta = Proposta.objects.get(id=id).versao
-    return ultima_versao_proposta + 1
+def gerar_versao(data):
+    id = data.get('id')
+    versao = Versionamento.incrementar_versao(id)
+    data['versao'] = str(versao)
+    maior_id = Proposta.objects.aggregate(maior_id=Max('id'))['maior_id']
+    data['id'] = maior_id + 1
+    return data
 
-def get_nome_usuario(id_prospecao):
-    lead = Proposta.objects.get(id=id_prospecao).lead
-    user = Lead.objects.get(id=lead.id).user
-    email = Usuario.objects.get(id=user.id).email
-    return email.split('@')[0]
+def organizar_propostas(propostas):
+    propostas = propostas.order_by('versao', 'id')
+    propostas_agrupadas = {}
+    for proposta in propostas:
+        versao = proposta.versao.split('-')[0]  # Obter a parte antes do hífen
+        if versao not in propostas_agrupadas:
+            propostas_agrupadas[versao] = {"proposta": None, "subPropostas": []}
+        if '-' in proposta.versao:
+            propostas_agrupadas[versao]["subPropostas"].append(PropostaSerializerInsert(proposta).data)
+        else:
+            propostas_agrupadas[versao]["proposta"] = PropostaSerializerInsert(proposta).data
+    
+    return propostas_agrupadas
+
+class TarefaView(generics.GenericAPIView):
+    serializer_class = TarefaSerializerInsert
+
+    def get(self, request):
+        page_num = int(request.GET.get("page", 1))
+        limit_num = int(request.GET.get("limit", 10))
+        start_num = (page_num - 1) * limit_num
+        end_num = limit_num * page_num
+        proposta_id = request.GET.get("proposta_id")
+        tarefas = Tarefa.objects.filter(proposta=proposta_id)
+        total_tarefas = len(tarefas)
+        tarefas_paginadas = list(tarefas.values())[start_num:end_num]
+
+
+        return Response({
+                "message": "Tarefas encontradas",
+                "total": total_tarefas,
+                "page": page_num,
+                "last_page": math.ceil(total_tarefas / limit_num),
+                "tarefas": tarefas_paginadas
+        })
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": {"message": "Tarefa registrada com sucesso", "tarefa": serializer.data}}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)

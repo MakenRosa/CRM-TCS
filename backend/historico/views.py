@@ -15,7 +15,6 @@ class HistoricoView(views.APIView):
             "lead_historico": lead,
             "prospeccao_historico": prospeccao
             }
-        print(historico_data)
         results = HistoricoSerializer(historico_data).data
         return Response(results)
     
