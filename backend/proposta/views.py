@@ -3,8 +3,8 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 
 
-from .models import Proposta, Tarefa
-from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate, TarefaSerializerInsert
+from .models import Proposta, Tarefa, Venda, Perdido
+from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate, TarefaSerializerInsert, VendaSerializer, PerdidoSerializer
 from django.db.models import Q
 from django.db.models import Max
 from .utils import Versionamento
@@ -146,5 +146,69 @@ class TarefaView(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": {"message": "Tarefa registrada com sucesso", "tarefa": serializer.data}}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class VendaView(generics.GenericAPIView):
+
+    serializer_class = VendaSerializer
+
+    def get(self, request):
+        page_num = int(request.GET.get("page", 1))
+        limit_num = int(request.GET.get("limit", 10))
+        start_num = (page_num - 1) * limit_num
+        end_num = limit_num * page_num
+        proposta_id = request.GET.get("proposta_id")
+        vendas = Venda.objects.filter(proposta=proposta_id)
+        total_vendas = len(vendas)
+        vendas_paginadas = list(vendas.values())[start_num:end_num]
+
+
+        return Response({
+                "message": "vendas encontradas",
+                "total": total_vendas,
+                "page": page_num,
+                "last_page": math.ceil(total_vendas / limit_num),
+                "vendas": vendas_paginadas
+        })
+
+    def post(self, request):
+        proposta = Proposta.objects.get(id=request.data.get('proposta'))
+        request.data['valor_proposta'] = proposta.valor_proposta
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": {"message": "Venda registrada com sucesso", "venda": serializer.data}}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
+        
+class PerdidoView(generics.GenericAPIView):
+    serializer_class = PerdidoSerializer
+
+    def get(self, request):
+        page_num = int(request.GET.get("page", 1))
+        limit_num = int(request.GET.get("limit", 10))
+        start_num = (page_num - 1) * limit_num
+        end_num = limit_num * page_num
+        proposta_id = request.GET.get("proposta_id")
+        perdidos = Perdido.objects.filter(proposta=proposta_id)
+        total_perdidos = len(perdidos)
+        perdidos_paginadas = list(perdidos.values())[start_num:end_num]
+
+
+        return Response({
+                "message": "perdidos encontradas",
+                "total": total_perdidos,
+                "page": page_num,
+                "last_page": math.ceil(total_perdidos / limit_num),
+                "perdidos": perdidos_paginadas
+        })
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"status": "success", "data": {"message": "Perdido registrada com sucesso", "perdido": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
