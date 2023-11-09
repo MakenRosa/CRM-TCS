@@ -6,7 +6,6 @@ import { getTotals } from 'utils'
 import { StyledCardsBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
 
 export const Dashboard = () => {
-  const [team, setTeam] = useState('Equipe Rocket')
   const [funnel, setFunnel] = useState('Todos')
   const [period, setPeriod] = useState('Diário')
   const [totals, setTotals] = useState({
@@ -56,7 +55,6 @@ export const Dashboard = () => {
   const user_id = sessionStorage.getItem('user_id')
 
   const ClearFilters = () => {
-    setTeam('Equipe Rocket')
     setFunnel('Todos')
     setPeriod('Diário')
   }
@@ -73,17 +71,6 @@ export const Dashboard = () => {
   return (
     <StyledDashboard>
       <StyledFilterBox>
-        <StyledFilter>
-          <StyledLabel variant="p">
-            Usuário/Equipe
-          </StyledLabel>
-          <StyledSelect onChange={e => setTeam(e.target.value)} value={team}>
-            <MenuItem value="Equipe Rocket">Equipe Rocket</MenuItem>
-            <MenuItem value="Equipe Aqua">Equipe Aqua</MenuItem>
-            <MenuItem value="Equipe Magma">Equipe Magma</MenuItem>
-            <MenuItem value="Equipe Plasma">Equipe Plasma</MenuItem>
-          </StyledSelect>
-        </StyledFilter>
         <StyledFilter>
           <StyledLabel variant="p">
             Funil

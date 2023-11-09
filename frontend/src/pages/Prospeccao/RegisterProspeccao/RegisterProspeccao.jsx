@@ -8,7 +8,8 @@ import {
   StyledRegisterForm,
   StyledRegisterSection,
   StyledRegisterTextField,
-  StyledRegisterTitle
+  StyledRegisterTitle,
+  StyledTextField
 } from "components"
 import {  CircularProgress, MenuItem } from "@mui/material"
 import { useEffect, useState } from "react"
@@ -183,7 +184,7 @@ export const RegisterProspeccao = () => {
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Canais de Comunicação</StyledSectionTitle>
               <StyledRegisterTextField label="Preferência de Contato" onChange={handlePreferenciaContato} size="small" value={preferenciaContato} />
-              <StyledRegisterTextField label="Horário para Contato" onChange={handleHorarioContato} size="small" value={horarioContato} />
+              <StyledTextField defaultValue="12:00" label="Horário de Contato" name="hora" onChange={handleHorarioContato} size="small" type="time" value={horarioContato} />
             </StyledRegisterProspeccaoSection>
             
             <StyledRegisterProspeccaoSection>
