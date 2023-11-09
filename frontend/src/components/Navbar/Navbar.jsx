@@ -93,10 +93,9 @@ export const Navbar = () => {
     { label: "Início", route: "dashboard" },
     { label: "Leads", route: "leads" },
     { label: "Oportunidades", route: "oportunidades" },
-    { label: "Tarefas", route: "tarefas" },
     { label: "Relatórios", route: "relatorios" },
     { label: "Configurações", route: "configuracoes" },
-    { label: "Administração", route: "equipes" }
+    { label: "Grupo", route: "equipe" }
   ]
 
   return (
