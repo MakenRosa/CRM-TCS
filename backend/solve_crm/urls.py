@@ -1,7 +1,5 @@
-from django.contrib import admin
-from django.urls import path, include, re_path
-from usuario.views import UsuarioViewSet, InviteView, ativacao, exclusao_membro
-from rest_framework import routers
+from django.urls import path, include
+from usuario.views import InviteView, ativacao, exclusao_membro
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -21,11 +19,8 @@ schema_view = get_schema_view(
 
 
 #rotas
-router = routers.DefaultRouter()
-
 
 urlpatterns = [
-    path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
     path('send_email/', InviteView.as_view(), name='send_email'),
     path('activation/', ativacao, name='ativacao'),
@@ -36,6 +31,8 @@ urlpatterns = [
     path('api/totals/', include('dashboard.urls')),
     path('api/grupo/', include('grupo.urls')),
     path('api/grupo/excluir/', exclusao_membro, name='exclusao'),
+    path('api/historico/', include('historico.urls')),
+    path('api/graficos/', include('motor_bi.urls')),
    
 ]
 
@@ -47,7 +44,7 @@ urlpatterns += [
 
 # swagger
 urlpatterns += [
-   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),  # noqa E501
-   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),  # noqa E501
+   path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'), 
+   path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),  
    
 ]

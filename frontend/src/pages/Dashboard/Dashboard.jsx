@@ -1,9 +1,9 @@
 import { MenuItem } from '@mui/material'
-import { Button } from 'components'
+import { Button, InfoCard } from 'components'
 import { useEffect, useState } from 'react'
 import { AccountTree, Leaderboard, Person } from '@mui/icons-material'
 import { getTotals } from 'utils'
-import { DashboardCard, StyledCardsBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
+import { StyledCardsBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
 
 export const Dashboard = () => {
   const [funnel, setFunnel] = useState('Todos')
@@ -99,7 +99,7 @@ export const Dashboard = () => {
       </StyledFilterBox>      
       <StyledCardsBox>
         {cardData.map((card, index) => (
-          <DashboardCard 
+          <InfoCard 
             icon={card.icon}
             key={index}
             title={card.title}

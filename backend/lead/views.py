@@ -80,6 +80,22 @@ class LeadsDetails(generics.GenericAPIView):
         lead.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class LeadsID(generics.GenericAPIView):
+    serializer_class = LeadsSerializerUpdate
+
+    def get_lead(self, id):
+        try:
+            return Lead.objects.get(id=id)
+        except:
+            return None
+
+    def get(self, request, id):
+        lead = self.get_lead(id=id)
+        if lead == None:
+            return Response({"status": "fail", "data": {"message": f"lead with id: {id} not found"}}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(lead)
+        return Response({"status": "success", "data": {"message": "Lead found", "lead": serializer.data}})
 
 def criar_filtro_pesquisa_lead(search_param):
     search_conditions = Q()

@@ -14,18 +14,13 @@ class ProspeccaoView(generics.GenericAPIView):
     serializer_class = ProspeccaoSerializerInsert
 
     def get(self, request):
-        leads_id = []
         page_num = int(request.GET.get("page", 1))
         limit_num = int(request.GET.get("limit", 10))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
         user_id = request.GET.get("user_id")
-        print(user_id)
-        leads = Lead.objects.filter(user=user_id)
-        for lead in leads:
-            leads_id.append(lead.id)
-        prospeccoes = Prospeccao.objects.filter(lead__in=leads_id)
+        prospeccoes = get_prospecoes(user_id)
         total_prospeccoes = prospeccoes.count()
         if search_param:
             prospeccoes = prospeccoes.filter(criar_filtro_pesquisa_prospeccao(search_param))
@@ -117,6 +112,13 @@ def get_nome_usuario(id_prospecao):
     user = Lead.objects.get(id=lead.id).user
     email = Usuario.objects.get(id=user.id).email
     return email.split('@')[0]
+
+def get_prospecoes(user_id):
+    leads_id = []
+    leads = Lead.objects.filter(user=user_id)
+    for lead in leads:
+        leads_id.append(lead.id)
+    return Prospeccao.objects.filter(lead__in=leads_id)
 
 
 

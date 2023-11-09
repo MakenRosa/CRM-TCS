@@ -24,6 +24,12 @@ const GET_UNIQUE_PROSPECCAO_URL = "/api/prospeccao/"
 const UPDATE_PROSPECCAO_URL = "/api/prospeccao/"
 const DELETE_PROSPECCAO_URL = "/api/prospeccao/"
 const GET_TEAMS_URL = "/api/grupo/"
+const GET_PROPOSTA_PROSPECCAO_URL = "http://localhost:8000/api/graficos/proposta-prospeccoes/"
+const GET_PROSPECCAO_LEADS_URL = "http://localhost:8000/api/graficos/prospeccoes-leads/"
+const GET_VENDAS_PROPOSTA = "http://localhost:8000/api/graficos/vendas-proposta/"
+const GET_VENDAS_PROSPECCAO = "http://localhost:8000/api/graficos/vendas-prospeccao/"
+const GET_FUNIL_URL = "http://localhost:8000/api/graficos/funil/"
+const GET_MENU_BI_URL = "http://localhost:8000/api/graficos/menu/"
 
 const SEND_GROUP_INVITE_URL = "/send_email/"
 
@@ -148,4 +154,11 @@ const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { use
 const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_id }  })
 const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id } })
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser }
+const getPropostaProspeccao = user_id => `${ GET_PROPOSTA_PROSPECCAO_URL }?user_id=${ user_id }`
+const getProspeccaoLeads = user_id => `${ GET_PROSPECCAO_LEADS_URL }?user_id=${ user_id }`
+const getVendasProposta = user_id => `${ GET_VENDAS_PROPOSTA }?user_id=${ user_id }`
+const getVendasProspeccao = user_id => `${ GET_VENDAS_PROSPECCAO }?user_id=${ user_id }`
+const getFunil = user_id => `${ GET_FUNIL_URL }?user_id=${ user_id }`
+const getMenuBI = user_id => `${ GET_MENU_BI_URL }?user_id=${ user_id }`
+
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getMenuBI }
