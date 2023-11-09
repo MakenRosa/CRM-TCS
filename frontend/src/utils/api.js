@@ -16,6 +16,7 @@ const RESET_PASSWORD_URL = "/auth/users/reset_password/"
 const RESET_PASSWORD_CONFIRM_URL = "/auth/users/reset_password_confirm/"
 const CREATE_LEAD_URL = "/api/leads/"
 const GET_LEADS_URL = "/api/leads/"
+const GET_UNIQUE_LEAD_URL = "/api/leads/"
 const UPDATE_LEAD_URL = "/api/leads/"
 const DELETE_LEAD_URL = "/api/leads/"
 const CREATE_PROSPECCAO_URL = "/api/prospeccao/"
@@ -24,6 +25,9 @@ const GET_UNIQUE_PROSPECCAO_URL = "/api/prospeccao/"
 const UPDATE_PROSPECCAO_URL = "/api/prospeccao/"
 const DELETE_PROSPECCAO_URL = "/api/prospeccao/"
 const GET_TEAMS_URL = "/api/grupo/"
+const GET_PROPOSTA_URL = "/api/proposta/"
+const CREATE_PROPOSTA_URL = "/api/proposta/"
+const GET_TAREFA_URL = "/api/proposta/tarefa/"
 const GET_PROPOSTA_PROSPECCAO_URL = "http://localhost:8000/api/graficos/proposta-prospeccoes/"
 const GET_PROSPECCAO_LEADS_URL = "http://localhost:8000/api/graficos/prospeccoes-leads/"
 const GET_VENDAS_PROPOSTA = "http://localhost:8000/api/graficos/vendas-proposta/"
@@ -40,7 +44,9 @@ const GET_TOTALS_URL = "/api/totals/"
 const refreshToken = async () => {
   const refresh_token = sessionStorage.getItem("refresh")
   try {
-    const response = await api.post(REFRESH_TOKEN_URL, {}, {
+    const response = await api.post(REFRESH_TOKEN_URL, {
+      refresh: refresh_token
+    }, {
       headers: { Authorization: `Bearer ${ refresh_token }` }
     })
     sessionStorage.setItem("access", response.data.access)
@@ -119,20 +125,17 @@ const verifyToken = async () => {
   const token = sessionStorage.getItem("access")
   if (!token) {return false}
   
-  try {
     const decoded = jwtDecode(token)
     const currentTime = Date.now() / MS_PER_SECOND
     const isValid = decoded.exp > currentTime
     
-    if (!isValid) {
+    if (isValid) {
       await refreshToken()
+      return isValid
     }
-    
-    return isValid
-  } catch (error) {
     return false
-  }
 }
+
 
 const getUser = async id => await api.get(`${ GET_USER_URL }${ id }/`)
 const loginUser = user => api.post(LOGIN_URL, user)
@@ -143,6 +146,7 @@ const resetPassword = async data => await api.post(RESET_PASSWORD_URL, data)
 const resetConfirmPassword = async data => await api.post(RESET_PASSWORD_CONFIRM_URL, data)
 const createLead = async data => await api.post(CREATE_LEAD_URL, data) 
 const getLeads = async user_id => await api.get(GET_LEADS_URL, { params: { user_id }  })
+const getUniqueLead = async id => await api.get(`${ GET_UNIQUE_LEAD_URL }${ id }/`)
 const updateLead = async (cnpj, data) => await api.patch(`${ UPDATE_LEAD_URL }${ cnpj }`, data)
 const deleteLead = async cnpj => await api.delete(`${ DELETE_LEAD_URL }${ cnpj }` )
 const createProspeccao = async data => await api.post(CREATE_PROSPECCAO_URL, data)
@@ -153,6 +157,9 @@ const deleteProspeccao = async id => await api.delete(`${ DELETE_PROSPECCAO_URL 
 const getTotals = async user_id => await api.get(GET_TOTALS_URL, { params: { user_id }  })
 const getTeam = async user_id => await api.get(GET_TEAMS_URL, { params: { user_id }  })
 const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVITE_URL, data, { params: { user_id } })
+const getProposta = async user_id => await api.get(GET_PROPOSTA_URL, { params: { user_id }  })
+const createProposta = async data => await api.post(CREATE_PROPOSTA_URL, data)
+const getTarefa = async user_id => await api.get(GET_TAREFA_URL, { params: { user_id }  })
 
 const getPropostaProspeccao = user_id => `${ GET_PROPOSTA_PROSPECCAO_URL }?user_id=${ user_id }`
 const getProspeccaoLeads = user_id => `${ GET_PROSPECCAO_LEADS_URL }?user_id=${ user_id }`

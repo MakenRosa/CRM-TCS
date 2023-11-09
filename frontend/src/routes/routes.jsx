@@ -8,6 +8,7 @@ import {
 import { CssBaseline } from "@mui/material"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import { Oportunidade } from "pages/Oportunidade"
 
 export const AppRouter = () => 
   <Router>
@@ -27,6 +28,7 @@ export const AppRouter = () =>
         <Route element={<RegisterLead />} path="leads/register" />
         <Route element={<Prospeccao />} path="oportunidades" />
         <Route element={<RegisterProspeccao />} path="oportunidades/register" />
+        <Route element={<Oportunidade />} path="oportunidades/:leadId/:prospectId" />
         <Route element={<Teams />} path="equipe" />
         <Route element={<Relatorios />} path="relatorios" />
       </Route>
