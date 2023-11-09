@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from datetime import date, datetime
-from .models import Proposta, Tarefa
+from .models import Proposta, Tarefa, Venda, Perdido
 
 
 
@@ -50,3 +50,17 @@ class TarefaSerializerInsert(serializers.ModelSerializer):
         model = Tarefa
         fields = '__all__'
 
+class VendaSerializer(serializers.ModelSerializer):
+    status_proposta = serializers.CharField(required=True)
+    data_fechamento = serializers.DateField(required=False, default=date.today())
+    class Meta:
+            model = Venda
+            fields = '__all__'
+
+class PerdidoSerializer(serializers.ModelSerializer):
+    status_proposta = serializers.CharField(required=True)
+    data_fechamento = serializers.DateField(required=False, default=date.today())
+    motivo = serializers.CharField(required=True)
+    class Meta:
+            model = Perdido
+            fields = '__all__'

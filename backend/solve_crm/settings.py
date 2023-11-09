@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'djoser',
     'drf_yasg',
     'corsheaders',
+    'django_apscheduler',
     'usuario',
     'dashboard',
     'lead',
@@ -204,3 +205,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  
     "http://127.0.0.1:3000",
 ]
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW = True
+
