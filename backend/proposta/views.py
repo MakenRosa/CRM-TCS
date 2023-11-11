@@ -102,6 +102,8 @@ def gerar_versao(data):
     versao = Versionamento.incrementar_versao(id)
     data['versao'] = str(versao)
     maior_id = Proposta.objects.aggregate(maior_id=Max('id'))['maior_id']
+    if not maior_id:
+        maior_id = 0
     data['id'] = maior_id + 1
     return data
 
