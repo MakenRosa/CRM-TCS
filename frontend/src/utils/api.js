@@ -168,4 +168,4 @@ const getVendasProspeccao = user_id => `${ GET_VENDAS_PROSPECCAO }?user_id=${ us
 const getFunil = user_id => `${ GET_FUNIL_URL }?user_id=${ user_id }`
 const getMenuBI = user_id => `${ GET_MENU_BI_URL }?user_id=${ user_id }`
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getMenuBI }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getMenuBI, getUniqueLead, createProposta, getProposta, getTarefa }
