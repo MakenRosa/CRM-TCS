@@ -46,7 +46,7 @@ export const Oportunidade = () => {
         return <Propostas />
         // eslint-disable-next-line no-magic-numbers
       case 2:
-        return <Tarefas />
+        return <Tarefas negocio={prospect.nome_negocio} responsavel={lead.responsavel} />
         // eslint-disable-next-line no-magic-numbers
       case 3:
         return <HistoricoLead />
