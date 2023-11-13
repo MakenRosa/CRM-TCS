@@ -38,6 +38,8 @@ const GET_MENU_BI_URL = "/api/graficos/menu/"
 const POST_PROPOSTA_VENDA_URL = "/api/proposta/venda/"
 const POST_PROPOSTA_PERDIDO_URL = "/api/proposta/perdido/"
 const GET_HISTORICO_URL = "/api/historico/"
+const GET_RELATORIO_PDF_URL = "/api/relatorios/pdf/"
+const GET_RELATORIO_EXCEL_URL = "/api/relatorios/excel/"
 
 const SEND_GROUP_INVITE_URL = "/send_email/"
 
@@ -169,6 +171,8 @@ const createPropostaVenda = async data => await api.post(POST_PROPOSTA_VENDA_URL
 const createPropostaPerdido = async (data, user_id) => await api.post(POST_PROPOSTA_PERDIDO_URL, data, { params: { user_id } })
 const getHistorico = async user_id => await api.get(GET_HISTORICO_URL, { params: { user_id }  })
 const getMenuBi = async user_id => await api.get(GET_MENU_BI_URL, { params: { user_id }  }) 
+const getRelatorioPDF = async user_id => await api.get(GET_RELATORIO_PDF_URL, { params: { user_id }  })
+const getRelatorioExcel = async user_id => await api.get(GET_RELATORIO_EXCEL_URL, { params: { user_id }  })
 
 const getPropostaProspeccao = user_id => `${ GET_PROPOSTA_PROSPECCAO_URL }?user_id=${ user_id }`
 const getProspeccaoLeads = user_id => `${ GET_PROSPECCAO_LEADS_URL }?user_id=${ user_id }`
@@ -176,4 +180,4 @@ const getVendasProposta = user_id => `${ GET_VENDAS_PROPOSTA }?user_id=${ user_i
 const getVendasProspeccao = user_id => `${ GET_VENDAS_PROSPECCAO }?user_id=${ user_id }`
 const getFunil = user_id => `${ GET_FUNIL_URL }?user_id=${ user_id }`
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getMenuBi, getUniqueLead, createProposta, getProposta, getTarefa, createPropostaVenda, createPropostaPerdido, createTarefa, getHistorico }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getUniqueLead, createProposta, getProposta, getTarefa, createPropostaVenda, createPropostaPerdido, createTarefa, getHistorico, getRelatorioPDF, getRelatorioExcel, getMenuBi }
