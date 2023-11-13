@@ -181,6 +181,5 @@ const getFunil = user_id => `${ GET_FUNIL_URL }?user_id=${ user_id }`
 const getMenuBI = async user_id => await api.get(GET_MENU_BI_URL, { params: { user_id }  })
 
 
-
 export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getMenuBI, getUniqueLead, createProposta, getProposta, getTarefa, createPropostaVenda, createPropostaPerdido, createTarefa, getHistorico, getRelatorioPDF, getRelatorioExcel }
 
