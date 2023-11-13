@@ -7,7 +7,7 @@ import percentage from 'assets/percentage.svg'
 import finish from 'assets/finish.svg'
 import lost from 'assets/lost.svg'
 import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
-import { getFunil, getMenuBI, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao } from "utils"
+import { getFunil, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao } from "utils"
 import { toast } from "react-toastify"
 
 const API_FUNCTIONS = {
@@ -15,8 +15,7 @@ const API_FUNCTIONS = {
   "Prospecções P/ Lead": getProspeccaoLeads,
   "Vendas -> propostas": getVendasProposta,
   "Prospecções -> vendas": getVendasProspeccao,
-  "Funil de Vendas": getFunil,
-  "Menu BI": getMenuBI
+  "Funil de Vendas": getFunil
 }
 
 export const SimpleFilter = () => { 
