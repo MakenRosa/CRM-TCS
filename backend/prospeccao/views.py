@@ -15,7 +15,7 @@ class ProspeccaoView(generics.GenericAPIView):
 
     def get(self, request):
         page_num = int(request.GET.get("page", 1))
-        limit_num = int(request.GET.get("limit", 10))
+        limit_num = int(request.GET.get("limit", 100))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
@@ -27,6 +27,7 @@ class ProspeccaoView(generics.GenericAPIView):
             total_prospeccoes = prospeccoes.count()
             if total_prospeccoes == 0:
                 return Response({"data": {"message": "Prospecção not found"}}, status=status.HTTP_404_NOT_FOUND)
+        print(total_prospeccoes)
         serializer = self.serializer_class(prospeccoes[start_num:end_num], many=True)
         return Response({
             "data": {"message": "Prospecções encontradas",

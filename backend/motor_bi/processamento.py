@@ -142,6 +142,13 @@ class ProcessamentoBi:
             propostas_id.append(proposta.id)
         return Venda.objects.filter(proposta__in=propostas_id)
     
+    def get_perdidos(self, user_id):
+        propostas_id = []
+        propostas = Proposta.objects.filter(consultor_prop=user_id)
+        for proposta in propostas:
+            propostas_id.append(proposta.id)
+        return Perdido.objects.filter(proposta__in=propostas_id)
+    
     def get_propostas_por_prospeccao(self, user_id):
         prospeccoes_id = []
         prospeccoes = self.get_prospecoes(user_id)

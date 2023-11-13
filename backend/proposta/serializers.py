@@ -38,13 +38,8 @@ class PropostaSerializerUpdate(serializers.ModelSerializer):
 
 
 class TarefaSerializerInsert(serializers.ModelSerializer):
-    tipo_contato = serializers.CharField(required=True)
-    data_cadastro = serializers.DateField(required=False, default=date.today())
-    hora_cadastrado = serializers.TimeField(required=False, default=datetime.now().time())
-    membro_equipe = serializers.CharField(required=False)
-    nome_negocio = serializers.CharField(required=False)
-    responsavel_negocio = serializers.CharField(required=False)
-    concluida = serializers.BooleanField(required=False)
+    membro_equipe = serializers.CharField(required=False, default="a")
+    proposta = serializers.CharField(required=False)
 
     class Meta:
         model = Tarefa

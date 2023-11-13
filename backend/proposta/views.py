@@ -1,9 +1,12 @@
 import math
 from rest_framework import generics, status
 from rest_framework.response import Response
-
+from django.core.mail import send_mail
+from datetime import date, datetime
 
 from .models import Proposta, Tarefa, Venda, Perdido
+from usuario.models import Usuario
+from prospeccao.models import Prospeccao
 from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate, TarefaSerializerInsert, VendaSerializer, PerdidoSerializer
 from django.db.models import Q
 from django.db.models import Max
@@ -15,12 +18,12 @@ class PropostaView(generics.GenericAPIView):
 
     def get(self, request):
         page_num = int(request.GET.get("page", 1))
-        limit_num = int(request.GET.get("limit", 10))
+        limit_num = int(request.GET.get("limit", 100))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
-        user_id = request.GET.get("user_id")
-        propostas = Proposta.objects.filter(consultor_prop=user_id)
+        prospeccao_id = request.GET.get("prospeccao_id")
+        propostas = Proposta.objects.filter(prospeccao_id=prospeccao_id)
         if search_param:
             propostas = propostas.filter(criar_filtro_pesquisa_proposta(search_param))
 
@@ -129,7 +132,7 @@ class TarefaView(generics.GenericAPIView):
         limit_num = int(request.GET.get("limit", 10))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
-        proposta_id = request.GET.get("proposta_id")
+        proposta_id = 31
         tarefas = Tarefa.objects.filter(proposta=proposta_id)
         total_tarefas = len(tarefas)
         tarefas_paginadas = list(tarefas.values())[start_num:end_num]
@@ -144,8 +147,26 @@ class TarefaView(generics.GenericAPIView):
         })
 
     def post(self, request):
+        proposta_id = 31
+        proposta = Proposta.objects.get(id=proposta_id)
+        nome_negocio = request.data.get('nome_negocio')
+        tipo = request.data.get('tipo_contato')
+        data = request.data.get('data_cadastro')
+        hora = request.data.get('hora_cadastro')
+        request.data['proposta'] = proposta
+        print(request.data)
+
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
+            
+            usuario = Usuario.objects.get(id=proposta.consultor_prop.id)
+            send_mail(
+                    f'Tarefa Agendada via {tipo}',
+                    f'Sua tarefa para a empresa "{nome_negocio}" Foi agendada para {data} no horário: {hora} ',
+                    'solvecrmconfig@gmail.com',  # Use um e-mail de origem apropriado
+                    [usuario.email],  # Supondo que o modelo Tarefa tenha um campo de usuário com um e-mail
+                    fail_silently=False,
+                )
             serializer.save()
             return Response({"status": "success", "data": {"message": "Tarefa registrada com sucesso", "tarefa": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
@@ -207,10 +228,15 @@ class VendaView(generics.GenericAPIView):
 
     def post(self, request):
         proposta = Proposta.objects.get(id=request.data.get('proposta'))
+        prospeccao = Prospeccao.objects.get(id=proposta.id)
         request.data['valor_proposta'] = proposta.valor_proposta
         serializer = self.serializer_class(data=request.data)
+        print('aaa')
         if serializer.is_valid():
             proposta.status_proposta = 'Venda'
+            prospeccao.status = 'Venda'
+            proposta.save()
+            prospeccao.save()
             serializer.save()
             return Response({"status": "success", "data": {"message": "Venda registrada com sucesso", "venda": serializer.data}}, status=status.HTTP_201_CREATED)
         else:

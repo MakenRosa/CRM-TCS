@@ -13,7 +13,7 @@ class Leads(generics.GenericAPIView):
 
     def get(self, request):
         page_num = int(request.GET.get("page", 1))
-        limit_num = int(request.GET.get("limit", 10))
+        limit_num = int(request.GET.get("limit", 100))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")

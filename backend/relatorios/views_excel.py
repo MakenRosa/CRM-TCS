@@ -21,7 +21,7 @@ def criar_relatorio_excel(request):
     prospeccoes = motor.get_prospecoes(user_id)
     propostas = motor.get_propostas_por_prospeccao(user_id)
     vendas = motor.get_vendas(user_id)
-    perdidos = Perdido.objects.all()
+    perdidos = motor.get_perdidos(user_id)
     usuario = Usuario.objects.get(id=user_id)
     usuarios_grupos = Usuario.objects.filter(cd_grupo=usuario.cd_grupo)
 
