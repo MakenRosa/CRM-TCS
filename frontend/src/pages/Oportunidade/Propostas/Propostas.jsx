@@ -2,6 +2,7 @@ import { Box, Divider, Typography  } from "@mui/material"
 import { useEffect, useState } from "react"
 import { getProposta } from "utils"
 import { toast } from "react-toastify"
+import { useParams } from "react-router-dom"
 import { Proposta } from "./Proposta"
 import { PropostaContainer, StyledButton, StyledButtons, StyledButtonsGroup, StyledFlexBox } from "./Propostas.styles"
 import { PropostaModal } from "./PropostaModal"
@@ -16,11 +17,13 @@ export const Propostas = () => {
   const [isSellModalOpen, setIsSellModalOpen] = useState(false)
   const [isLostModalOpen, setIsLostModalOpen] = useState(false)
 
+  const { prospectId } = useParams()
+
   const user_id = sessionStorage.getItem("user_id")
   useEffect(()  => {
     async function fetchPropostas () {
       try {
-        const response = await getProposta(user_id)
+        const response = await getProposta(user_id, prospectId)
         setPropostas(response.data.propostas)
       } catch (error) {
         toast.error("Erro ao buscar propostas")

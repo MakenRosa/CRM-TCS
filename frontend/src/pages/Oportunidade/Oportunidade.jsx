@@ -43,7 +43,7 @@ export const Oportunidade = () => {
       case 0:
         return <ContatoInicial empresa={lead.nomeEmpresa} {...prospect} />
       case 1:
-        return <Propostas />
+        return <Propostas prospectId={prospectId} />
         // eslint-disable-next-line no-magic-numbers
       case 2:
         return <Tarefas negocio={prospect.nome_negocio} responsavel={lead.responsavel} />
