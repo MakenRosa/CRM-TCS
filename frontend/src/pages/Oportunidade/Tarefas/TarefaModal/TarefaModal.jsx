@@ -45,8 +45,11 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
   if (!open) { return null }
 
   const handleRadioChange = event => {
-    setSelectedValue(event.target.value)
+    const novoTipoContato = event.target.value
+    setSelectedValue(novoTipoContato)
+    setData(prevData => ({ ...prevData, tipo_contato: novoTipoContato }))
   }
+  
 
   const handleChange = event => {
     setData({ ...data, [event.target.name]: event.target.value })
