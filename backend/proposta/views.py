@@ -103,7 +103,7 @@ def gerar_versao(data):
     data['versao'] = str(versao)
     maior_id = Proposta.objects.aggregate(maior_id=Max('id'))['maior_id']
     if not maior_id:
-        maior_id = 1
+        maior_id = 0
     data['id'] = maior_id + 1
     return data
 
