@@ -156,19 +156,19 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
             <StyledRegisterTextField disabled label="Consultor" value={consultor} />
             <StyledRegisterTextField label="Status Proposta" onChange={e => setStatusProposta(e.target.value)} select value={statusProposta}>
               <MenuItem value="Em elaboração">Em elaboração</MenuItem>
+              <MenuItem value="Em negociação">Em negociação</MenuItem>
+              <MenuItem value="Em revisão">Em revisão</MenuItem>
+              <MenuItem value="Descontinuado">Descontinuado</MenuItem>
+              <MenuItem value="Suspenso">Suspenso</MenuItem>
+              <MenuItem value="Perdido">Perdido</MenuItem>
+              <MenuItem value="Vendido">Vendido</MenuItem>
             </StyledRegisterTextField>
             <StyledRegisterTextField label="Valor Proposta" onChange={e => setValorProposta(e.target.value)} type="number" value={valorProposta} />
           </StyledColumn>
           <StyledColumn gap="10px">
-            <StyledRegisterTextField label="Tipo Projeto" onChange={e => setTipoProjeto(e.target.value)} select value={tipoProjeto}>
-              <MenuItem value="Projeto">Projeto</MenuItem>
-            </StyledRegisterTextField>
-            <StyledRegisterTextField label="Influenciador/Decisor" onChange={e => setInfluenciadorDecisor(e.target.value)} select value={influenciadorDecisor}>
-              <MenuItem value="Influenciador">Influenciador</MenuItem>
-            </StyledRegisterTextField>
-            <StyledRegisterTextField label="Perfil Orçamento" onChange={e => setPerfilOrcamento(e.target.value)} select value={perfilOrcamento}>
-              <MenuItem value="Perfil">Perfil</MenuItem>
-            </StyledRegisterTextField>
+            <StyledRegisterTextField label="Tipo Projeto" onChange={e => setTipoProjeto(e.target.value)} value={tipoProjeto} />
+            <StyledRegisterTextField label="Influenciador/Decisor" onChange={e => setInfluenciadorDecisor(e.target.value)} value={influenciadorDecisor} />
+            <StyledRegisterTextField label="Perfil Orçamento" onChange={e => setPerfilOrcamento(e.target.value)} value={perfilOrcamento} />
             <StyledRegisterTextField InputProps={{ inputProps: { min: 0, max: 100 } }} label="Probabilidade Fechamento" onChange={e => setProbFechamento(e.target.value)} type="number" value={probFechamento} />
             <StyledRegisterTextField label="Material / Insumo" onChange={e => setMaterialInsumo(e.target.value)} value={materialInsumo} />
             <StyledRegisterTextField label="Serviços" onChange={e => setServicos(e.target.value)} value={servicos} />

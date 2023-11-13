@@ -1,5 +1,5 @@
 import { Search } from "@mui/icons-material"
-import { Box, FormControl, InputBase, InputLabel, MenuItem, Select } from "@mui/material"
+import { Box, InputBase } from "@mui/material"
 import { Button, StyledRegisterContainer, StyledRegisterTitle } from "components"
 import { useState, useCallback, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
@@ -7,11 +7,10 @@ import { toast } from "react-toastify"
 import { deleteLead, getLeads } from "utils"
 import { Table } from './Table'
 import { headCells } from "./data"
-import { StyledButtonBox, StyledFilterAltOutlined, StyledLeadsFilterBox, StyledFilterSearchBox, StyledIconButton, StyledInputPaper, StyledSearchFilter } from "."
+import { StyledButtonBox, StyledFilterSearchBox, StyledIconButton, StyledInputPaper, StyledSearchFilter } from "."
 
 
 export const Leads = () => {
-  const [filter, setFilter] = useState('')
   const [search, setSearch] = useState('')
   const [searched, setSearched] = useState(true)
   const [filteredRows, setFilteredRows] = useState([])
@@ -146,23 +145,6 @@ export const Leads = () => {
                 <Search />
               </StyledIconButton>
             </StyledInputPaper>
-            <StyledLeadsFilterBox>
-              <StyledFilterAltOutlined />
-              <FormControl sx={{ m: 1, minWidth: 120 }} variant="standard">
-                <InputLabel
-                  sx={{ fontWeight: 'bold' }}
-                >Filtros
-                </InputLabel>
-                <Select
-                  onChange={event => setFilter(event.target.value)}
-                  value={filter}
-                >
-                  <MenuItem value="">
-                    <em>Nenhum</em>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </StyledLeadsFilterBox>
           </StyledSearchFilter>
         </StyledFilterSearchBox>
         <Box>
