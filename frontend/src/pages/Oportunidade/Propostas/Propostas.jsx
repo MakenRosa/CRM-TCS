@@ -5,12 +5,16 @@ import { toast } from "react-toastify"
 import { Proposta } from "./Proposta"
 import { PropostaContainer, StyledButton, StyledButtons, StyledButtonsGroup, StyledFlexBox } from "./Propostas.styles"
 import { PropostaModal } from "./PropostaModal"
+import { DefinirVendaModal } from "./DefinirVendaModal"
+import { DefinirPerdaModal } from "./DefinirPerdaModal"
 
 export const Propostas = () => {
   const [propostas, setPropostas] = useState([])
   const [selectedCheckbox, setSelectedCheckbox] = useState(null)
   const [currentProposta, setCurrentProposta] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSellModalOpen, setIsSellModalOpen] = useState(false)
+  const [isLostModalOpen, setIsLostModalOpen] = useState(false)
 
   const user_id = sessionStorage.getItem("user_id")
   useEffect(()  => {
@@ -44,13 +48,43 @@ export const Propostas = () => {
     setCurrentProposta(null)
     setIsModalOpen(false)
   }
+
+  const handleOpenSellModal = () => {
+    setCurrentProposta(selectedCheckbox)
+    setSelectedCheckbox(null)
+    setIsSellModalOpen(true)
+  }
+
+  const handleCloseSellModal = () => {
+    setIsSellModalOpen(false)
+  }
+
+  const handleOpenLostModal = () => {
+    setCurrentProposta(selectedCheckbox)
+    setSelectedCheckbox(null)
+    setIsLostModalOpen(true)
+  }
+
+  const handleCloseLostModal = () => {
+    setIsLostModalOpen(false)
+  }
     
   return (
     <Box display={"flex"} flexDirection={"column"} margin={"10px"} minHeight={"500px"} width={1}>
       <StyledButtons>
         <StyledButtonsGroup>
-          <StyledButton variant={"primary"}>Venda</StyledButton>
-          <StyledButton>Perdido</StyledButton>
+          <StyledButton 
+            disabled={!selectedCheckbox}
+            onClick={handleOpenSellModal}
+            variant={"primary"}
+          >Venda
+          </StyledButton>
+          <StyledButton
+            disabled={!selectedCheckbox}
+            onClick={handleOpenLostModal}
+            variant={"secondary"}
+          >Perdido
+          </StyledButton>
         </StyledButtonsGroup>
         <StyledButtonsGroup>
           <StyledButton 
@@ -59,7 +93,11 @@ export const Propostas = () => {
           >
             Nova versão
           </StyledButton>
-          <StyledButton onClick={() => handleOpenModal()} variant="primary">
+          <StyledButton 
+            disabled={propostas.length !== 0} 
+            onClick={() => handleOpenModal()}
+            variant="primary"
+          >
             Nova Proposta
           </StyledButton>
         </StyledButtonsGroup>
@@ -99,6 +137,8 @@ export const Propostas = () => {
         </StyledFlexBox>
       </Box>
       <PropostaModal handleClose={handleCloseModal} open={isModalOpen} proposta={currentProposta?.proposta} propostas={propostas} setPropostas={setPropostas} />
+      {currentProposta && <DefinirVendaModal handleClose={handleCloseSellModal} open={isSellModalOpen} proposta={currentProposta?.proposta} />}
+      {currentProposta && <DefinirPerdaModal handleClose={handleCloseLostModal} open={isLostModalOpen} proposta={currentProposta?.proposta} />}
     </Box>
   )
 }

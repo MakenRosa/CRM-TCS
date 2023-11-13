@@ -12,7 +12,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
   const [nomeProposta, setNomeProposta] = useState(proposta?.nome_proposta || '')
   const [dataProposta, setDataProposta] = useState(proposta?.data_cadastro || new Date().toISOString().split('T')[0])
   const [descProposta, setDescProposta] = useState(proposta?.desc_proposta || '')
-  const [ consultorProp, setConsultorProp ] = useState(proposta?.consultor_prop || sessionStorage.getItem('user_id') )
+  const [consultorProp, setConsultorProp] = useState(proposta?.consultor_prop || sessionStorage.getItem('user_id') )
   const [consultor, setConsultor] = useState(fetchConsultor(proposta?.consultor_prop || sessionStorage.getItem('user_id')))
   const [tipoProjeto, setTipoProjeto] = useState(proposta?.tipo_projeto || '')
   const [influenciadorDecisor, setInfluenciadorDecisor] = useState(proposta?.influenciador_decisor || '')
@@ -107,11 +107,14 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
       ativa: true
     }
     if (proposta) {
-      data.id = proposta.id
+      if (propostas[0].subPropostas?.length > 0) {
+        data.id = propostas[0].subPropostas[propostas[0].subPropostas.length - 1].id
+      } else {
+        data.id = proposta.id
+      }
     }
     try {
       const savedProposta = await (await createProposta(data)).data.data.proposta
-      console.log(savedProposta)
       toast.success('Proposta salva com sucesso.')
       if (proposta) {
         setPropostas(propostas.map(p => 
