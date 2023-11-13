@@ -1,7 +1,22 @@
 import { Box, Typography } from "@mui/material"
+
+import currency from 'assets/currency.svg'
+import group from 'assets/group.svg'
+import calendar from 'assets/calendar.svg'
+import percentage from 'assets/percentage.svg'
+import finish from 'assets/finish.svg'
+import lost from 'assets/lost.svg'
+import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
+import { getFunil, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao } from "utils"
 import { toast } from "react-toastify"
-import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles" // Ajuste o caminho conforme necessário
-import { PictureAsPdfOutlined, TableChartOutlined } from "@mui/icons-material"
+
+const API_FUNCTIONS = {
+  "Propostas P/ Prospecção": getPropostaProspeccao,
+  "Prospecções P/ Lead": getProspeccaoLeads,
+  "Vendas -> propostas": getVendasProposta,
+  "Prospecções -> vendas": getVendasProspeccao,
+  "Funil de Vendas": getFunil
+}
 
 export const SimpleFilter = () => { 
   const user_id = sessionStorage.getItem("user_id")
