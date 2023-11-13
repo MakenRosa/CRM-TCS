@@ -79,7 +79,7 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
     <Box display={"flex"} flexDirection={"column"} margin={"10px"} minHeight={"500px"} width={1}>
       <StyledButtons>
         <StyledButtonsGroup>
-          <StyledButton variant={"primary"}>Concluir</StyledButton>
+          <StyledButton disabled={!selectedTarefa} variant={"primary"}>Concluir</StyledButton>
           <StyledButton disabled={!selectedTarefa}
             onClick={handleEdit}
             variant={"secondary"}
