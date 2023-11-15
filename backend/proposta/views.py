@@ -132,7 +132,7 @@ class TarefaView(generics.GenericAPIView):
         limit_num = int(request.GET.get("limit", 10))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
-        proposta_id = 31
+        proposta_id = request.GET.get("proposta_id")
         tarefas = Tarefa.objects.filter(proposta=proposta_id)
         total_tarefas = len(tarefas)
         tarefas_paginadas = list(tarefas.values())[start_num:end_num]
@@ -153,8 +153,7 @@ class TarefaView(generics.GenericAPIView):
         tipo = request.data.get('tipo_contato')
         data = request.data.get('data_cadastro')
         hora = request.data.get('hora_cadastro')
-        request.data['proposta'] = proposta
-        print(request.data)
+        request.data['proposta'] = proposta.id
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():

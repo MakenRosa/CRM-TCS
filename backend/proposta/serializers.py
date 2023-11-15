@@ -38,9 +38,6 @@ class PropostaSerializerUpdate(serializers.ModelSerializer):
 
 
 class TarefaSerializerInsert(serializers.ModelSerializer):
-    membro_equipe = serializers.CharField(required=False, default="a")
-    proposta = serializers.CharField(required=False)
-
     class Meta:
         model = Tarefa
         fields = '__all__'
