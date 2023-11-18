@@ -9,7 +9,7 @@
       "nome_negocio": "Negócio 1",
       "responsavel_negocio": "João",
       "concluida": true,
-      "proposta": 1
+      "proposta_id": 1
     },
     {
       "id": 2,
@@ -20,7 +20,7 @@
       "nome_negocio": "Negócio 2",
       "responsavel_negocio": "Maria",
       "concluida": false,
-      "proposta": 2
+      "proposta_id": 2
     },
     {
       "id": 3,
@@ -31,7 +31,7 @@
       "nome_negocio": "Negócio 3",
       "responsavel_negocio": "Carlos",
       "concluida": false,
-      "proposta": 3
+      "proposta_id": 3
     },
     {
       "id": 4,
@@ -42,7 +42,7 @@
       "nome_negocio": "Negócio 4",
       "responsavel_negocio": "Ana",
       "concluida": true,
-      "proposta": 4
+      "proposta_id": 4
     }
   ]
 }

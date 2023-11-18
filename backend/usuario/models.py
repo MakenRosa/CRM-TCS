@@ -32,6 +32,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     cpf = models.CharField(max_length=11)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    comissao = models.BooleanField(default=False)
 
     objects = UserAccountManager()
 

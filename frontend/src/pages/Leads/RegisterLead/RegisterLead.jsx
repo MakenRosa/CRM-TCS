@@ -61,7 +61,11 @@ export const RegisterLead = () => {
         navigate('/leads')
       }
     } catch (error) {
-      toast.error('Erro ao salvar lead!')
+      if (error.response.data.data.message.cnpj[0] === "lead com este cnpj já existe.") {
+        toast.error('Já existe um lead com este CNPJ!')
+      } else {
+        toast.error(`Erro ao ${ lead ? 'atualizar' : 'criar' } lead!`)
+      }
     } finally {
       setLoading(false)
     }

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  # <-- rode ./manage.py migrate
     'djoser',
+    'django_cron',
     'drf_yasg',
     'corsheaders',
     'django_apscheduler',
@@ -208,4 +209,8 @@ CORS_ALLOWED_ORIGINS = [
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 APSCHEDULER_RUN_NOW = True
+
+CRON_CLASSES = [
+    "proposta.notificacao.EnviarLembreteTarefaCron",  # Substitua com o caminho correto para a sua classe de cron
+]
 

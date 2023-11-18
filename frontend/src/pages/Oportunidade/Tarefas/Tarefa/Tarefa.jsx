@@ -36,7 +36,7 @@ export const Tarefa = ({ tarefa, onSelect, setSelectedTarefa, selectedTarefa, ma
             <Typography color={ new Date(tarefa.data_cadastro) > new Date() ? "green" : "red" }
               sx={{ fontWeight: "600" }}
               variant="body1"
-            >{tarefa.data_cadastro}
+            >{tarefa.data_cadastro.split("-").reverse().join("/")}
             </Typography>
             <Typography variant="body1">{tarefa.nome_negocio}</Typography>
             <Typography variant="body1">{tarefa.responsavel_negocio}</Typography>

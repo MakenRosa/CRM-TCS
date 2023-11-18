@@ -50,7 +50,11 @@ export const Login = () => {
       sessionStorage.removeItem("access")
       sessionStorage.removeItem("refresh")
       sessionStorage.removeItem("user_id")
-      toast.error("Erro ao realizar login!", { autoClose: 5000 })
+      if (error.response.data.detail === "No active account found with the given credentials") {
+        toast.error("E-mail ou senha incorretos!")
+      } else {
+        toast.error("Não foi possível realizar o login. Tente novamente mais tarde!")
+      }
     } finally {
       setLoading(false)
     }
