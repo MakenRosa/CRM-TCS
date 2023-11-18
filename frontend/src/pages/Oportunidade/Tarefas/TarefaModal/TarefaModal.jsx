@@ -11,7 +11,6 @@ import { ButtonContainer, IconContainer, ModalContainer, ModalContent, ModalTitl
 export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, proposta, lead_responsavel, nome_negocio, setTarefas }) => {  
   const [selectedValue, setSelectedValue] = useState(task?.tipo_contato || 'Ligação')
   const [data, setData] = useState({})
-  console.log(nome_negocio, lead_responsavel)
 
   const resetForm = () => {
     setSelectedValue('Ligação')
