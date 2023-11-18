@@ -1,11 +1,23 @@
 import { useEffect, useState } from "react"
 import { ExpandLess, ExpandMore, GroupsOutlined, RadioButtonUnchecked } from "@mui/icons-material"
-import { Box, Checkbox, CircularProgress, Typography } from "@mui/material"
+import { Box, Checkbox, CircularProgress, Switch, Typography, styled } from "@mui/material"
 import { Button, Invite } from "components"
 import PropTypes from 'prop-types'
-import { deleteUserFromGroup, getUser } from "utils"
+import { deleteUserFromGroup, getUser, patchComissao } from "utils"
 import { toast } from "react-toastify"
 import { StyledCheckedIcon, StyledTeam } from "./Team.styles"
+
+const StyledSwitch = styled(Switch)(() => ({
+  '& .MuiSwitch-switchBase.Mui-checked': {
+    color: '#9181f4', // Cor do botão quando ativado
+    '&:hover': {
+      backgroundColor: 'rgba(145, 129, 244, 0.08)' // Cor de fundo no hover quando ativado
+    }
+  },
+  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+    backgroundColor: '#9181f4'
+  }
+}))
 
 export const Team = ({ team, title }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -66,6 +78,15 @@ export const Team = ({ team, title }) => {
     })
   }
 
+  const handleChangeComissao = async userId => {
+    try {
+      await patchComissao(userId)
+      toast.success('Estado da comissão alterado com sucesso!')
+    } catch (error) {
+      toast.error('Erro ao alterar comissão!')
+    }
+  }
+  
   return (
     <>
       <Invite onClose={() => setIsInviteOpen(false)} open={isInviteOpen} />
@@ -111,7 +132,7 @@ export const Team = ({ team, title }) => {
                         fontSize={20}
                         variant="h6"
                       >
-                        {integrante.first_name}
+                        {integrante.first_name} {integrante.last_name?.split(' ')[0]}
                       </Typography>
                     </Box>
                     <Typography
@@ -120,6 +141,14 @@ export const Team = ({ team, title }) => {
                     >
                       {integrante.email}
                     </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                      <Typography fontSize={20} variant="h6"> Comissão:</Typography>
+                      <StyledSwitch 
+                        checked={integrante.comissao} 
+                        disabled={!isUserStaff}
+                        onChange={() => handleChangeComissao(integrante.id)} 
+                      />
+                    </Box>
                   </Box>
                 ))}
               </Box>
