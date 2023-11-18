@@ -68,7 +68,7 @@ export const AdvancedFilter = ({ setIsAdvancedFilter }) => {
           <img alt="map" src={map} style={{ height: "50%" }} />
           <StyledTextLabel color="#fff" variant="h6">Estágio Negociação</StyledTextLabel>
           <Select defaultValue="Selecione" size="small" style={{ color: "#fff" }}>
-            <MenuItem value="Selecione">Selecione</MenuItem>
+            <MenuItem disabled value="Selecione">Selecione</MenuItem>
             <MenuItem value="Lead">Lead</MenuItem>
             <MenuItem value="Prospeccao">Prospecção</MenuItem>
             <MenuItem value="Proposta">Proposta</MenuItem>
