@@ -59,7 +59,11 @@ export const Register = () => {
       sessionStorage.removeItem('access')
       sessionStorage.removeItem('refresh')
       sessionStorage.removeItem('user_id')
-      toast.error(error.response.data.email[0] || error.response.data.password[0] || error.response.data.re_password[0] || "Erro ao efetuar cadastro!")
+      if (error.response.data.email[0] === "usuario com este email já existe.") {
+        toast.error("Este email já está cadastrado!")
+      } else {
+        toast.error("Não foi possível realizar o cadastro. Tente novamente mais tarde!")
+      }
     } finally {
       setLoading(false)
     }

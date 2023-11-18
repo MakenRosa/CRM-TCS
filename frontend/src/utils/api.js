@@ -166,7 +166,7 @@ const sendGroupInvite = async (data, user_id) => await api.post(SEND_GROUP_INVIT
 const getProposta = async (user_id, prospeccao_id) => await api.get(GET_PROPOSTA_URL, { params: { user_id, prospeccao_id }  })
 const createProposta = async data => await api.post(CREATE_PROPOSTA_URL, data)
 const getTarefa = async proposta_id => await api.get(GET_TAREFA_URL, { params: { proposta_id }  })
-const createTarefa = async data => await api.post(CREATE_TAREFA_URL, data)
+const createTarefa = async data => await api.post(CREATE_TAREFA_URL, data, { params: { "proposta_id": data.proposta } })
 const createPropostaVenda = async data => await api.post(POST_PROPOSTA_VENDA_URL, data)
 const createPropostaPerdido = async (data, user_id) => await api.post(POST_PROPOSTA_PERDIDO_URL, data, { params: { user_id } })
 const getHistorico = async user_id => await api.get(GET_HISTORICO_URL, { params: { user_id }  })

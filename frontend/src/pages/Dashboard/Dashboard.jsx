@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { InsertChartOutlined, TroubleshootOutlined } from '@mui/icons-material'
 import { getMenuBi } from 'utils'
+import { toast } from 'react-toastify'
 import { Funnel } from './Funnel'
 import { AnalyticsDashboard } from './AnalyticsDashboard/AnalyticsDashboard '
 
@@ -13,7 +14,8 @@ export const Dashboard = () => {
 
   useEffect(() => {
     const fetchMenuBI = async () => {
-      const response = await getMenuBi(user_id)
+      try {
+        const response = await getMenuBi(user_id)
       if (response && response.data) {
         if (response.data.funil) {
           const { funil } = response.data
@@ -24,11 +26,12 @@ export const Dashboard = () => {
             total_venda: funil.total_venda
           })
         }
-
         setData(response.data)
-        console.log(response.data)
       }
+    } catch (error) {
+      toast.error('Erro ao carregar dados do dashboard')
     }
+  }
     fetchMenuBI()
   }, [user_id])
 

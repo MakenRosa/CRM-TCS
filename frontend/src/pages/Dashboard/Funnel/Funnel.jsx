@@ -55,7 +55,7 @@ export const Funnel = ({ data, valorVendas }) => {
         </NivelFunil>
       </FunilContainer>
       <ValorFunil>
-        <Typography>Valores<br />{valorVendas} mi</Typography>
+        <Typography>Valores<br />{valorVendas}</Typography>
       </ValorFunil>
     </Box>
   )

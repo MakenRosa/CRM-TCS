@@ -13,7 +13,7 @@ import { Oportunidade } from "pages/Oportunidade"
 export const AppRouter = () => 
   <Router>
     <CssBaseline />
-    <ToastContainer hideProgressBar position="top-center" theme="colored" />
+    <ToastContainer hideProgressBar limit={2} newestOnTop position="top-center" theme="colored" />
     <Routes>
       <Route element={<Navigate replace to="/dashboard" />} path="/" />
       <Route element={<AuthLayout />} path="/">
