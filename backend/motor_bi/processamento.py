@@ -41,11 +41,11 @@ class ProcessamentoBi:
         propostas = Proposta.objects.filter(consultor_prop=user_id)
         total_propostas = propostas.count()
         vendas = self.get_vendas(user_id)
+        total_vendas = vendas.count()
+        valor_vendas = vendas.aggregate(Sum('valor_proposta'))['valor_proposta__sum'] or 0
         if total_propostas == 0:
             razao = 0
         else:
-            valor_vendas = vendas.aggregate(Sum('valor_proposta'))['valor_proposta__sum'] or 0
-            total_vendas = vendas.count()
             razao = total_vendas/total_propostas
         mes_propostas = self.contar_ocorrencias_por_mes_cadastro(propostas)
         mes_venda = self.contar_ocorrencias_por_mes_fechamento(vendas)
@@ -55,11 +55,11 @@ class ProcessamentoBi:
         prospeccoes = self.get_prospecoes(user_id)
         total_prospeccoes = prospeccoes.count()
         vendas = self.get_vendas(user_id)
+        total_vendas = vendas.count()
+        valor_vendas = vendas.aggregate(Sum('valor_proposta'))['valor_proposta__sum'] or 0
         if total_prospeccoes == 0:
             razao = 0
         else:
-            valor_vendas = vendas.aggregate(Sum('valor_proposta'))['valor_proposta__sum'] or 0
-            total_vendas = vendas.count()
             razao = total_vendas/total_prospeccoes
         mes_prospeccoes = self.contar_ocorrencias_por_mes_prospeccao(prospeccoes)
         mes_venda = self.contar_ocorrencias_por_mes_fechamento(vendas)
