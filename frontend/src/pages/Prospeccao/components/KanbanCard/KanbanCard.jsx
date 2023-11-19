@@ -12,7 +12,6 @@ export const KanbanCard = ({ label, description, value, date, status, leadId, id
       localStorage.setItem('edit_prospeccao', id)
       navigate(`/oportunidades/register`)
     } else {
-      // redirect to oportunidade with leadId and id
       navigate(`/oportunidades/${ leadId }/${ id }`)
     }
   }

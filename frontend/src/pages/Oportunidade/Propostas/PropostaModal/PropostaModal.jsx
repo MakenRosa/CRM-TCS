@@ -80,7 +80,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
         !validateField(statusProposta, "Status Proposta", 1) ||
         !validateField(materialInsumo, "Material / Insumo", 1) ||
         !validateField(servicos, "Serviços", 1) ||
-        !validateField(valorProposta.toString(), "Valor Proposta", undefined, undefined, true) // Assumindo que o valor pode ser 0, então não temos um minLength
+        !validateField(valorProposta.toString(), "Valor Proposta", undefined, undefined, true) 
       ) {
         return false
       }
