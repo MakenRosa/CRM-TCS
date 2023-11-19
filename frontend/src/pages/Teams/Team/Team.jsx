@@ -24,6 +24,8 @@ export const Team = ({ team, title }) => {
   const [isInviteOpen, setIsInviteOpen] = useState(false)
   const [isUserStaff, setIsUserStaff] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [comissoes, setComissoes] = useState({})
+
 
   const [selectedIds, setSelectedIds] = useState([])
 
@@ -42,6 +44,15 @@ export const Team = ({ team, title }) => {
         toast.error('Erro ao verificar permissão!')
       })
   }, [current_user_id])
+
+  useEffect(() => {
+    // Inicialize o estado de comissões com os valores iniciais do time
+    const comissoesIniciais = {}
+    team.forEach(integrante => {
+      comissoesIniciais[integrante.id] = integrante.comissao
+    })
+    setComissoes(comissoesIniciais)
+  }, [team])
 
   const openInviteModal = () => {
     setIsInviteOpen(true)
@@ -79,11 +90,19 @@ export const Team = ({ team, title }) => {
   }
 
   const handleChangeComissao = async userId => {
+    setComissoes(prevComissoes => ({
+      ...prevComissoes,
+      [userId]: !prevComissoes[userId]
+    }))
     try {
       await patchComissao(userId)
       toast.success('Estado da comissão alterado com sucesso!')
     } catch (error) {
       toast.error('Erro ao alterar comissão!')
+      setComissoes(prevComissoes => ({
+        ...prevComissoes,
+        [userId]: !prevComissoes[userId]
+      }))
     }
   }
   
@@ -144,9 +163,12 @@ export const Team = ({ team, title }) => {
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                       <Typography fontSize={20} variant="h6"> Comissão:</Typography>
                       <StyledSwitch 
-                        checked={integrante.comissao} 
+                        checked={comissoes[integrante.id] || false}
                         disabled={!isUserStaff}
-                        onChange={() => handleChangeComissao(integrante.id)} 
+                        onChange={() => {
+                          integrante.comissao = !integrante.comissao
+                          handleChangeComissao(integrante.id)
+                        }} 
                       />
                     </Box>
                   </Box>
