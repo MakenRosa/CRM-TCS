@@ -2,7 +2,8 @@ import { Box, Typography } from "@mui/material"
 import { toast } from "react-toastify"
 import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
 import { PictureAsPdfOutlined } from "@mui/icons-material"
-import ExcelIconOutlined from "./excelIconOutlined.svg"
+// eslint-disable-next-line import/no-relative-parent-imports
+import ExcelIconOutlined from "../excelIconOutlined.svg"
 
 export const SimpleFilter = () => { 
   const user_id = sessionStorage.getItem("user_id")
@@ -24,7 +25,7 @@ export const SimpleFilter = () => {
   }
 
   const renderDownloadBox = (format, text, Icon) => (
-    <StyledFilterBox onClick={() => handleDownloadClick(format)} sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexGrow: 1, margin: '10px 20px' }}>
+    <StyledFilterBox button onClick={() => handleDownloadClick(format)} sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexGrow: 1, margin: '10px 20px' }} >
       {Icon === ExcelIconOutlined ? 
         <img alt="Excel Icon" src={ExcelIconOutlined} style={{ width: '50%', height: '50%' }} /> : 
         <Icon fontSize="large" sx={{ color: '#fff', width: '50%', height: '50%' }} />

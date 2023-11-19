@@ -10,14 +10,14 @@ export const StyledFilterBox = styled(Box)`
   background-color: #B07FEE;
   width: 200px;
   height: 200px;
-  cursor: pointer;
+  cursor: ${ ({ button }) => (button ? 'pointer' : 'default') };
 
   &:hover {
-    background-color: #A26BEF;
+    background-color: #8F4FEF;
   }
 
   &:active {
-    background-color: #A26BEF;
+    background-color: ${ ({ button }) => (button ? '#7663F1' : '#8F4FEF') };
   }
 `
 
