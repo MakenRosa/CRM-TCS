@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import 'chart.js/auto'
-import { Bar } from 'react-chartjs-2'
+import { Bar, Pie } from 'react-chartjs-2'
 import PropTypes from 'prop-types'
 
 const coresGrafico = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
@@ -52,6 +52,39 @@ export const AnalyticsDashboard = ({ data }) => {
     }
   }, [indiceSelecionado])
 
+  const dadosGraficoPizza = useMemo(() => {
+    const { razao } = data[indiceSelecionado]
+    return {
+      labels: ['Conversão', 'Restante'],
+      datasets: [
+        {
+          data: [razao, 1 - razao],
+          backgroundColor: ['#36A2EB', '#FF6384']
+        }
+      ]
+    }
+  }, [indiceSelecionado, data])
+  const opcoesGraficoPizza = {
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label (context) {
+            let label = context.label || ''
+            if (label) {
+              label += ': '
+            }
+            const total = context.dataset.data.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
+            const currentValue = context.parsed
+            // eslint-disable-next-line no-magic-numbers
+            const percentage = Math.round(((currentValue/total) * 100))
+            label += `${ percentage  }%`
+            return label
+          }
+        }
+      }
+    }
+  }
+
     const handleChange = event => {
     setIndiceSelecionado(event.target.value)
   }
@@ -83,6 +116,9 @@ export const AnalyticsDashboard = ({ data }) => {
             />
           </Box>
         ))}
+        <Box sx={{ width: '300px', height: '300px' }}>
+          <Pie data={dadosGraficoPizza} options={opcoesGraficoPizza} />
+        </Box>
       </Box>
     </Box>
   )
