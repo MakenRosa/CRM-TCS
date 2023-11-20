@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { useEffect, useState } from 'react'
 import { PropTypes } from "prop-types"
-import { Modal, Box, MenuItem, Typography } from "@mui/material"
+import { Modal, Box, MenuItem, Typography, TextField } from "@mui/material"
 import { Button, StyledRegisterTextField } from "components"
 import { createProposta, getUser } from 'utils'
 import { toast } from 'react-toastify'
@@ -21,8 +21,18 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
   const [statusProposta, setStatusProposta] = useState(proposta?.status_proposta || '')
   const [materialInsumo, setMaterialInsumo] = useState(proposta?.material_insumo || '')
   const [servicos, setServicos] = useState(proposta?.servicos || '')
-  const [valorProposta, setValorProposta] = useState(proposta?.valor_proposta || '')
+  const [valorProposta, setValorProposta] = useState(proposta?.valor_proposta ?? 0)
+
+  const [valorPropostaFormatado, setValorPropostaFormatado] = useState(
+    proposta?.valor_proposta ? formatarValorParaMoeda(proposta.valor_proposta) : 'R$ 0,00'
+  )
   const { prospectId } = useParams()
+
+  const handleValorPropostaChange = valorFormatado => {
+    setValorPropostaFormatado(valorFormatado)
+    const valorNumerico = parseFloat(valorFormatado.replace(/\D/g, ''))
+    setValorProposta(valorNumerico) 
+  }
 
   async function fetchConsultor (id_consultor) {
     try {
@@ -46,7 +56,10 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
       setStatusProposta(proposta.status_proposta || '')
       setMaterialInsumo(proposta.material_insumo || '')
       setServicos(proposta.servicos || '')
-      setValorProposta(proposta.valor_proposta || '')
+      setValorProposta(proposta.valor_proposta || 0)
+      setValorPropostaFormatado(
+        proposta.valor_proposta ? formatarValorParaMoeda(proposta.valor_proposta) : 'R$ 0,00'
+      )
     } else {
       clearFields()
     }
@@ -65,7 +78,8 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
     setStatusProposta('')
     setMaterialInsumo('')
     setServicos('')
-    setValorProposta('')
+    setValorProposta(0)
+    setValorPropostaFormatado('R$ 0,00')
   }
 
   const handleSave = async () => {   
@@ -137,6 +151,17 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
     handleClose()
   }
 
+  const handlePropFechamentoChange = e => {
+    const { value } = e.target
+    if (value > 100) {
+      setProbFechamento(100)
+    } else if (value < 0) {
+      setProbFechamento(0)
+    } else {
+      setProbFechamento(value)
+    }
+  }
+  
   return (
     <Modal
       aria-describedby="modal-modal-description"
@@ -163,13 +188,16 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
               <MenuItem value="Perdido">Perdido</MenuItem>
               <MenuItem value="Vendido">Vendido</MenuItem>
             </StyledRegisterTextField>
-            <StyledRegisterTextField label="Valor Proposta" onChange={e => setValorProposta(e.target.value)} type="number" value={valorProposta} />
+            <ValorPropostaField
+              onChange={handleValorPropostaChange}
+              value={valorPropostaFormatado}
+            />
           </StyledColumn>
           <StyledColumn gap="10px">
             <StyledRegisterTextField label="Tipo Projeto" onChange={e => setTipoProjeto(e.target.value)} value={tipoProjeto} />
             <StyledRegisterTextField label="Influenciador/Decisor" onChange={e => setInfluenciadorDecisor(e.target.value)} value={influenciadorDecisor} />
             <StyledRegisterTextField label="Perfil Orçamento" onChange={e => setPerfilOrcamento(e.target.value)} value={perfilOrcamento} />
-            <StyledRegisterTextField InputProps={{ inputProps: { min: 0, max: 100 } }} label="Probabilidade Fechamento" onChange={e => setProbFechamento(e.target.value)} type="number" value={probFechamento} />
+            <StyledRegisterTextField InputProps={{ inputProps: { min: 0, max: 100 } }} label="Probabilidade Fechamento" onChange={handlePropFechamentoChange} type="number" value={probFechamento} />
             <StyledRegisterTextField label="Material / Insumo" onChange={e => setMaterialInsumo(e.target.value)} value={materialInsumo} />
             <StyledRegisterTextField label="Serviços" onChange={e => setServicos(e.target.value)} value={servicos} />
           </StyledColumn>
@@ -187,6 +215,31 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
   )
 }
 
+const formatarValorParaMoeda = valor => {
+  const numero = valor ? Number(valor.replace(/\D/g, '')) / 100 : 0
+  return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
+
+const ValorPropostaField = ({ value, onChange }) => {
+  const handleValueChange = e => {
+    const valorFormatado = formatarValorParaMoeda(e.target.value)
+    onChange(valorFormatado)
+  }
+
+  return (
+    <TextField
+      label="Valor Proposta"
+      onChange={handleValueChange}
+      type="text" 
+      value={value}
+    />
+  )
+}
+
+ValorPropostaField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
+}
 
 const validateField = (value, fieldName, minLength, maxLength, isNumber = false) => {
   if (isNumber) {

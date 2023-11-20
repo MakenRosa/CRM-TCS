@@ -9,7 +9,6 @@ export const StyledBar = styled(Box)`
   width: 100%;
   box-sizing: border-box;
   height: 72px; 
-  border: 1px solid #8F8B8B;
   background: #F3EFEF;
   align-items: center;
 `

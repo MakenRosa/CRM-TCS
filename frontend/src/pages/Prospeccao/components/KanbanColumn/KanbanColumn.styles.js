@@ -8,7 +8,6 @@ export const StyledKanbanColumn = styled(Box, {
   flex-shrink: 0;
   width: 255px;
   min-height:calc(100vh - 350px);
-  border: 1px solid #8F8B8B;
   border-top: 3px solid ${ ({ columnColor }) => columnColor || "#8F8B8B" };
   background: #E6E4E4;
   margin: 0 10px;
