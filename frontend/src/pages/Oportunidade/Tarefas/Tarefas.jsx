@@ -1,5 +1,6 @@
 import { Box, Divider } from "@mui/material"
 import PropTypes from "prop-types"
+import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { getProposta, getTarefa } from "utils"
@@ -30,12 +31,13 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
   const [propostaId, setPropostaId] = useState(null)
   const [tarefas, setTarefas] = useState([])
 
+  const { prospectId } = useParams()
   const user_id = sessionStorage.getItem('user_id')
 
   useEffect(() => {
     async function fetchPropostas () {
       try {
-        const response = await getProposta(user_id)
+        const response = await getProposta(user_id, prospectId)
         setProposta(response.data.propostas[0].proposta)
         setPropostaId(response.data.propostas[0].proposta.id)
       } catch (error) {
