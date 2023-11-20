@@ -15,7 +15,6 @@ export const HistoricoLead = () => {
   const user_id = sessionStorage.getItem("user_id")
   
   useEffect(() => {
-    console.log("historico")
     getHistorico(user_id).then(res => {
       setHistorico(res)
     })
