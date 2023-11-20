@@ -45,19 +45,19 @@ def criar_relatorio_pdf(request):
     
     if 'estagio_negocio' in request.GET:
         estagio = request.GET.get('estagio_negocio')
-        if estagio == 'lead':
+        if estagio == 'Lead':
             pdf_content = gerar_pdf_leads(leads)
             return baixar_arquivo(pdf_content, 'Leads.pdf')
-        elif estagio == 'prospeccao':
+        elif estagio == 'Prospeccao':
             pdf_content = gerar_pdf_prospeccoes(prospeccoes)
             return baixar_arquivo(pdf_content, 'Prospeccoes.pdf')
-        elif estagio == 'proposta':
+        elif estagio == 'Proposta':
             pdf_content = gerar_pdf_propostas(propostas)
             return baixar_arquivo(pdf_content, 'Propostas.pdf')
-        elif estagio == 'venda':
+        elif estagio == 'Venda':
             pdf_content = gerar_pdf_transacoes(vendas, 'Vendas')
             return baixar_arquivo(pdf_content, 'Vendas.pdf')
-        elif estagio == 'perdido':
+        elif estagio == 'Perdido':
             pdf_content = gerar_pdf_transacoes(perdidos, 'Perdido')
             return baixar_arquivo(pdf_content, 'Perdido.pdf')
 
