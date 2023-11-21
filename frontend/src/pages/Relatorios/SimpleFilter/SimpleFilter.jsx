@@ -1,7 +1,9 @@
 import { Box, Typography } from "@mui/material"
 import { toast } from "react-toastify"
-import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles" 
-import { PictureAsPdfOutlined, TableChartOutlined } from "@mui/icons-material"
+import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
+import { PictureAsPdfOutlined } from "@mui/icons-material"
+// eslint-disable-next-line import/no-relative-parent-imports
+import ExcelIconOutlined from "../excelIconOutlined.svg"
 
 export const SimpleFilter = () => { 
   const user_id = sessionStorage.getItem("user_id")
@@ -23,8 +25,11 @@ export const SimpleFilter = () => {
   }
 
   const renderDownloadBox = (format, text, Icon) => (
-    <StyledFilterBox onClick={() => handleDownloadClick(format)} sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexGrow: 1, margin: '10px 20px' }}>
-      <Icon fontSize="large" sx={{ color: '#fff', width: '50%', height: '50%' }} />
+    <StyledFilterBox button onClick={() => handleDownloadClick(format)} sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexGrow: 1, margin: '10px 20px' }} >
+      {Icon === ExcelIconOutlined ? 
+        <img alt="Excel Icon" src={ExcelIconOutlined} style={{ width: '50%', height: '50%' }} /> : 
+        <Icon fontSize="large" sx={{ color: '#fff', width: '50%', height: '50%' }} />
+      }
       <Typography color="#fff" variant="h6">{text}</Typography>
     </StyledFilterBox>
   )
@@ -32,7 +37,7 @@ export const SimpleFilter = () => {
   return (
     <Box display="flex" flexDirection="row" justifyContent="center" marginTop="50px" width="100%">
       {renderDownloadBox('pdf', 'Baixar Relatório Geral (PDF)', PictureAsPdfOutlined)}
-      {renderDownloadBox('excel', 'Baixar Relatório Geral (Excel)', TableChartOutlined)}
+      {renderDownloadBox('excel', 'Baixar Relatório Geral (Excel)', ExcelIconOutlined)} 
     </Box>
   )
 }

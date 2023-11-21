@@ -1,6 +1,3 @@
-
-
-
 from lead.models import Lead
 from proposta.models import Perdido
 from usuario.models import Usuario
@@ -40,19 +37,19 @@ def criar_relatorio_excel(request):
     
     if 'estagio_negocio' in request.GET:
         estagio = request.GET.get('estagio_negocio')
-        if estagio == 'lead':
+        if estagio == 'Lead':
             excel_content = gerar_excel_leads(leads)
             return baixar_arquivo(excel_content, 'Leads.xlsx')
-        elif estagio == 'prospeccao':
+        elif estagio == 'Prospeccao':
             excel_content = gerar_excel_prospeccoes(prospeccoes)
             return baixar_arquivo(excel_content, 'Prospecções.xlsx')
-        elif estagio == 'proposta':
+        elif estagio == 'Proposta':
             excel_content = gerar_excel_propostas(propostas)
             return baixar_arquivo(excel_content, 'Propostas.xlsx')
-        elif estagio == 'venda':
+        elif estagio == 'Venda':
             excel_content = gerar_excel_transacoes(vendas, 'Vendas')
             return baixar_arquivo(excel_content, 'Vendas.xlsx')
-        elif estagio == 'perdido':
+        elif estagio == 'Perdido':
             excel_content = gerar_excel_transacoes(perdidos, 'Perdido')
             return baixar_arquivo(excel_content, 'Perdidos.xlsx')
 
