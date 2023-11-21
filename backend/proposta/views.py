@@ -147,7 +147,7 @@ class TarefaView(generics.GenericAPIView):
         })
 
     def post(self, request):
-        proposta_id = 31
+        proposta_id = request.data.get('proposta')
         proposta = Proposta.objects.get(id=proposta_id)
         nome_negocio = request.data.get('nome_negocio')
         tipo = request.data.get('tipo_contato')
@@ -227,10 +227,9 @@ class VendaView(generics.GenericAPIView):
 
     def post(self, request):
         proposta = Proposta.objects.get(id=request.data.get('proposta'))
-        prospeccao = Prospeccao.objects.get(id=proposta.id)
+        prospeccao = Prospeccao.objects.get(id=proposta.prospeccao.id)
         request.data['valor_proposta'] = proposta.valor_proposta
         serializer = self.serializer_class(data=request.data)
-        print('aaa')
         if serializer.is_valid():
             proposta.status_proposta = 'Venda'
             prospeccao.status = 'Venda'
@@ -265,9 +264,14 @@ class PerdidoView(generics.GenericAPIView):
 
     def post(self, request):
         proposta = Proposta.objects.get(id=request.data.get('proposta'))
+        prospeccao = Prospeccao.objects.get(id=proposta.prospeccao.id)
+        request.data['valor_proposta'] = proposta.valor_proposta
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             proposta.status_proposta = 'Perdido'
+            prospeccao.status = 'Perdido'
+            proposta.save()
+            prospeccao.save()
             serializer.save()
             return Response({"status": "success", "data": {"message": "Perdido registrada com sucesso", "perdido": serializer.data}}, status=status.HTTP_201_CREATED)
         else:

@@ -29,7 +29,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             user = Usuario.objects.get(email=email)
         except Usuario.DoesNotExist:
             user = None
-        print(user)
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200 and user:
             user_id = user.id
@@ -37,6 +36,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             response.data['is_admin'] = user.is_staff
             response.data['first_name'] = user.first_name
             response.data['last_name'] = user.last_name
+            response.data['comissao'] = False
         return response
         
 
