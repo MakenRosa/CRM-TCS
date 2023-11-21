@@ -44,7 +44,7 @@ export const Dashboard = () => {
             Funil
           </Typography> 
           <Box display="flex" justifyContent="center" marginLeft="40px" width="100%">
-            <Funnel data={dataFunnel} valorVendas={220} />
+            <Funnel data={dataFunnel} valorVendas={data.vendas_prospeccao?.valor_vendas?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'} />
           </Box>
         </Box>
         <Box width="55%">

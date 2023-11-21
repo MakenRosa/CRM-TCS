@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import {
   StyledButtonBox
 } from "pages"
@@ -99,9 +100,54 @@ export const RegisterProspeccao = () => {
 
   const user_id = sessionStorage.getItem('user_id')
 
-  const handleSubmit = async event => {
-    event.preventDefault()
-    setLoading(true)
+  const validarOrdemDasDatas = () => {
+    const dataContatoInicialFormatada = new Date(dataContatoInicial)
+    const dataInicioProspeccaoFormatada = new Date(dataInicioProspeccao)
+    const dataProximaAcaoFormatada = new Date(dataProximaAcao)
+  
+    if (dataContatoInicialFormatada > dataInicioProspeccaoFormatada) {
+      toast.error('A data do contato inicial deve ser anterior à data de início da prospecção!')
+      return false
+    }
+  
+    if (dataInicioProspeccaoFormatada > dataProximaAcaoFormatada) {
+      toast.error('A data de início da prospecção deve ser anterior à data da próxima ação!')
+      return false
+    }
+  
+    if (!validarDistanciaEntreDatas(dataContatoInicialFormatada, dataProximaAcaoFormatada)) {
+      toast.error('A distância entre as datas e a data atual deve ser de no máximo 1 ano!')
+      return false
+    }
+  
+    return true
+  }
+
+const handleSubmit = async event => {
+  event.preventDefault()
+  setLoading(true)
+
+  const dataInicioFormatada = `${ dataInicioProspeccao  }T12:00:00.000Z`
+  const dataContatoInicialFormatada = `${ dataContatoInicial  }T12:00:00.000Z`
+  const dataProximaAcaoFormatada = `${ dataProximaAcao  }T12:00:00.000Z`
+
+  if (!validarOrdemDasDatas()) {
+    setLoading(false)
+    return
+  }
+
+  if (!validarDistanciaEntreDatas(dataContatoInicialFormatada, dataInicioFormatada, dataProximaAcaoFormatada)) {
+    toast.error('Verifique as datas: devem estar dentro do intervalo de um ano e na ordem correta.')
+    setLoading(false)
+    return
+  }
+
+  if(observacoesAdicionais.length > 255) {
+    toast.error('A observação deve ter no máximo 255 caracteres!')
+    setLoading(false)
+    return
+  }
+
     const data = {
       nome_negocio: nomeNegocio,
       lead,
@@ -132,6 +178,30 @@ export const RegisterProspeccao = () => {
     }
     
   }
+  
+  const validarDistanciaEntreDatas = (dataContatoInicialValid, dataInicioProspeccaoValid, dataProximaAcaoValid) => {
+    const dataAtual = new Date()
+    const umAnoAtras = new Date(dataAtual.getFullYear() - 1, dataAtual.getMonth(), dataAtual.getDate())
+    const umAnoFrente = new Date(dataAtual.getFullYear() + 1, dataAtual.getMonth(), dataAtual.getDate())
+  
+    const dataContatoInicialFormatada = new Date(dataContatoInicialValid)
+    const dataInicioProspeccaoFormatada = new Date(dataInicioProspeccaoValid)
+    const dataProximaAcaoFormatada = new Date(dataProximaAcaoValid)
+  
+    if (dataContatoInicialFormatada < umAnoAtras || dataContatoInicialFormatada > umAnoFrente ||
+        dataInicioProspeccaoFormatada < umAnoAtras || dataInicioProspeccaoFormatada > umAnoFrente ||
+        dataProximaAcaoFormatada < umAnoAtras || dataProximaAcaoFormatada > umAnoFrente) {
+      return false
+    }
+  
+    if (dataContatoInicialFormatada > dataInicioProspeccaoFormatada || dataInicioProspeccaoFormatada > dataProximaAcaoFormatada) {
+      return false
+    }
+  
+    return true
+  }
+  
+  
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -176,8 +246,8 @@ export const RegisterProspeccao = () => {
           <StyledRegisterSection>
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Dados relevantes</StyledSectionTitle>
-              <StyledRegisterTextField label="Data Início Prospecção" onChange={handleDataInicioProspeccao} size="small" type="date" value={dataInicioProspeccao} />
               <StyledRegisterTextField label="Data Contato Inicial" onChange={handleDataContatoInicial} size="small" type="date" value={dataContatoInicial} />
+              <StyledRegisterTextField label="Data Início Prospecção" onChange={handleDataInicioProspeccao} size="small" type="date" value={dataInicioProspeccao} />
               <StyledRegisterTextField label="Data Próxima Ação" onChange={handleDataProximaAcao} size="small" type="date" value={dataProximaAcao} />
             </StyledRegisterProspeccaoSection>
             
