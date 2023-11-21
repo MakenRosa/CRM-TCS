@@ -128,7 +128,7 @@ export const Oportunidade = () => {
           <Tab label="Contato Inicial" />
           <Tab label="Propostas" />
           <Tab label="Tarefas" />
-          <Tab label="Histórico Lead" />
+          <Tab label="Histórico" />
         </StyledTabs>
         <MainContainer>
           {renderTabContent()}

@@ -58,6 +58,10 @@ const refreshToken = async () => {
     sessionStorage.setItem("access", response.data.access)
     return response.data.access
   } catch (error) {
+    sessionStorage.removeItem("access")
+    sessionStorage.removeItem("refresh")
+    sessionStorage.removeItem("user_id")
+    sessionStorage.removeItem("username")
     throw new Error("Erro ao atualizar o token")
   }
 }
