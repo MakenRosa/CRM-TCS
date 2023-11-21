@@ -54,7 +54,7 @@ def create_fake_lead(n):
 def create_fake_prospeccao(n):
     for _ in range(n):
         # Suponha que você já tem leads criados, aqui pegaremos um aleatório
-        lead = Lead.objects.get(id=33)
+        lead = Lead.objects.get(id=7)
 
         # Gere dados falsos para cada campo
         nome_negocio = fake.company()
@@ -67,12 +67,12 @@ def create_fake_prospeccao(n):
         data_inicio_prospeccao = fake.date_between(start_date='-1y', end_date='today')
         data_contato_inicial = fake.date_between(start_date='-1y', end_date='today')
         data_proxima_acao = fake.date_between(start_date='today', end_date='+1y')
-        preferencia_contato = random.choice(['Email', 'Telefone', 'Presencial', 'Videoconferência'])
+        preferencia_contato = random.choice(['E-mail', 'Telefone', 'Reunião', 'Mensagem'])
         horario_contato = fake.time()
         observacao = fake.text(max_nb_chars=200)
-        status = random.choice(['Ativo', 'Inativo', 'Concluído'])
+        status = random.choice(['Em prospecção', 'Em elaboração', 'Em negociação', 'Em revisão', 'Descontinuado', 'Suspenso', 'Perdido', 'Vendido'])
         responsavel = fake.name()
-        versao = fake.random_int(min=1, max=10)
+        versao = fake.random_int(min=1, max=5)
 
         # Crie o novo objeto Prospeccao
         prospeccao = Prospeccao(
@@ -117,8 +117,8 @@ def create_fake_proposta(n):
         material_insumo = fake.text(max_nb_chars=200)
         servicos = fake.bs()
         somatorio = round(valor_proposta + random.uniform(500.00, 5000.00), 2)
-        tipo_contato = random.choice(['Email', 'Telefone', 'Presencial', 'Videoconferência'])
-        versao = f"{random.randint(1, 10)}"
+        tipo_contato = random.choice(['E-mail', 'Telefone', 'Reunião', 'Mensagem'])
+        versao = f"{random.randint(1, 5)}"
         ativa = fake.boolean()
 
         # Crie o novo objeto Proposta
@@ -144,4 +144,4 @@ def create_fake_proposta(n):
         # Salve o registro no banco de dados
         proposta.save()
 
-create_fake_proposta(8)
+create_fake_proposta(10)
