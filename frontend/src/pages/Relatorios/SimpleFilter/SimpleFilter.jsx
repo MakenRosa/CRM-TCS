@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material"
 import { toast } from "react-toastify"
-import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles" // Ajuste o caminho conforme necessário
+import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles" 
 import { PictureAsPdfOutlined, TableChartOutlined } from "@mui/icons-material"
 
 export const SimpleFilter = () => { 
@@ -22,7 +22,6 @@ export const SimpleFilter = () => {
     }
   }
 
-  // Utilizando StyledFilterBox para renderizar os botões
   const renderDownloadBox = (format, text, Icon) => (
     <StyledFilterBox onClick={() => handleDownloadClick(format)} sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', flexGrow: 1, margin: '10px 20px' }}>
       <Icon fontSize="large" sx={{ color: '#fff', width: '50%', height: '50%' }} />
