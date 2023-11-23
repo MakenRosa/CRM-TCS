@@ -4,7 +4,6 @@ import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
 import { PictureAsPdfOutlined } from "@mui/icons-material"
 import ExcelIconOutlined from "../excelIconOutlined.svg"
 
-
 export const SimpleFilter = () => { 
   const user_id = sessionStorage.getItem("user_id")
 

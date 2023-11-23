@@ -176,9 +176,9 @@ const createPropostaVenda = async data => await api.post(POST_PROPOSTA_VENDA_URL
 const createPropostaPerdido = async (data, user_id) => await api.post(POST_PROPOSTA_PERDIDO_URL, data, { params: { user_id } })
 const getHistorico = async user_id => await api.get(GET_HISTORICO_URL, { params: { user_id }  })
 const getMenuBi = async user_id => await api.get(GET_MENU_BI_URL, { params: { user_id }  }) 
-const getRelatorioPDF = async user_id => await api.get(GET_RELATORIO_PDF_URL, { params: { user_id }  })
-const getRelatorioExcel = async user_id => await api.get(GET_RELATORIO_EXCEL_URL, { params: { user_id }  })
 const patchComissao = async user_id => await api.post(`${ PATCH_COMISSAO_URL }?user_id=${ user_id }`)
+const getRelatorioPDF = async params => await api.get(GET_RELATORIO_PDF_URL, { params })
+const getRelatorioExcel = async params => await api.get(GET_RELATORIO_EXCEL_URL, { params })
 
 const getPropostaProspeccao = user_id => `${ GET_PROPOSTA_PROSPECCAO_URL }?user_id=${ user_id }`
 const getProspeccaoLeads = user_id => `${ GET_PROSPECCAO_LEADS_URL }?user_id=${ user_id }`
