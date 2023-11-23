@@ -2,11 +2,11 @@ import math
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.core.mail import send_mail
-from datetime import date, datetime
 
 from .models import Proposta, Tarefa, Venda, Perdido
 from usuario.models import Usuario
 from prospeccao.models import Prospeccao
+from historico.models import Historico
 from .serializers import PropostaSerializerInsert, PropostaSerializerUpdate, TarefaSerializerInsert, VendaSerializer, PerdidoSerializer
 from django.db.models import Q
 from django.db.models import Max
@@ -44,6 +44,10 @@ class PropostaView(generics.GenericAPIView):
         serializer = self.serializer_class(data=gerar_versao(request.data))
         if serializer.is_valid():
             serializer.save()
+            prospeccao_id = request.data.get('prospeccao')
+            lead = Prospeccao.objects.get(id=prospeccao_id).lead
+            Historico.objects.create(
+                etapa='Proposta', ocorrencia='Criação', lead=lead.id, prospeccao=prospeccao_id, informacoes=request.data.get('status'))
             return Response({"status": "success", "data": {"message": "Proposta registrada com sucesso", "proposta": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -74,6 +78,9 @@ class PropostaDetails(generics.GenericAPIView):
             proposta, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            lead = Prospeccao.objects.get(id=id).lead
+            Historico.objects.create(
+                etapa='Proposta', ocorrencia='Criação', lead=lead.id, prospeccao=id, informacoes=request.data.get('status'))
             return Response({"status": "success", "data": {"message": "Proposta atualizada com sucesso", "proposta": serializer.data}})
         return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -147,7 +154,7 @@ class TarefaView(generics.GenericAPIView):
         })
 
     def post(self, request):
-        proposta_id = request.data.get('proposta')
+        proposta_id = request.GET.get('proposta_id')
         proposta = Proposta.objects.get(id=proposta_id)
         nome_negocio = request.data.get('nome_negocio')
         tipo = request.data.get('tipo_contato')
@@ -231,8 +238,8 @@ class VendaView(generics.GenericAPIView):
         request.data['valor_proposta'] = proposta.valor_proposta
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            proposta.status_proposta = 'Venda'
-            prospeccao.status = 'Venda'
+            proposta.status_proposta = 'Vendido'
+            prospeccao.status = 'Vendido'
             proposta.save()
             prospeccao.save()
             serializer.save()

@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Lead(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cnpj = models.CharField(max_length=14, unique=True)
+    cnpj = models.CharField(max_length=14)
     nomeEmpresa = models.CharField(max_length=255)
     responsavel = models.CharField(max_length=255)
     telefone = models.CharField(max_length=255)
