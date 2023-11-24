@@ -195,13 +195,11 @@ export const Navbar = () => {
                 <MenuItem disabled>
                   <Typography textAlign="center">{username}</Typography>
                 </MenuItem>
+                <Divider />
                 <MenuItem onClick={() => logoutUser()}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-                <Divider />
-                <MenuItem onClick={handleOpenDeleteModal}>
-                  <Typography color="error" textAlign="center">Excluir conta</Typography>
-                </MenuItem>
+
               </Menu>
             </Box>
           </Toolbar>
