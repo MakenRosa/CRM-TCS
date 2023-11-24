@@ -106,7 +106,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
     const data = {
       nome_proposta: nomeProposta,
       desc_proposta: descProposta,
-      consultor_prop: consultorProp,
+      consultor_prop: Number(consultorProp),
       tipo_projeto: tipoProjeto,
       influenciador_decisor: influenciadorDecisor,
       perfil_orcamento: perfilOrcamento,
@@ -114,8 +114,8 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
       status_proposta: statusProposta,
       material_insumo: materialInsumo,
       servicos,
-      valor_proposta: valorProposta,
-      prospeccao: prospectId,
+      valor_proposta: Number(valorProposta),
+      prospeccao: Number(prospectId),
       somatorio: 0,
       tipo_contato: 'Proposta',
       ativa: true
@@ -216,9 +216,11 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
 }
 
 const formatarValorParaMoeda = valor => {
-  const numero = valor ? Number(valor.replace(/\D/g, '')) / 100 : 0
-  return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  const valorStr = String(valor);
+  const numero = valorStr ? parseFloat(valorStr.replace(/\D/g, '')) / 100 : 0;
+  return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
+
 
 const ValorPropostaField = ({ value, onChange }) => {
   const handleValueChange = e => {

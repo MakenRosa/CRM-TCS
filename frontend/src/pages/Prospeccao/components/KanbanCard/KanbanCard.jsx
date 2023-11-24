@@ -1,4 +1,4 @@
-import { CardContent } from "@mui/material"
+import { CardContent, Typography } from "@mui/material"
 import PropTypes from "prop-types"
 import { Draggable } from 'react-beautiful-dnd'
 import { useNavigate } from "react-router-dom"
@@ -28,6 +28,7 @@ export const KanbanCard = ({ label, description, date, status, leadId, id, index
             <StyledCardLabel variant="subtitle1">{label}</StyledCardLabel>
             <StyledCardDescription variant="body2">{description}</StyledCardDescription>
             <StyledCardFooter>
+              <Typography variant="caption" fontWeight={600}>Próxima ação:</Typography>
               <StyledKanbanCardDate variant="caption">{date}</StyledKanbanCardDate>
             </StyledCardFooter>
           </CardContent>

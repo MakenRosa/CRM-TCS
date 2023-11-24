@@ -26,7 +26,6 @@ const transformData = data => {
         id: item.id,
         label: item.nome_negocio,
         description: item.observacao,
-        value: 'R$ 0,00', 
         date: item.data_proxima_acao,
         leadId: item.lead
       }))
