@@ -141,12 +141,12 @@ const validateProspection = prospection => {
     return false
   }
 
-  if (!prospection.preferencia_contato || prospection.preferencia_contato.length < 1) {
+  if (!prospection.preferencia_contato || prospection.preferencia_contato.trim() === '' || prospection.preferencia_contato.length < 1) {
     toast.error('A preferência de contato é obrigatória!')
     return false
   }
 
-  if (!prospection.horario_contato || prospection.horario_contato.length < 1) {
+  if (!prospection.horario_contato || prospection.horario_contato.trim() === '' || prospection.horario_contato.length < 1) {
     toast.error('O horário de contato é obrigatório!')
     return false
   }
@@ -161,7 +161,7 @@ const validateProspection = prospection => {
   ]
 
   for (const { field, minLength, maxLength, message } of fields) {
-    if (!prospection[field] || prospection[field].length < minLength || prospection[field].length > maxLength) {
+    if (!prospection[field] || prospection[field].trim() === '' || prospection[field].length < minLength || prospection[field].length > maxLength) {
       toast.error(`O campo ${ message } é obrigatório e deve ter entre ${ minLength } e ${ maxLength } caracteres!`)
       return false
     }
@@ -179,6 +179,5 @@ const validateProspection = prospection => {
 
   return true
 }
-
 
 export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword, validateLead, validateProspection, validateEmail }
