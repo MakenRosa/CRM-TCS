@@ -9,9 +9,9 @@ import { StyledCheckedIcon, StyledTeam } from "./Team.styles"
 
 const StyledSwitch = styled(Switch)(() => ({
   '& .MuiSwitch-switchBase.Mui-checked': {
-    color: '#9181f4', // Cor do botão quando ativado
+    color: '#9181f4', 
     '&:hover': {
-      backgroundColor: 'rgba(145, 129, 244, 0.08)' // Cor de fundo no hover quando ativado
+      backgroundColor: 'rgba(145, 129, 244, 0.08)' 
     }
   },
   '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
@@ -46,7 +46,6 @@ export const Team = ({ team, title }) => {
   }, [current_user_id])
 
   useEffect(() => {
-    // Inicialize o estado de comissões com os valores iniciais do time
     const comissoesIniciais = {}
     team.forEach(integrante => {
       comissoesIniciais[integrante.id] = integrante.comissao
@@ -151,7 +150,7 @@ export const Team = ({ team, title }) => {
                         fontSize={20}
                         variant="h6"
                       >
-                        {integrante.first_name} {integrante.last_name?.split(' ')[0]}
+                        {integrante.first_name} {integrante.last_name?.split(' ').pop()}
                       </Typography>
                     </Box>
                     <Typography

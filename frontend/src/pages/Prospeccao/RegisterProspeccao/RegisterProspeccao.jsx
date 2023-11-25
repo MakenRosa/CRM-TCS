@@ -12,7 +12,7 @@ import {
   StyledRegisterTitle,
   StyledTextField
 } from "components"
-import {  CircularProgress, MenuItem } from "@mui/material"
+import { CircularProgress, InputAdornment, MenuItem } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { createProspeccao, getLeads, getUniqueProspeccao, updateProspeccao, validateProspection } from "utils"
@@ -22,7 +22,7 @@ import { StyledRegisterProspeccaoSection, StyledSectionTitle } from "./RegisterP
 const formatDate = date => {
   if (date) {
     const dateParts = date.split('/')
-    return `${ dateParts[2] }-${ dateParts[1] }-${ dateParts[0] }`
+    return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`
   }
   return ''
 }
@@ -36,7 +36,7 @@ export const RegisterProspeccao = () => {
   const [nomeNegocio, setNomeNegocio] = useState(prospeccao?.nome_negocio || '')
   const [lead, setLead] = useState(leadToProspect?.id || prospeccao?.lead || '')
   const [segmento, setSegmento] = useState(prospeccao?.segmento || '')
-  const [status, setStatus] = useState(prospeccao?.status || 'Em prospecção' || '' )
+  const [status, setStatus] = useState(prospeccao?.status || 'Em prospecção' || '')
   const [servicosProdutos, setServicosProdutos] = useState(prospeccao?.servicos_produtos || '')
   const [participacaoComercial, setParticipacaoComercial] = useState(prospeccao?.participacao_comercial || '')
   const [participacaoEfetiva, setParticipacaoEfetiva] = useState(prospeccao?.participacao_efetiva || '')
@@ -88,8 +88,6 @@ export const RegisterProspeccao = () => {
   const handleLead = event => setLead(event.target.value)
   const handleSegmento = event => setSegmento(event.target.value)
   const handleServicosProdutos = event => setServicosProdutos(event.target.value)
-  const handleParticipacaoComercial = event => setParticipacaoComercial(event.target.value)
-  const handleParticipacaoEfetiva = event => setParticipacaoEfetiva(event.target.value)
   const handleConsultor = event => setConsultor(event.target.value)
   const handleDataInicioProspeccao = event => setDataInicioProspeccao(event.target.value)
   const handleDataContatoInicial = event => setDataContatoInicial(event.target.value)
@@ -104,64 +102,64 @@ export const RegisterProspeccao = () => {
     const dataContatoInicialFormatada = new Date(dataContatoInicial)
     const dataInicioProspeccaoFormatada = new Date(dataInicioProspeccao)
     const dataProximaAcaoFormatada = new Date(dataProximaAcao)
-  
+
     if (dataContatoInicialFormatada > dataInicioProspeccaoFormatada) {
       toast.error('A data do contato inicial deve ser anterior à data de início da prospecção!')
       return false
     }
-  
+
     if (dataInicioProspeccaoFormatada > dataProximaAcaoFormatada) {
       toast.error('A data de início da prospecção deve ser anterior à data da próxima ação!')
       return false
     }
-  
+
     if (!validarDistanciaEntreDatas(dataContatoInicialFormatada, dataProximaAcaoFormatada)) {
       toast.error('A distância entre as datas e a data atual deve ser de no máximo 1 ano!')
       return false
     }
-  
+
     return true
   }
 
-const handleSubmit = async event => {
-  event.preventDefault()
-  setLoading(true)
+  const handleSubmit = async event => {
+    event.preventDefault()
+    setLoading(true)
 
-  const dataInicioFormatada = `${ dataInicioProspeccao  }T12:00:00.000Z`
-  const dataContatoInicialFormatada = `${ dataContatoInicial  }T12:00:00.000Z`
-  const dataProximaAcaoFormatada = `${ dataProximaAcao  }T12:00:00.000Z`
+    const dataInicioFormatada = `${dataInicioProspeccao}T12:00:00.000Z`
+    const dataContatoInicialFormatada = `${dataContatoInicial}T12:00:00.000Z`
+    const dataProximaAcaoFormatada = `${dataProximaAcao}T12:00:00.000Z`
 
-  if (!validarOrdemDasDatas()) {
-    setLoading(false)
-    return
-  }
+    if (!validarOrdemDasDatas()) {
+      setLoading(false)
+      return
+    }
 
-  if (!validarDistanciaEntreDatas(dataContatoInicialFormatada, dataInicioFormatada, dataProximaAcaoFormatada)) {
-    toast.error('Verifique as datas: devem estar dentro do intervalo de um ano e na ordem correta.')
-    setLoading(false)
-    return
-  }
+    if (!validarDistanciaEntreDatas(dataContatoInicialFormatada, dataInicioFormatada, dataProximaAcaoFormatada)) {
+      toast.error('Verifique as datas: devem estar dentro do intervalo de um ano e na ordem correta.')
+      setLoading(false)
+      return
+    }
 
-  if(observacoesAdicionais.length > 255) {
-    toast.error('A observação deve ter no máximo 255 caracteres!')
-    setLoading(false)
-    return
-  }
+    if (observacoesAdicionais.length > 255) {
+      toast.error('A observação deve ter no máximo 255 caracteres!')
+      setLoading(false)
+      return
+    }
 
     const data = {
-      nome_negocio: nomeNegocio,
+      nome_negocio: nomeNegocio.trim(),
       lead,
-      segmento,
-      servicos_produtos: servicosProdutos,
+      segmento: segmento.trim(),
+      servicos_produtos: servicosProdutos.trim(),
       participacao_comercial: participacaoComercial,
       participacao_efetiva: participacaoEfetiva,
-      consultor,
-      data_inicio_prospeccao: new Date(`${ dataInicioProspeccao  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_contato_inicial: new Date(`${ dataContatoInicial  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_proxima_acao: new Date(`${ dataProximaAcao  }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      preferencia_contato: preferenciaContato,
+      consultor: consultor.trim(),
+      data_inicio_prospeccao: new Date(`${dataInicioProspeccao}T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_contato_inicial: new Date(`${dataContatoInicial}T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_proxima_acao: new Date(`${dataProximaAcao}T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      preferencia_contato: preferenciaContato.trim(),
       horario_contato: horarioContato,
-      observacao: observacoesAdicionais || '.',
+      observacao: observacoesAdicionais.trim() || '------------------',
       status
     }
     try {
@@ -176,32 +174,44 @@ const handleSubmit = async event => {
     } finally {
       setLoading(false)
     }
-    
+
   }
-  
+
   const validarDistanciaEntreDatas = (dataContatoInicialValid, dataInicioProspeccaoValid, dataProximaAcaoValid) => {
     const dataAtual = new Date()
     const umAnoAtras = new Date(dataAtual.getFullYear() - 1, dataAtual.getMonth(), dataAtual.getDate())
     const umAnoFrente = new Date(dataAtual.getFullYear() + 1, dataAtual.getMonth(), dataAtual.getDate())
-  
+
     const dataContatoInicialFormatada = new Date(dataContatoInicialValid)
     const dataInicioProspeccaoFormatada = new Date(dataInicioProspeccaoValid)
     const dataProximaAcaoFormatada = new Date(dataProximaAcaoValid)
-  
+
     if (dataContatoInicialFormatada < umAnoAtras || dataContatoInicialFormatada > umAnoFrente ||
-        dataInicioProspeccaoFormatada < umAnoAtras || dataInicioProspeccaoFormatada > umAnoFrente ||
-        dataProximaAcaoFormatada < umAnoAtras || dataProximaAcaoFormatada > umAnoFrente) {
+      dataInicioProspeccaoFormatada < umAnoAtras || dataInicioProspeccaoFormatada > umAnoFrente ||
+      dataProximaAcaoFormatada < umAnoAtras || dataProximaAcaoFormatada > umAnoFrente) {
       return false
     }
-  
+
     if (dataContatoInicialFormatada > dataInicioProspeccaoFormatada || dataInicioProspeccaoFormatada > dataProximaAcaoFormatada) {
       return false
     }
-  
+
     return true
   }
+
+  const handleParticipacaoComercialChange = (event) => {
+    const value = event.target.value.replace(/[^0-9]/g, '');
+    if (Number(value) <= 100) {
+      setParticipacaoComercial(value);
+    }
+  };
   
-  
+  const handleParticipacaoEfetivaChange = (event) => {
+    const value = event.target.value.replace(/[^0-9]/g, '');
+    if (Number(value) <= 100) {
+      setParticipacaoEfetiva(value);
+    }
+  };
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -229,7 +239,7 @@ const handleSubmit = async event => {
               </StyledRegisterTextField>
               <StyledRegisterTextField label="Segmento" onChange={handleSegmento} size="small" value={segmento} />
             </StyledRegisterProspeccaoSection>
-            
+
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Possibilidades Comerciais</StyledSectionTitle>
               <StyledRegisterTextField label="Serviços/Produtos" onChange={handleServicosProdutos} size="small" value={servicosProdutos} />
@@ -237,12 +247,29 @@ const handleSubmit = async event => {
 
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Dados Participação Comercial</StyledSectionTitle>
-              <StyledRegisterTextField label="Participação Comercial" onChange={handleParticipacaoComercial} size="small" value={participacaoComercial} />
-              <StyledRegisterTextField label="Participação Efetiva" onChange={handleParticipacaoEfetiva} size="small" value={participacaoEfetiva} />
+              <StyledRegisterTextField
+                label="Participação Comercial (%)"
+                onChange={handleParticipacaoComercialChange}
+                size="small"
+                value={`${participacaoComercial}`}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                }}
+              />
+
+              <StyledRegisterTextField
+                label="Participação Efetiva (%)"
+                onChange={handleParticipacaoEfetivaChange}
+                size="small"
+                value={`${participacaoEfetiva}`}
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                }}
+              />
               <StyledRegisterTextField label="Consultor" onChange={handleConsultor} size="small" value={consultor} />
             </StyledRegisterProspeccaoSection>
           </StyledRegisterSection>
-          
+
           <StyledRegisterSection>
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Dados relevantes</StyledSectionTitle>
@@ -250,13 +277,13 @@ const handleSubmit = async event => {
               <StyledRegisterTextField label="Data Início Prospecção" onChange={handleDataInicioProspeccao} size="small" type="date" value={dataInicioProspeccao} />
               <StyledRegisterTextField label="Data Próxima Ação" onChange={handleDataProximaAcao} size="small" type="date" value={dataProximaAcao} />
             </StyledRegisterProspeccaoSection>
-            
+
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Canais de Comunicação</StyledSectionTitle>
               <StyledRegisterTextField label="Preferência de Contato" onChange={handlePreferenciaContato} size="small" value={preferenciaContato} />
               <StyledTextField defaultValue="12:00" label="Horário de Contato" name="hora" onChange={handleHorarioContato} size="small" type="time" value={horarioContato} />
             </StyledRegisterProspeccaoSection>
-            
+
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Observações/Notas</StyledSectionTitle>
               <StyledRegisterTextField label="Observações adicionais" multiline onChange={handleObservacoesAdicionais} rows={5} size="small" value={observacoesAdicionais} />
