@@ -5,42 +5,25 @@ from lead.models import Lead
 from prospeccao.models import Prospeccao
 
 from .serializers import HistoricoSerializer
+from .models import Historico
+from django.db.models import Q
 
 class HistoricoView(views.APIView):
-    def get(self, request):
-        user_id = request.GET.get("user_id")
-        lead = self.get_leads(user_id)
-        prospeccao = self.get_prospeccao(user_id)
-        historico_data= {
-            "lead_historico": lead,
-            "prospeccao_historico": prospeccao
-            }
-        results = HistoricoSerializer(historico_data).data
-        return Response(results)
-    
+    serializer_class = HistoricoSerializer
 
-    def get_leads(self, user_id):
-        lead = Lead.objects.filter(user=user_id).first()
-        if lead:
-            lead_data = {
-                "data_cadastro_lead": lead.data_cadastro,
-                "data_ultima_alteracao_lead": lead.data_ultima_alteracao,
-                "nome_empresa": lead.nomeEmpresa
-            }
-            return lead_data
-        else:
-            return None
+    def get(self, request):
+        prospeccao_id = request.GET.get("prospeccao_id")
+        lead_id = Prospeccao.objects.get(id=prospeccao_id).lead.id
+
+        # Filtra por lead e por prospeccao_id ou onde prospeccao é nula
+        dados_historico = Historico.objects.filter(
+            Q(lead=lead_id),
+            Q(prospeccao=prospeccao_id) | Q(prospeccao__isnull=True)
+        )
+        serializer = self.serializer_class(dados_historico, many=True)
+        return Response({
+            "data": {"message": "Historico found",
+                     "dados_historico": serializer.data}
+        },)
     
-    def get_prospeccao(self, user_id):
-        leads = Lead.objects.filter(user=user_id)[0]
-        prospeccao = Prospeccao.objects.filter(lead=leads.id)[0]
-        prospeccao_data = {
-            "data_contato_inicial": prospeccao.data_contato_inicial,
-            "data_proxima_acao": prospeccao.data_proxima_acao,
-            "versao": prospeccao.versao,
-            "nome_negocio": prospeccao.nome_negocio,
-            "segmento": prospeccao.segmento,
-            "participacao_comercial": prospeccao.participacao_comercial,
-            "participacao_efetiva": prospeccao.participacao_efetiva
-        }
-        return prospeccao_data
+    

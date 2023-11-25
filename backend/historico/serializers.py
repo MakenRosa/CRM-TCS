@@ -1,5 +1,8 @@
 from rest_framework import serializers
+from .models import Historico
+from datetime import datetime
 
-class HistoricoSerializer(serializers.Serializer):
-    lead_historico = serializers.DictField()
-    prospeccao_historico = serializers.DictField()
+class HistoricoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Historico
+        fields = '__all__'

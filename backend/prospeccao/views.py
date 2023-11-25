@@ -1,10 +1,10 @@
-from rest_framework import viewsets, generics, status
+from rest_framework import generics, status
 from django.db.models import Q
 from rest_framework.response import Response
 import math
-from datetime import date, datetime
 from usuario.models import Usuario
 from lead.models import Lead
+from historico.models import Historico
 
 from .models import Prospeccao
 from .serializers import ProspeccaoSerializerInsert, ProspeccaoSerializerUpdate
@@ -27,7 +27,6 @@ class ProspeccaoView(generics.GenericAPIView):
             total_prospeccoes = prospeccoes.count()
             if total_prospeccoes == 0:
                 return Response({"data": {"message": "Prospecção not found"}}, status=status.HTTP_404_NOT_FOUND)
-        print(total_prospeccoes)
         serializer = self.serializer_class(prospeccoes[start_num:end_num], many=True)
         return Response({
             "data": {"message": "Prospecções encontradas",
@@ -40,7 +39,9 @@ class ProspeccaoView(generics.GenericAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            instance = serializer.save()
+            Historico.objects.create(
+                etapa='Prospecção', ocorrencia='Criação', lead=request.data.get('lead'), prospeccao=instance.id, informacoes=request.data.get('observacao'))
             return Response({"status": "success", "data": {"message": "Prospecção registrada com sucesso", "prospecção": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -73,6 +74,14 @@ class ProspeccaoDetails(generics.GenericAPIView):
         if serializer.is_valid():
             verificar_status(serializer, id)
             serializer.save()
+            lead_id = request.data.get('lead')
+            if not lead_id:
+                lead_id = request.data.get('leadId')
+                Historico.objects.create(
+                    etapa='Proposta', ocorrencia='Atualização no quadro', lead=lead_id, prospeccao=id, informacoes=request.data.get('status'))
+            else:
+                Historico.objects.create(
+                    etapa='Prospecção', ocorrencia='Atualização', lead=lead_id, prospeccao=id, informacoes=request.data.get('observacao'))
             return Response({"status": "success", "data": {"message": "Prospecção atualizada com sucesso", "prospecção": serializer.data}})
         return Response({"status": "fail", "data": {"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
 

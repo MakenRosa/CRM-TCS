@@ -2,9 +2,7 @@ from lead.models import Lead
 from prospeccao.models import Prospeccao
 from proposta.models import Proposta, Venda, Perdido
 from django.db.models import Sum
-from collections import defaultdict
-from datetime import datetime
-import json
+from django.db.models.functions import Length
 
 
 
@@ -26,7 +24,7 @@ class ProcessamentoBi:
     
     def indice_proposta_por_prospeccoes(self, user_id):
         prospeccoes = self.get_prospecoes(user_id)
-        propostas = Proposta.objects.filter(consultor_prop=user_id)
+        propostas = Proposta.objects.annotate(versao_length=Length('versao')).filter(consultor_prop=user_id, versao_length__lt=2)
         total_prospeccoes = prospeccoes.count()
         total_propostas = propostas.count()
         if total_prospeccoes == 0:
@@ -38,7 +36,7 @@ class ProcessamentoBi:
         return  {'total_propostas': total_propostas, 'total_prospeccoes': total_prospeccoes, 'razao': razao, 'analise_quantidade_propostas': mes_propostas, 'analise_quantidade_prospeccao': mes_prospeccao}
     
     def indice_vendas_por_propostas(self, user_id):
-        propostas = Proposta.objects.filter(consultor_prop=user_id)
+        propostas = Proposta.objects.annotate(versao_length=Length('versao')).filter(consultor_prop=user_id, versao_length__lt=2)
         total_propostas = propostas.count()
         vendas = self.get_vendas(user_id)
         total_vendas = vendas.count()
@@ -68,7 +66,7 @@ class ProcessamentoBi:
     def funil(self, user_id):
         total_leads = Lead.objects.filter(user=user_id).count()
         total_prospeccoes = self.get_prospecoes(user_id).count()
-        total_propostas = Proposta.objects.filter(consultor_prop=user_id).count()
+        total_propostas = Proposta.objects.annotate(versao_length=Length('versao')).filter(consultor_prop=user_id, versao_length__lt=3).count()
         total_venda = self.get_vendas(user_id).count()
         return {'total_leads': total_leads, 'total_prospeccoes': total_prospeccoes, 'total_propostas': total_propostas, 'total_venda': total_venda}
     
@@ -155,6 +153,7 @@ class ProcessamentoBi:
         for prospeccao in prospeccoes:
             prospeccoes_id.append(prospeccao.id)
         return Proposta.objects.filter(prospeccao__in=prospeccoes_id)
+    
 
 
 

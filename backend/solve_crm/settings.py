@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'prospeccao',
     'proposta',
     'grupo',
+    'historico',
 ]
 
 AUTH_USER_MODEL = "usuario.Usuario"
