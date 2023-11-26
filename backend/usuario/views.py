@@ -15,8 +15,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
 
-#Acoes relacionadas aos usuarios do sistema:
-
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
