@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { Box, Divider, styled } from "@mui/material"
 import { useEffect, useState } from "react"
 import { getHistorico } from "utils"
@@ -9,13 +10,12 @@ const StyledFlexBox = styled(Box)`
   z-index: 0;
 `
 
-export const HistoricoLead = () => {
+export const HistoricoLead = ({ prospectId }) => {
   const [historico, setHistorico] = useState([])
 
-  const user_id = sessionStorage.getItem("user_id")
   
   useEffect(() => {
-    getHistorico(user_id).then(res => {
+    getHistorico(prospectId).then(res => {
       setHistorico(res)
     })
   }, [])
@@ -40,4 +40,8 @@ export const HistoricoLead = () => {
       </Box>
     </Box>
   )
+}
+
+HistoricoLead.propTypes = {
+  prospectId: PropTypes.string
 }

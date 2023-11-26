@@ -174,7 +174,7 @@ const getTarefa = async proposta_id => await api.get(GET_TAREFA_URL, { params: {
 const createTarefa = async data => await api.post(CREATE_TAREFA_URL, data, { params: { "proposta_id": data.proposta } })
 const createPropostaVenda = async data => await api.post(POST_PROPOSTA_VENDA_URL, data)
 const createPropostaPerdido = async (data, user_id) => await api.post(POST_PROPOSTA_PERDIDO_URL, data, { params: { user_id } })
-const getHistorico = async user_id => await api.get(GET_HISTORICO_URL, { params: { user_id }  })
+const getHistorico = async prospeccao_id => await api.get(GET_HISTORICO_URL, { params: { prospeccao_id }  })
 const getMenuBi = async user_id => await api.get(GET_MENU_BI_URL, { params: { user_id }  }) 
 const patchComissao = async user_id => await api.post(`${ PATCH_COMISSAO_URL }?user_id=${ user_id }`)
 const getRelatorioPDF = async params => await api.get(GET_RELATORIO_PDF_URL, { params })
