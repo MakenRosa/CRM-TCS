@@ -33,7 +33,7 @@ const transformData = data => {
   return transformedData
 }
 
-export const KanbanBoard = ({ boardData }) => {
+export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   const [boardDataState, setBoardDataState] = useState(transformData(boardData))
   const [collapsedColumns, setCollapsedColumns] = useState({})
 
@@ -76,29 +76,30 @@ export const KanbanBoard = ({ boardData }) => {
 
 
   const onDragEnd = useCallback(async result => {
-    const { destination, source } = result
+    const { source, destination } = result
 
-    if (!destination) {
-      return
+    // Se não há destino ou se a posição do card não mudou, retorna sem fazer nada
+    if (!destination || 
+        (source.droppableId === destination.droppableId && source.index === destination.index)) {
+        return
     }
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
-      return
-    }
-    const newBoardData = JSON.parse(JSON.stringify(boardDataState))
-    const [removed] = newBoardData.find(column => column.title === source.droppableId).cards.splice(source.index, 1)
-    newBoardData.find(column => column.title === destination.droppableId).cards.splice(destination.index, 0, removed)
-    setBoardDataState(newBoardData)
 
-    const movedCard = removed
+    const newBoardData = [...boardDataState]
+    const sourceColumn = newBoardData.find(column => column.title === source.droppableId)
+    const destColumn = newBoardData.find(column => column.title === destination.droppableId)
+
+    const [removed] = sourceColumn.cards.splice(source.index, 1)
+    destColumn.cards.splice(destination.index, 0, removed)
+
+    onUpdateBoardData(newBoardData)
+
     try {
-      updateProspeccao(movedCard.id, { ...movedCard, status: destination.droppableId })
+        await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
     } catch (error) {
-      toast.error('Erro ao atualizar o status do negócio')
+        toast.error('Erro ao atualizar o status do negócio')
     }
-  }, [boardDataState, setBoardDataState])
+}, [boardDataState, setBoardDataState])
+
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -148,5 +149,6 @@ export const KanbanBoard = ({ boardData }) => {
 }
 
 KanbanBoard.propTypes = {
-  boardData: PropTypes.array
+  boardData: PropTypes.array,
+  onUpdateBoardData: PropTypes.func
 }

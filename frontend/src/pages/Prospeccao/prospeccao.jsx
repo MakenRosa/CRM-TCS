@@ -8,6 +8,7 @@ import { KanbanBoard } from './components/KanbanBoard'
 import { StyledBar } from './prospeccao.styles'
 
 const parseDate = dateString => {
+  if (!dateString) {return null} // ou uma data padrão, se apropriado
   const parts = dateString.split('/')
   return new Date(parts[2], parts[1] - 1, parts[0])
 }
@@ -78,6 +79,21 @@ export const Prospeccao = () => {
     "Data da próxima ação"
   ]
 
+  const handleUpdateBoardData = newBoardData => {
+    const updatedProspeccoes = newBoardData.flatMap(column =>
+        column.cards.map(card => ({
+            ...card, 
+            status: column.title,
+            id: card.id,
+            nome_negocio: card.label,
+            observacao: card.description,
+            data_proxima_acao: card.date,
+            lead: card.leadId
+        }))
+    )
+    setProspeccoes(updatedProspeccoes)
+}
+  
   return (
     <Box sx={{ margin: '20px' }}>
       <StyledBar>
@@ -107,7 +123,7 @@ export const Prospeccao = () => {
         </Box>
       </StyledBar>
       <Box>
-        <KanbanBoard boardData={prospeccoes} />
+        <KanbanBoard boardData={prospeccoes} onUpdateBoardData={handleUpdateBoardData} />
       </Box>
     </Box>
   )
