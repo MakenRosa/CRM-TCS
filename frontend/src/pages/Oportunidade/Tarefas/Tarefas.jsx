@@ -1,4 +1,4 @@
-import { Box, Divider } from "@mui/material"
+import { Box, Divider, Typography } from "@mui/material"
 import PropTypes from "prop-types"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -41,7 +41,7 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
         setProposta(response.data.propostas[0].proposta)
         setPropostaId(response.data.propostas[0].proposta.id)
       } catch (error) {
-        toast.error('Erro ao buscar propostas')
+        console.log(error)
       }
     }
     async function getTarefas () {
@@ -74,7 +74,7 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
     }
   }
 
-  const tarefasAgrupadas = agruparTarefas(tarefas)
+  const tarefasAgrupadas = agruparTarefas(tarefas) || { 'Planejada': [], 'Concluída': [] }
   const ordemDosGrupos = ['Planejada', 'Concluída']
 
   return (
@@ -82,31 +82,36 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
       <StyledButtons>
         <StyledButtonsGroup>
           <StyledButton disabled={!selectedTarefa} variant={"primary"}>Concluir</StyledButton>
-          <StyledButton disabled={!selectedTarefa}
+          <StyledButton 
+            disabled={!selectedTarefa}
             onClick={handleEdit}
             variant={"secondary"}
           >Editar
           </StyledButton>
-          <StyledButton onClick={handleNewTask} variant={"primary"}>Nova Tarefa</StyledButton>
+          <StyledButton disabled={!propostaId}
+            onClick={handleNewTask}
+            variant={"primary"}
+          >Nova Tarefa
+          </StyledButton>
         </StyledButtonsGroup>
       </StyledButtons>
       <Box height={"100%"} position="relative" sx={{ overflowY: "scroll" }} width={1}>
         <StyledFlexBox>
           <Divider flexItem height={"100%"} orientation="vertical" sx={{ paddingLeft: "20px" }} />
           <Box marginLeft="20px" paddingRight="20px" width={1}>
-            {ordemDosGrupos.map(grupo => {
+            {propostaId ? ordemDosGrupos.map(grupo => {
           const tarefasDoGrupo = tarefasAgrupadas[grupo] || []
-          return (
+          return ( 
             <Box key={grupo}>
-              {tarefasDoGrupo.length > 0 && <StyledStatus variant="h6">{grupo}</StyledStatus>}
-              {tarefasDoGrupo.map((tarefa, index) => (
+              <StyledStatus variant="h6">{grupo}</StyledStatus>
+              {tarefasDoGrupo.length > 0 ? tarefasDoGrupo.map((tarefa, index) => (
                 <TarefaContainer key={index} marginBottom="20px">
                   <Tarefa onSelect={() => setSelectedTarefa(tarefa)} selectedTarefa={selectedTarefa} setSelectedTarefa={setSelectedTarefa} tarefa={tarefa} />
                 </TarefaContainer>
-              ))}
+              )) : <Typography sx={{ textAlign: "center", color: "#5038ed", fontSize: "24px" }}>Não há tarefas {grupo.toLowerCase()}s</Typography>}
             </Box>
           )
-        })}
+        }) : <Typography sx={{ textAlign: "center", color: "#5038ed", fontSize: "24px" }}>Para criar uma tarefa, é necessário ter uma proposta</Typography>}
           </Box>
         </StyledFlexBox>
       </Box>
