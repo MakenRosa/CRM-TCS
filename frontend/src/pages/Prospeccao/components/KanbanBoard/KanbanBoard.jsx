@@ -62,7 +62,6 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
     }))
   }
   
-
   useEffect(() => {
   setBoardDataState(transformData(boardData))
   }, [boardData])
@@ -78,13 +77,15 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   const onDragEnd = useCallback(async result => {
     const { source, destination } = result
 
-    // Se não há destino ou se a posição do card não mudou, retorna sem fazer nada
     if (!destination || 
         (source.droppableId === destination.droppableId && source.index === destination.index)) {
         return
     }
 
-    const newBoardData = [...boardDataState]
+    const newBoardData = boardDataState.map(column => ({
+      ...column,
+      cards: [...column.cards]
+  }))
     const sourceColumn = newBoardData.find(column => column.title === source.droppableId)
     const destColumn = newBoardData.find(column => column.title === destination.droppableId)
 
@@ -92,12 +93,13 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
     destColumn.cards.splice(destination.index, 0, removed)
 
     onUpdateBoardData(newBoardData)
-
+    setBoardDataState(newBoardData)
     try {
-        await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
-    } catch (error) {
-        toast.error('Erro ao atualizar o status do negócio')
-    }
+      await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
+      setBoardDataState(newBoardData)
+  } catch (error) {
+      toast.error('Erro ao atualizar o status do negócio')
+  }
 }, [boardDataState, setBoardDataState])
 
 

@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import { useNavigate } from "react-router-dom"
 import { StyledCardDescription, StyledCardFooter, StyledCardLabel, StyledKanbanCard, StyledKanbanCardDate } from "./KanbanCard.styles"
 
-export const KanbanCard = ({ label, description, date, status, leadId, id, index }) => {
+export const KanbanCard = ({ label, description, date, status, leadId, id, index, ...props }) => {
   const navigate = useNavigate()
 
   const handleEditProspeccao = () => {
@@ -23,6 +23,8 @@ export const KanbanCard = ({ label, description, date, status, leadId, id, index
           {...provided.dragHandleProps}
           onClick={handleEditProspeccao}
           ref={provided.innerRef}
+          status={status}
+          {...props}
         >
           <CardContent>
             <StyledCardLabel variant="subtitle1">{label}</StyledCardLabel>

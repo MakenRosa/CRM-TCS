@@ -8,7 +8,7 @@ import { KanbanBoard } from './components/KanbanBoard'
 import { StyledBar } from './prospeccao.styles'
 
 const parseDate = dateString => {
-  if (!dateString) {return null} // ou uma data padrão, se apropriado
+  if (!dateString) {return null}
   const parts = dateString.split('/')
   return new Date(parts[2], parts[1] - 1, parts[0])
 }
@@ -51,7 +51,6 @@ export const Prospeccao = () => {
       return (dateA - dateB) * multiplier
     })
 
-  
     setProspeccoes(sortedProspeccoes)
   }
 
