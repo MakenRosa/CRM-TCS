@@ -49,7 +49,7 @@ export const Oportunidade = () => {
         return <Tarefas negocio={prospect.nome_negocio} responsavel={lead.responsavel} />
         // eslint-disable-next-line no-magic-numbers
       case 3:
-        return <HistoricoLead />
+        return <HistoricoLead prospectId={prospectId} />
       default:
         return null
     }
@@ -100,7 +100,7 @@ export const Oportunidade = () => {
             </StyledLeadDetailInfo>
             <StyledLeadDetailInfo>
               <StyledLeadDetailInfoTitle component="p" gutterBottom variant="body1">
-                Cargo
+                Segmento
               </StyledLeadDetailInfoTitle>
               <StyledLeadDetailInfoValue component="p" gutterBottom variant="body2">
                 {lead.cargo}
