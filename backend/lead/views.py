@@ -42,7 +42,7 @@ class Leads(generics.GenericAPIView):
             return Response({"status": "fail", "data":{"message": {"cnpj": ["Um lead com este CNPJ já está registrado para este usuário."]}}}, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             instance = serializer.save()
-            Historico.objects.create(etapa='Lead', ocorrencia='Criação', informacoes=serializer.validated_data.data.get('nomeEmpresa'), lead=instance.id)
+            Historico.objects.create(etapa='Lead', ocorrencia='Criação', informacoes=request.data.get('nomeEmpresa'), lead=instance.id)
             return Response({"status": "success", "data": {"message": "Lead successfully registered", "lead": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "fail", "data":{"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -72,7 +72,7 @@ class LeadsDetails(generics.GenericAPIView):
         serializer = self.serializer_class(
             lead, data=request.data, partial=True)
         if serializer.is_valid():
-            Historico.objects.create(etapa='Lead', ocorrencia='Atualização', informacoes=serializer.validated_data.get('nomeEmpresa'), lead=lead.id)
+            Historico.objects.create(etapa='Lead', ocorrencia='Atualização', informacoes=request.data.get('nomeEmpresa'), lead=lead.id)
             serializer.validated_data['updatedAt'] = datetime.now()
             serializer.save()
             return Response({"status": "success", "data": {"message": "Lead successfully updated", "lead": serializer.data}})
