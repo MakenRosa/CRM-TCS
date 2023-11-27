@@ -73,7 +73,6 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   
   useEffect(() => {
     if (JSON.stringify(previousBoardData) !== JSON.stringify(boardData)) {
-      console.log('Atualizando boardDataState...')
       setBoardDataState(transformData(boardData))
     }
   }, [boardData])

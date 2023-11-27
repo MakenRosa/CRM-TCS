@@ -12,7 +12,6 @@ export const HistoricoLead = ({ prospectId }) => {
   useEffect(() => {
     getHistorico(prospectId)
       .then(res => {
-        console.log(res.data.data)
         if (res && res.data && Array.isArray(res.data.data.dados_historico)) {
           setHistorico(res.data.data.dados_historico)
         } else {

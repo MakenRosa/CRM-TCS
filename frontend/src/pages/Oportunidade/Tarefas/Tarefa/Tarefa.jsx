@@ -4,6 +4,10 @@ import { GroupsOutlined, MailOutline, PhoneOutlined, RadioButtonChecked, RadioBu
 import { Box, Typography } from "@mui/material"
 import { CircleIcon, StyledCheckbox, TarefaCard, TarefaHeader } from "./Tarefa.styles"
 
+const isPastDateTime = (data, hora) => {
+  const dataHoraTarefa = new Date(`${ data }T${ hora }`)
+  return dataHoraTarefa < new Date()
+}
 
 export const Tarefa = ({ tarefa, onSelect, setSelectedTarefa, selectedTarefa, marginBottom }) => {
   const isSelected = selectedTarefa && selectedTarefa.id === tarefa.id
@@ -33,15 +37,20 @@ export const Tarefa = ({ tarefa, onSelect, setSelectedTarefa, selectedTarefa, ma
         }
           </TarefaHeader>
           <Box display="flex" flexDirection="row" fontSize="12px" justifyContent="space-between" marginX="40px">
-            <Typography color={ new Date(tarefa.data_cadastro) > new Date() ? "green" : "red" }
+            <Typography color={isPastDateTime(tarefa.data_cadastro, tarefa.hora_cadastrado) ? "red" : "green"}
               sx={{ fontWeight: "600" }}
               variant="body1"
             >{tarefa.data_cadastro.split("-").reverse().join("/")}
+            </Typography>
+            <Typography color={isPastDateTime(tarefa.data_cadastro, tarefa.hora_cadastrado) ? "red" : "green"}
+              variant="body1"
+            >{tarefa.hora_cadastrado.split(':').slice(0, 2).join(':')}
             </Typography>
             <Typography variant="body1">{tarefa.nome_negocio}</Typography>
             <Typography variant="body1">{tarefa.responsavel_negocio}</Typography>
             <Typography variant="body1">{tarefa.membro_equipe}</Typography>
           </Box>
+
         </TarefaCard>
       </Box>
   )

@@ -29,6 +29,7 @@ const GET_PROPOSTA_URL = "/api/proposta/"
 const CREATE_PROPOSTA_URL = "/api/proposta/"
 const GET_TAREFA_URL = "/api/proposta/tarefa/"
 const CREATE_TAREFA_URL = "/api/proposta/tarefa/"
+const UPDATE_TAREFA_URL = "/api/proposta/tarefa/"
 const GET_PROPOSTA_PROSPECCAO_URL = "http://localhost:8000/api/graficos/proposta-prospeccoes/"
 const GET_PROSPECCAO_LEADS_URL = "http://localhost:8000/api/graficos/prospeccoes-leads/"
 const GET_VENDAS_PROPOSTA = "http://localhost:8000/api/graficos/vendas-proposta/"
@@ -172,6 +173,7 @@ const getProposta = async (user_id, prospeccao_id) => await api.get(GET_PROPOSTA
 const createProposta = async data => await api.post(CREATE_PROPOSTA_URL, data)
 const getTarefa = async proposta_id => await api.get(GET_TAREFA_URL, { params: { proposta_id }  })
 const createTarefa = async data => await api.post(CREATE_TAREFA_URL, data, { params: { "proposta_id": data.proposta } })
+const updateTarefa = async (id, data) => await api.patch(`${ UPDATE_TAREFA_URL }${ id }/`, data )
 const createPropostaVenda = async data => await api.post(POST_PROPOSTA_VENDA_URL, data)
 const createPropostaPerdido = async (data, user_id) => await api.post(POST_PROPOSTA_PERDIDO_URL, data, { params: { user_id } })
 const getHistorico = async prospeccao_id => await api.get(GET_HISTORICO_URL, { params: { prospeccao_id }  })
@@ -186,4 +188,4 @@ const getVendasProposta = user_id => `${ GET_VENDAS_PROPOSTA }?user_id=${ user_i
 const getVendasProspeccao = user_id => `${ GET_VENDAS_PROSPECCAO }?user_id=${ user_id }`
 const getFunil = user_id => `${ GET_FUNIL_URL }?user_id=${ user_id }`
 
-export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getUniqueLead, createProposta, getProposta, getTarefa, createPropostaVenda, createPropostaPerdido, createTarefa, getHistorico, getRelatorioPDF, getRelatorioExcel, getMenuBi, patchComissao }
+export { api, loginUser, registerUser, refreshToken, logoutUser, verifyToken, resetPassword, resetConfirmPassword, createLead, getLeads, updateLead, deleteLead, createProspeccao, getProspeccao, updateProspeccao, deleteProspeccao, getUniqueProspeccao, getTotals, getTeam, sendGroupInvite, deleteUserFromGroup, getUser, deleteUser, getPropostaProspeccao, getProspeccaoLeads, getVendasProposta, getVendasProspeccao, getFunil, getUniqueLead, createProposta, getProposta, getTarefa, createPropostaVenda, createPropostaPerdido, createTarefa, getHistorico, getRelatorioPDF, getRelatorioExcel, getMenuBi, patchComissao, updateTarefa }
