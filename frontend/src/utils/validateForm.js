@@ -79,25 +79,24 @@ const validateConfirmPassword = (password, confirmPassword) => {
 const validateLead = lead => {
   const telefoneRegex = /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/g
   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
-  // CNPJ without special characters
   const cnpjRegex = /^[0-9]{14}$/
 
-  if (!lead.cnpj) {
+  if (!lead.cnpj || lead.cnpj.trim() === '') {
     toast.error('O campo CNPJ é obrigatório!')
     return false
   } else if (!cnpjRegex.test(lead.cnpj)) {
     toast.error('O campo CNPJ está inválido!')
     return false
   }
-  if (!lead.nomeEmpresa) {
+  if (!lead.nomeEmpresa || lead.nomeEmpresa.trim() === '') {
     toast.error('O campo Empresa é obrigatório!')
     return false
   }
-  if (!lead.responsavel) {
+  if (!lead.responsavel || lead.responsavel.trim() === '') {
     toast.error('O campo Responsável é obrigatório!')
     return false
   }
-  if (!lead.email) {
+  if (!lead.email || lead.email.trim() === '') {
     toast.error('O campo E-mail é obrigatório!')
     return false
   }
@@ -105,7 +104,7 @@ const validateLead = lead => {
     toast.error('O campo E-mail está inválido!')
     return false
   }
-  if (!lead.telefone) {
+  if (!lead.telefone || lead.telefone.trim() === '') {
     toast.error('O campo Telefone é obrigatório!')
     return false
   }
@@ -113,15 +112,15 @@ const validateLead = lead => {
     toast.error('O campo Telefone está inválido!')
     return false
   }
-  if (!lead.origem) {
+  if (!lead.origem || lead.origem.trim() === '') {
     toast.error('O campo Origem do Lead é obrigatório!')
     return false
   }
-  if (!lead.cargo) {
+  if (!lead.cargo || lead.cargo.trim() === '') {
     toast.error('O campo Segmento é obrigatório!')
     return false
   }
-  if (!lead.descricao) {
+  if (!lead.descricao || lead.descricao.trim() === '') {
     toast.error('O campo Descrição é obrigatório!')
     return false
   }
@@ -141,12 +140,12 @@ const validateProspection = prospection => {
     return false
   }
 
-  if (!prospection.preferencia_contato || prospection.preferencia_contato.length < 1) {
+  if (!prospection.preferencia_contato || prospection.preferencia_contato.trim() === '' || prospection.preferencia_contato.length < 1) {
     toast.error('A preferência de contato é obrigatória!')
     return false
   }
 
-  if (!prospection.horario_contato || prospection.horario_contato.length < 1) {
+  if (!prospection.horario_contato || prospection.horario_contato.trim() === '' || prospection.horario_contato.length < 1) {
     toast.error('O horário de contato é obrigatório!')
     return false
   }
@@ -161,7 +160,7 @@ const validateProspection = prospection => {
   ]
 
   for (const { field, minLength, maxLength, message } of fields) {
-    if (!prospection[field] || prospection[field].length < minLength || prospection[field].length > maxLength) {
+    if (!prospection[field] || prospection[field].trim() === '' || prospection[field].length < minLength || prospection[field].length > maxLength) {
       toast.error(`O campo ${ message } é obrigatório e deve ter entre ${ minLength } e ${ maxLength } caracteres!`)
       return false
     }
@@ -179,6 +178,5 @@ const validateProspection = prospection => {
 
   return true
 }
-
 
 export { validatePasswordTraits, isValidForm, validatePassword, validateConfirmPassword, validateLead, validateProspection, validateEmail }

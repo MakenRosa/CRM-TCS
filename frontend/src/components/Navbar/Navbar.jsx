@@ -79,10 +79,6 @@ export const Navbar = () => {
     navigate(`/${ route }`)
     handleCloseNavMenu()
   }
-
-  const handleOpenDeleteModal = () => {
-    setOpenDeleteModal(true)
-  }
   
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false)

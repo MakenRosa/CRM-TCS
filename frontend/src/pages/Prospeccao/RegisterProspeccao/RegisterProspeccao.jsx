@@ -12,7 +12,7 @@ import {
   StyledRegisterTitle,
   StyledTextField
 } from "components"
-import { CircularProgress, InputAdornment, MenuItem } from "@mui/material"
+import { CircularProgress, MenuItem } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { createProspeccao, getLeads, getUniqueProspeccao, updateProspeccao, validateProspection } from "utils"
@@ -22,7 +22,7 @@ import { StyledRegisterProspeccaoSection, StyledSectionTitle } from "./RegisterP
 const formatDate = date => {
   if (date) {
     const dateParts = date.split('/')
-    return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`
+    return `${ dateParts[2] }-${ dateParts[1] }-${ dateParts[0] }`
   }
   return ''
 }
@@ -88,6 +88,17 @@ export const RegisterProspeccao = () => {
   const handleLead = event => setLead(event.target.value)
   const handleSegmento = event => setSegmento(event.target.value)
   const handleServicosProdutos = event => setServicosProdutos(event.target.value)
+  const handleParticipacaoComercialChange = event => {
+    let valor = event.target.value.replace(/[^0-9]/g, '')
+    valor = Math.min(valor, 100) 
+    setParticipacaoComercial(valor ? `${ valor }%` : '') 
+  }
+  
+  const handleParticipacaoEfetivaChange = event => {
+    let valor = event.target.value.replace(/[^0-9]/g, '') 
+    valor = Math.min(valor, 100)
+    setParticipacaoEfetiva(valor ? `${ valor }%` : '') 
+  }
   const handleConsultor = event => setConsultor(event.target.value)
   const handleDataInicioProspeccao = event => setDataInicioProspeccao(event.target.value)
   const handleDataContatoInicial = event => setDataContatoInicial(event.target.value)
@@ -125,9 +136,9 @@ export const RegisterProspeccao = () => {
     event.preventDefault()
     setLoading(true)
 
-    const dataInicioFormatada = `${dataInicioProspeccao}T12:00:00.000Z`
-    const dataContatoInicialFormatada = `${dataContatoInicial}T12:00:00.000Z`
-    const dataProximaAcaoFormatada = `${dataProximaAcao}T12:00:00.000Z`
+    const dataInicioFormatada = `${ dataInicioProspeccao }T12:00:00.000Z`
+    const dataContatoInicialFormatada = `${ dataContatoInicial }T12:00:00.000Z`
+    const dataProximaAcaoFormatada = `${ dataProximaAcao }T12:00:00.000Z`
 
     if (!validarOrdemDasDatas()) {
       setLoading(false)
@@ -154,9 +165,9 @@ export const RegisterProspeccao = () => {
       participacao_comercial: participacaoComercial,
       participacao_efetiva: participacaoEfetiva,
       consultor: consultor.trim(),
-      data_inicio_prospeccao: new Date(`${dataInicioProspeccao}T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_contato_inicial: new Date(`${dataContatoInicial}T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
-      data_proxima_acao: new Date(`${dataProximaAcao}T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_inicio_prospeccao: new Date(`${ dataInicioProspeccao }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_contato_inicial: new Date(`${ dataContatoInicial }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
+      data_proxima_acao: new Date(`${ dataProximaAcao }T12:00:00.000Z`).toLocaleDateString('pt-BR').replace(/\//g, '-'),
       preferencia_contato: preferenciaContato.trim(),
       horario_contato: horarioContato,
       observacao: observacoesAdicionais.trim() || '------------------',
@@ -199,20 +210,6 @@ export const RegisterProspeccao = () => {
     return true
   }
 
-  const handleParticipacaoComercialChange = (event) => {
-    const value = event.target.value.replace(/[^0-9]/g, '');
-    if (Number(value) <= 100) {
-      setParticipacaoComercial(value);
-    }
-  };
-  
-  const handleParticipacaoEfetivaChange = (event) => {
-    const value = event.target.value.replace(/[^0-9]/g, '');
-    if (Number(value) <= 100) {
-      setParticipacaoEfetiva(value);
-    }
-  };
-
   useEffect(() => {
     const fetchLeads = async () => {
       const response = await getLeads(user_id)
@@ -247,25 +244,8 @@ export const RegisterProspeccao = () => {
 
             <StyledRegisterProspeccaoSection>
               <StyledSectionTitle align="center" variant="h6">Dados Participação Comercial</StyledSectionTitle>
-              <StyledRegisterTextField
-                label="Participação Comercial (%)"
-                onChange={handleParticipacaoComercialChange}
-                size="small"
-                value={`${participacaoComercial}`}
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                }}
-              />
-
-              <StyledRegisterTextField
-                label="Participação Efetiva (%)"
-                onChange={handleParticipacaoEfetivaChange}
-                size="small"
-                value={`${participacaoEfetiva}`}
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                }}
-              />
+              <StyledRegisterTextField label="Participação Comercial" onChange={handleParticipacaoComercialChange} size="small" value={participacaoComercial} />
+              <StyledRegisterTextField label="Participação Efetiva" onChange={handleParticipacaoEfetivaChange} size="small" value={participacaoEfetiva} />
               <StyledRegisterTextField label="Consultor" onChange={handleConsultor} size="small" value={consultor} />
             </StyledRegisterProspeccaoSection>
           </StyledRegisterSection>

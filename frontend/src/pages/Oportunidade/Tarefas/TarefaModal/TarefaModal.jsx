@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'components' // Ou de onde você importa seus componentes
+import { Button } from 'components' 
 import { Box, Typography } from '@mui/material'
 import { Group, MailOutline, Phone, Send } from '@mui/icons-material'
 import { createTarefa } from 'utils'
@@ -65,8 +65,11 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
     if (task) {
       // PUT
     } else {
+
+      if (!isDataHoraValida(formattedDate, data.hora_cadastrado)) {
+        return
+      }
       const saveTarefa = async () => {
-        
         try {
           await createTarefa({
             ...data,
@@ -170,6 +173,18 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
   )
 }
 
+const isDataHoraValida = (data_cadastro, hora_cadastrado) => {
+  if (!data_cadastro) {
+    toast.error('Data é obrigatória.')
+    return false
+  }
+  if (!hora_cadastrado) {
+    toast.error('Hora é obrigatória.')
+    return false
+  }
+  return true
+}
+
 TarefaModal.propTypes = {
   lead_responsavel: PropTypes.string,
   nome_negocio: PropTypes.string,
@@ -182,9 +197,11 @@ TarefaModal.propTypes = {
 }
 
 const formatDate = dateStr => {
+  if (!dateStr) {return ''}
+
   const date = new Date(dateStr)
   const day = date.getDate().toString().padStart(2, '0')
-  const month = (date.getMonth() + 1).toString().padStart(2, '0') 
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
   const year = date.getFullYear()
   return `${ day }-${ month }-${ year }`
 }

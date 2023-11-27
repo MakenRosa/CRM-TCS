@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 import React, { useState, useMemo } from 'react'
 import { Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import 'chart.js/auto'
@@ -43,7 +44,7 @@ export const AnalyticsDashboard = ({ data }) => {
       label: key,
       data: Object.values(dadosMapeados[key]),
       backgroundColor: coresGrafico[index],
-      hoverBackgroundColor: `${ coresGrafico[index]  }99`
+      hoverBackgroundColor: `${ coresGrafico[index] }99`
     }))
 
     return {
@@ -59,11 +60,13 @@ export const AnalyticsDashboard = ({ data }) => {
       datasets: [
         {
           data: [razao, 1 - razao],
-          backgroundColor: ['#36A2EB', '#FF6384']
+          backgroundColor: ['#36A2EB', '#FF6384'],
+          hoverBackgroundColor: ['#36A2EB99', '#FF638499']
         }
       ]
     }
   }, [indiceSelecionado, data])
+  
   const opcoesGraficoPizza = {
     plugins: {
       tooltip: {
@@ -75,9 +78,9 @@ export const AnalyticsDashboard = ({ data }) => {
             }
             const total = context.dataset.data.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
             const currentValue = context.parsed
-            // eslint-disable-next-line no-magic-numbers
-            const percentage = Math.round(((currentValue/total) * 100))
-            label += `${ percentage  }%`
+            const percentage = Math.round(((currentValue / total) * 100))
+            const adjustedPercentage = percentage 
+            label += `${ adjustedPercentage }%`
             return label
           }
         }
@@ -85,7 +88,7 @@ export const AnalyticsDashboard = ({ data }) => {
     }
   }
 
-    const handleChange = event => {
+  const handleChange = event => {
     setIndiceSelecionado(event.target.value)
   }
 
@@ -106,12 +109,12 @@ export const AnalyticsDashboard = ({ data }) => {
           <MenuItem value="vendas_prospeccao">VENDA / PROSPECÇÃO</MenuItem>
         </Select>
       </FormControl>
-        
+
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '100%', height: '100%' }}>
         {dadosGraficosBarra.datasets.map((dataset, index) => (
           <Box key={index} sx={{ width: '40%', maxWidth: '600px', height: '300px' }}>
-            <Bar 
-              data={{ labels: dadosGraficosBarra.labels, datasets: [dataset] }} 
+            <Bar
+              data={{ labels: dadosGraficosBarra.labels, datasets: [dataset] }}
               options={{ indexAxis: 'y', maintainAspectRatio: false, scales: { y: { ticks: { autoSkip: false } } } }}
             />
           </Box>
