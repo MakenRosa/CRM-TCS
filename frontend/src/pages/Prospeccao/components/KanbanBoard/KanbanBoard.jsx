@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { KanbanColumn } from "pages/Prospeccao"
 import { DragDropContext } from 'react-beautiful-dnd'
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { updateProspeccao } from "utils"
 import { toast } from "react-toastify"
 import { Box, Divider, Typography } from "@mui/material"
@@ -33,9 +33,18 @@ const transformData = data => {
   return transformedData
 }
 
+function usePrevious (value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
+
 export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   const [boardDataState, setBoardDataState] = useState(transformData(boardData))
   const [collapsedColumns, setCollapsedColumns] = useState({})
+  const previousBoardData = usePrevious(boardData)
 
   const collapseProspect = () => {
     setCollapsedColumns(prevState => ({
@@ -63,7 +72,10 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   }
   
   useEffect(() => {
-  setBoardDataState(transformData(boardData))
+    if (JSON.stringify(previousBoardData) !== JSON.stringify(boardData)) {
+      console.log('Atualizando boardDataState...')
+      setBoardDataState(transformData(boardData))
+    }
   }, [boardData])
 
   const toggleColumnCollapse = columnName => {
@@ -73,7 +85,6 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
     }))
   }
 
-
   const onDragEnd = useCallback(async result => {
     const { source, destination } = result
 
@@ -82,26 +93,22 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
         return
     }
 
-    const newBoardData = boardDataState.map(column => ({
-      ...column,
-      cards: [...column.cards]
-  }))
+    // Copiando o estado atual para evitar mutação direta
+    const newBoardData = JSON.parse(JSON.stringify(boardDataState))
     const sourceColumn = newBoardData.find(column => column.title === source.droppableId)
     const destColumn = newBoardData.find(column => column.title === destination.droppableId)
 
     const [removed] = sourceColumn.cards.splice(source.index, 1)
     destColumn.cards.splice(destination.index, 0, removed)
 
-    onUpdateBoardData(newBoardData)
-    setBoardDataState(newBoardData)
     try {
       await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
       setBoardDataState(newBoardData)
-  } catch (error) {
+      onUpdateBoardData(newBoardData)
+    } catch (error) {
       toast.error('Erro ao atualizar o status do negócio')
-  }
-}, [boardDataState, setBoardDataState])
-
+    }
+}, [boardDataState, onUpdateBoardData])
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
