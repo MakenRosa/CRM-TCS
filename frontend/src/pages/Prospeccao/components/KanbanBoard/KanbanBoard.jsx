@@ -93,8 +93,8 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
         return
     }
 
-    // Copiando o estado atual para evitar mutação direta
-    const newBoardData = JSON.parse(JSON.stringify(boardDataState))
+    // Cria uma nova cópia do estado para modificar
+    const newBoardData = [...boardDataState]
     const sourceColumn = newBoardData.find(column => column.title === source.droppableId)
     const destColumn = newBoardData.find(column => column.title === destination.droppableId)
 
@@ -102,13 +102,17 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
     destColumn.cards.splice(destination.index, 0, removed)
 
     try {
-      await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
-      setBoardDataState(newBoardData)
-      onUpdateBoardData(newBoardData)
+        await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
+        // Atualiza o estado após a operação assíncrona
+        setBoardDataState(newBoardData)
+        onUpdateBoardData(newBoardData)
     } catch (error) {
-      toast.error('Erro ao atualizar o status do negócio')
+        toast.error('Erro ao atualizar o status do negócio')
+        // Em caso de erro, reverter para o estado anterior
+        setBoardDataState(transformData(boardData))
     }
-}, [boardDataState, onUpdateBoardData])
+}, [boardDataState, onUpdateBoardData, boardData])
+
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
