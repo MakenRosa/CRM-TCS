@@ -23,16 +23,12 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
   const [servicos, setServicos] = useState(proposta?.servicos || '')
   const [valorProposta, setValorProposta] = useState(proposta?.valor_proposta ?? 0)
 
-  const [valorPropostaFormatado, setValorPropostaFormatado] = useState(
-    proposta?.valor_proposta ? formatarValorParaMoeda(proposta.valor_proposta) : 'R$ 0,00'
-  )
   const { prospectId } = useParams()
 
-  const handleValorPropostaChange = valorFormatado => {
-    setValorPropostaFormatado(valorFormatado)
-    const valorNumerico = parseFloat(valorFormatado.replace(/\D/g, ''))
+  const handleValorPropostaChange = valorNumerico => {
     setValorProposta(valorNumerico) 
   }
+  
 
   async function fetchConsultor (id_consultor) {
     try {
@@ -57,9 +53,6 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
       setMaterialInsumo(proposta.material_insumo || '')
       setServicos(proposta.servicos || '')
       setValorProposta(proposta.valor_proposta || 0)
-      setValorPropostaFormatado(
-        proposta.valor_proposta ? formatarValorParaMoeda(proposta.valor_proposta) : 'R$ 0,00'
-      )
     } else {
       clearFields()
     }
@@ -79,7 +72,6 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
     setMaterialInsumo('')
     setServicos('')
     setValorProposta(0)
-    setValorPropostaFormatado('R$ 0,00')
   }
 
   const handleSave = async () => {   
@@ -192,7 +184,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
             </StyledRegisterTextField>
             <ValorPropostaField
               onChange={handleValorPropostaChange}
-              value={valorPropostaFormatado}
+              value={valorProposta}
             />
           </StyledColumn>
           <StyledColumn gap="10px">
@@ -219,30 +211,29 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
 
 const formatarValorParaMoeda = valor => {
   const valorStr = String(valor)
-  const numero = valorStr ? parseFloat(valorStr.replace(/\D/g, '')) / 100 : 0
-  return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  return valorStr ? parseFloat(valorStr.replace(/\D/g, '')) / 100 : 0
 }
 
 
 const ValorPropostaField = ({ value, onChange }) => {
   const handleValueChange = e => {
-    const valorFormatado = formatarValorParaMoeda(e.target.value)
-    onChange(valorFormatado)
+    const valorNumerico = formatarValorParaMoeda(e.target.value)
+    onChange(valorNumerico)
   }
-
+  const valorFormatado = value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
   return (
     <TextField
       label="Valor Proposta"
       onChange={handleValueChange}
       type="text" 
-      value={value}
+      value={valorFormatado}
     />
   )
 }
 
 ValorPropostaField.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.number.isRequired
 }
 
 const validateField = (value, fieldName, minLength, maxLength, isNumber = false) => {
