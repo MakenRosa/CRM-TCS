@@ -6,13 +6,12 @@ import map2 from 'assets/map2.svg'
 import clock from 'assets/clock.svg'
 import certificate from 'assets/certificate.svg'
 import goback from 'assets/goback.svg'
-import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { PictureAsPdfOutlined } from '@mui/icons-material'
 // eslint-disable-next-line import/no-relative-parent-imports
 import ExcelIconOutlined from "../excelIconOutlined.svg"
-import { StyledDateField, StyledTextLabel } from './AdvancedFilter.styles'
+import { StyledBoxRow, StyledDateField, StyledFilterBox, StyledTextLabel } from './AdvancedFilter.styles'
 
 export const AdvancedFilter = ({ setIsAdvancedFilter }) => {
   const [filters, setFilters] = useState({
@@ -87,7 +86,7 @@ export const AdvancedFilter = ({ setIsAdvancedFilter }) => {
         {renderDownloadButton('pdf', PictureAsPdfOutlined)}
         {renderDownloadButton('excel', ExcelIconOutlined)}
       </Box>
-      <Box alignItems="center" display="flex" flexDirection="row" gap="5px" justifyContent="space-between">
+      <StyledBoxRow>
         <StyledFilterBox>
           <img alt="map" src={map} style={{ height: "50%" }} />
           <StyledTextLabel color="#fff" variant="h6">Estágio Negociação</StyledTextLabel>
@@ -110,8 +109,8 @@ export const AdvancedFilter = ({ setIsAdvancedFilter }) => {
           <StyledTextLabel color="#fff" variant="h6">Última Alteração</StyledTextLabel>
           <StyledDateField id="date" name="data_ultima_alteracao" onChange={handleInputChange} size="small" style={{ color: "#fff" }} type="date" />
         </StyledFilterBox>
-      </Box>
-      <Box alignItems="center" display="flex" flexDirection="row" gap="5px" justifyContent="space-between">
+      </StyledBoxRow>
+      <StyledBoxRow>
         <StyledFilterBox>
           <img alt="clock" src={clock} style={{ height: "50%" }} />
           <StyledTextLabel color="#fff" variant="h6">Próxima Ação</StyledTextLabel>
@@ -126,7 +125,7 @@ export const AdvancedFilter = ({ setIsAdvancedFilter }) => {
           <img alt="goback" src={goback} style={{ height: "50%" }} />
           <StyledTextLabel color="#fff" variant="h6">Voltar ao Filtro Básico</StyledTextLabel>
         </StyledFilterBox>
-      </Box>
+      </StyledBoxRow>
     </Box>
 )
   }
