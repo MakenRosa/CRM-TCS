@@ -85,7 +85,7 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
       const saveTarefa = async () => {
         try {
           console.log(formattedDate)
-          await createTarefa({
+          const response = await createTarefa({
             ...data,
             data_cadastro: formattedDate,
             proposta: proposta.id,
@@ -93,7 +93,7 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
             concluida: false
           })
           resetForm()
-          setTarefas(prevState => [...prevState, data])
+          setTarefas(prevState => [...prevState, { ...data, id: response.data.data.tarefa.id }])
           toast.success('Tarefa criada com sucesso')
         } catch (error) {
           toast.error('Erro ao criar tarefa')
