@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import { KanbanColumn } from "pages/Prospeccao"
 import { DragDropContext } from 'react-beautiful-dnd'
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { updateProspeccao } from "utils"
 import { toast } from "react-toastify"
 import { Box, Divider, Typography } from "@mui/material"
@@ -33,9 +33,18 @@ const transformData = data => {
   return transformedData
 }
 
-export const KanbanBoard = ({ boardData }) => {
+function usePrevious (value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
+
+export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   const [boardDataState, setBoardDataState] = useState(transformData(boardData))
   const [collapsedColumns, setCollapsedColumns] = useState({})
+  const previousBoardData = usePrevious(boardData)
 
   const collapseProspect = () => {
     setCollapsedColumns(prevState => ({
@@ -62,9 +71,11 @@ export const KanbanBoard = ({ boardData }) => {
     }))
   }
   
-
   useEffect(() => {
-  setBoardDataState(transformData(boardData))
+    if (JSON.stringify(previousBoardData) !== JSON.stringify(boardData)) {
+      console.log('Atualizando boardDataState...')
+      setBoardDataState(transformData(boardData))
+    }
   }, [boardData])
 
   const toggleColumnCollapse = columnName => {
@@ -74,31 +85,34 @@ export const KanbanBoard = ({ boardData }) => {
     }))
   }
 
-
   const onDragEnd = useCallback(async result => {
-    const { destination, source } = result
+    const { source, destination } = result
 
-    if (!destination) {
-      return
+    if (!destination || 
+        (source.droppableId === destination.droppableId && source.index === destination.index)) {
+        return
     }
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    ) {
-      return
-    }
-    const newBoardData = JSON.parse(JSON.stringify(boardDataState))
-    const [removed] = newBoardData.find(column => column.title === source.droppableId).cards.splice(source.index, 1)
-    newBoardData.find(column => column.title === destination.droppableId).cards.splice(destination.index, 0, removed)
-    setBoardDataState(newBoardData)
 
-    const movedCard = removed
+    // Cria uma nova cópia do estado para modificar
+    const newBoardData = [...boardDataState]
+    const sourceColumn = newBoardData.find(column => column.title === source.droppableId)
+    const destColumn = newBoardData.find(column => column.title === destination.droppableId)
+
+    const [removed] = sourceColumn.cards.splice(source.index, 1)
+    destColumn.cards.splice(destination.index, 0, removed)
+
     try {
-      updateProspeccao(movedCard.id, { ...movedCard, status: destination.droppableId })
+        await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
+        // Atualiza o estado após a operação assíncrona
+        setBoardDataState(newBoardData)
+        onUpdateBoardData(newBoardData)
     } catch (error) {
-      toast.error('Erro ao atualizar o status do negócio')
+        toast.error('Erro ao atualizar o status do negócio')
+        // Em caso de erro, reverter para o estado anterior
+        setBoardDataState(transformData(boardData))
     }
-  }, [boardDataState, setBoardDataState])
+}, [boardDataState, onUpdateBoardData, boardData])
+
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -148,5 +162,6 @@ export const KanbanBoard = ({ boardData }) => {
 }
 
 KanbanBoard.propTypes = {
-  boardData: PropTypes.array
+  boardData: PropTypes.array,
+  onUpdateBoardData: PropTypes.func
 }

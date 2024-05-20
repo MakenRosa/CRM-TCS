@@ -23,16 +23,12 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
   const [servicos, setServicos] = useState(proposta?.servicos || '')
   const [valorProposta, setValorProposta] = useState(proposta?.valor_proposta ?? 0)
 
-  const [valorPropostaFormatado, setValorPropostaFormatado] = useState(
-    proposta?.valor_proposta ? formatarValorParaMoeda(proposta.valor_proposta) : 'R$ 0,00'
-  )
   const { prospectId } = useParams()
 
-  const handleValorPropostaChange = valorFormatado => {
-    setValorPropostaFormatado(valorFormatado)
-    const valorNumerico = parseFloat(valorFormatado.replace(/\D/g, ''))
+  const handleValorPropostaChange = valorNumerico => {
     setValorProposta(valorNumerico) 
   }
+  
 
   async function fetchConsultor (id_consultor) {
     try {
@@ -57,9 +53,6 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
       setMaterialInsumo(proposta.material_insumo || '')
       setServicos(proposta.servicos || '')
       setValorProposta(proposta.valor_proposta || 0)
-      setValorPropostaFormatado(
-        proposta.valor_proposta ? formatarValorParaMoeda(proposta.valor_proposta) : 'R$ 0,00'
-      )
     } else {
       clearFields()
     }
@@ -79,41 +72,42 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
     setMaterialInsumo('')
     setServicos('')
     setValorProposta(0)
-    setValorPropostaFormatado('R$ 0,00')
   }
 
   const handleSave = async () => {   
     const validateFields = () => {
       if (
-        !validateField(nomeProposta, "Nome da Proposta", 1, 255) ||
-        !validateField(descProposta, "Descrição da Proposta", 1) ||
-        !validateField(influenciadorDecisor, "Influenciador/Decisor", 1, 255) ||
-        !validateField(tipoProjeto, "Tipo Projeto", 1) ||
-        !validateField(perfilOrcamento, "Perfil Orçamento", 1) ||
-        !validateField(probFechamento, "Probabilidade Fechamento", 1) ||
-        !validateField(statusProposta, "Status Proposta", 1) ||
-        !validateField(materialInsumo, "Material / Insumo", 1) ||
-        !validateField(servicos, "Serviços", 1) ||
-        !validateField(valorProposta.toString(), "Valor Proposta", undefined, undefined, true) 
+        !validateField(nomeProposta.trim(), "Nome da Proposta", 1, 255) ||
+        !validateField(descProposta.trim(), "Descrição da Proposta", 1) ||
+        !validateField(influenciadorDecisor.trim(), "Influenciador/Decisor", 1, 255) ||
+        !validateField(tipoProjeto.trim(), "Tipo Projeto", 1) ||
+        !validateField(perfilOrcamento.trim(), "Perfil Orçamento", 1) ||
+        !validateField(probFechamento.trim(), "Probabilidade Fechamento", 1) ||
+        !validateField(statusProposta.trim(), "Status Proposta", 1) ||
+        !validateField(materialInsumo.trim(), "Material / Insumo", 1) ||
+        !validateField(servicos.trim(), "Serviços", 1) ||
+        !validateField(valorProposta.toString().trim(), "Valor Proposta", undefined, undefined, true) 
       ) {
         return false
       }
       return true
     }
+  
     if (!validateFields()) {
       return
     }
+  
     const data = {
-      nome_proposta: nomeProposta,
-      desc_proposta: descProposta,
+      nome_proposta: nomeProposta.trim(),
+      desc_proposta: descProposta.trim(),
       consultor_prop: Number(consultorProp),
-      tipo_projeto: tipoProjeto,
-      influenciador_decisor: influenciadorDecisor,
-      perfil_orcamento: perfilOrcamento,
-      prob_fechamento: probFechamento,
-      status_proposta: statusProposta,
-      material_insumo: materialInsumo,
-      servicos,
+      tipo_projeto: tipoProjeto.trim(),
+      influenciador_decisor: influenciadorDecisor.trim(),
+      perfil_orcamento: perfilOrcamento.trim(),
+      prob_fechamento: probFechamento.trim(),
+      status_proposta: statusProposta.trim(),
+      material_insumo: materialInsumo.trim(),
+      servicos: servicos.trim(),
       valor_proposta: Number(valorProposta),
       prospeccao: Number(prospectId),
       somatorio: 0,
@@ -190,7 +184,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
             </StyledRegisterTextField>
             <ValorPropostaField
               onChange={handleValorPropostaChange}
-              value={valorPropostaFormatado}
+              value={valorProposta}
             />
           </StyledColumn>
           <StyledColumn gap="10px">
@@ -216,52 +210,53 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
 }
 
 const formatarValorParaMoeda = valor => {
-  const valorStr = String(valor);
-  const numero = valorStr ? parseFloat(valorStr.replace(/\D/g, '')) / 100 : 0;
-  return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const valorStr = String(valor)
+  return valorStr ? parseFloat(valorStr.replace(/\D/g, '')) / 100 : 0
 }
 
 
 const ValorPropostaField = ({ value, onChange }) => {
   const handleValueChange = e => {
-    const valorFormatado = formatarValorParaMoeda(e.target.value)
-    onChange(valorFormatado)
+    const valorNumerico = formatarValorParaMoeda(e.target.value)
+    onChange(valorNumerico)
   }
-
+  const valorFormatado = value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
   return (
     <TextField
       label="Valor Proposta"
       onChange={handleValueChange}
       type="text" 
-      value={value}
+      value={valorFormatado}
     />
   )
 }
 
 ValorPropostaField.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.number.isRequired
 }
 
 const validateField = (value, fieldName, minLength, maxLength, isNumber = false) => {
+  const trimmedValue = value.trim()
   if (isNumber) {
-    const numberValue = parseFloat(value)
+    const numberValue = parseFloat(trimmedValue)
     if (isNaN(numberValue)) {
       toast.error(`O campo ${ fieldName } deve ser um número.`)
       return false
     }
   } else {
-    if (minLength && (!value || value.length < minLength)) {
-      toast.error(`O campo ${ fieldName } deve ter pelo menos ${ minLength } caracteres.`)
+    if (minLength && (!trimmedValue || trimmedValue.length < minLength)) {
+      toast.error(`O campo ${ fieldName } não deve ser vazio.`)
       return false
     }
-    if (maxLength && value && value.length > maxLength) {
+    if (maxLength && trimmedValue && trimmedValue.length > maxLength) {
       toast.error(`O campo ${ fieldName } não deve exceder ${ maxLength } caracteres.`)
       return false
     }
   }
   return true
 }
+
 PropostaModal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,

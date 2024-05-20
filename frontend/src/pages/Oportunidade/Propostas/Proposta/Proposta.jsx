@@ -32,6 +32,7 @@ export const Proposta = ({ proposta, subPropostas, marginBottom, onCheckboxChang
           {showCheckbox && <StyledCheckbox
             checked={isChecked}
             checkedIcon={<RadioButtonChecked />}
+            disabled={proposta.status_proposta === "Vendido" || proposta.status_proposta === "Perdido"}
             icon={<RadioButtonUnchecked />}
             onChange={() => onCheckboxChange(proposta)}
             size="small"
