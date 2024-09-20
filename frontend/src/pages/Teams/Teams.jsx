@@ -22,7 +22,7 @@ export const Teams = () => {
 
   return (
     <StyledRegisterContainer>
-      <StyledRegisterTitle>Equipes Cadastradas</StyledRegisterTitle>
+      <StyledRegisterTitle>Equipe Cadastrada</StyledRegisterTitle>
       <StyledRegisterForm>
         <StyledRegisterBox sx={{ display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
           <StyledTeams>
