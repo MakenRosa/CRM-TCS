@@ -1,4 +1,4 @@
-import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout, Leads, RegisterLead, Prospeccao, RegisterProspeccao, Teams } from "pages"
+import { AuthLayout, Dashboard, ForgotPassword, Login, NotFound, Register, ResetPassword, BaseLayout, Leads, RegisterLead, Prospeccao, RegisterProspeccao, Teams, Relatorios } from "pages"
 import {
   Navigate,
   Route,
@@ -8,11 +8,12 @@ import {
 import { CssBaseline } from "@mui/material"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import { Oportunidade } from "pages/Oportunidade"
 
 export const AppRouter = () => 
   <Router>
     <CssBaseline />
-    <ToastContainer hideProgressBar position="top-center" theme="colored" />
+    <ToastContainer hideProgressBar limit={2} newestOnTop position="top-center" theme="colored" />
     <Routes>
       <Route element={<Navigate replace to="/dashboard" />} path="/" />
       <Route element={<AuthLayout />} path="/">
@@ -27,7 +28,9 @@ export const AppRouter = () =>
         <Route element={<RegisterLead />} path="leads/register" />
         <Route element={<Prospeccao />} path="oportunidades" />
         <Route element={<RegisterProspeccao />} path="oportunidades/register" />
-        <Route element={<Teams />} path="equipes" />
+        <Route element={<Oportunidade />} path="oportunidades/:leadId/:prospectId" />
+        <Route element={<Teams />} path="equipe" />
+        <Route element={<Relatorios />} path="relatorios" />
       </Route>
       <Route element={<NotFound />} path="*" />
     </Routes>

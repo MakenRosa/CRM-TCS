@@ -42,14 +42,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',  # <-- rode ./manage.py migrate
     'djoser',
+    'django_cron',
     'drf_yasg',
     'corsheaders',
+    'django_apscheduler',
     'usuario',
     'dashboard',
     'lead',
     'prospeccao',
     'proposta',
     'grupo',
+    'historico',
 ]
 
 AUTH_USER_MODEL = "usuario.Usuario"
@@ -204,3 +207,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  
     "http://127.0.0.1:3000",
 ]
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW = True
+
+CRON_CLASSES = [
+    "proposta.notificacao.EnviarLembreteTarefaCron",  # Substitua com o caminho correto para a sua classe de cron
+]
+

@@ -6,15 +6,14 @@ from rest_framework.response import Response
 from django.core.mail import send_mail
 from urllib.parse import unquote
 import requests
-from django.contrib.auth.models import Group
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from rest_framework_simplejwt.views import TokenObtainPairView
 import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
-
-#Acoes relacionadas aos usuarios do sistema:
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
@@ -28,7 +27,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             user = Usuario.objects.get(email=email)
         except Usuario.DoesNotExist:
             user = None
-        print(user)
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200 and user:
             user_id = user.id
@@ -36,6 +34,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             response.data['is_admin'] = user.is_staff
             response.data['first_name'] = user.first_name
             response.data['last_name'] = user.last_name
+            response.data['comissao'] = False
         return response
         
 
@@ -79,6 +78,17 @@ def ativacao(request):
             return render(request, 'erro.html', {'message': 'Erro na requisição JWT'})
     else:
         return render(request, 'erro.html', {'message': 'URL de ativação não fornecida.'})
+    
+@csrf_exempt
+def comissao(request):
+    user_id = request.GET.get("user_id")
+    user = get_object_or_404(Usuario, id=user_id)
+    if user.is_staff:
+        user.comissao = not user.comissao
+        user.save()
+        return JsonResponse({'user_id': user_id, 'comissao': user.comissao})
+    else:
+        return JsonResponse({'data': 'Usuario nao autorizado'})
     
 @csrf_exempt 
 def exclusao_membro(request):

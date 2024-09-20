@@ -8,7 +8,7 @@ export const StyledDashboard = styled(Box)`
 export const StyledFilterBox = styled(Box)`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid #8F8B8B;
   padding: 16px;

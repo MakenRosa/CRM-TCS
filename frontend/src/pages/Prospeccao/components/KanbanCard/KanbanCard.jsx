@@ -1,15 +1,19 @@
-import { CardContent,  Typography } from "@mui/material"
+import { CardContent, Typography } from "@mui/material"
 import PropTypes from "prop-types"
 import { Draggable } from 'react-beautiful-dnd'
 import { useNavigate } from "react-router-dom"
 import { StyledCardDescription, StyledCardFooter, StyledCardLabel, StyledKanbanCard, StyledKanbanCardDate } from "./KanbanCard.styles"
 
-export const KanbanCard = ({ label, description, value, date, id, index }) => {
+export const KanbanCard = ({ label, description, date, status, leadId, id, index, ...props }) => {
   const navigate = useNavigate()
 
   const handleEditProspeccao = () => {
-    localStorage.setItem('edit_prospeccao', id)
-    navigate(`/oportunidades/register`)
+    if (status === "Em prospecção") {
+      localStorage.setItem('edit_prospeccao', id)
+      navigate(`/oportunidades/register`)
+    } else {
+      navigate(`/oportunidades/${ leadId }/${ id }`)
+    }
   }
   return (
     <Draggable draggableId={ String(id) } index={index}>
@@ -19,12 +23,14 @@ export const KanbanCard = ({ label, description, value, date, id, index }) => {
           {...provided.dragHandleProps}
           onClick={handleEditProspeccao}
           ref={provided.innerRef}
+          status={status}
+          {...props}
         >
           <CardContent>
             <StyledCardLabel variant="subtitle1">{label}</StyledCardLabel>
             <StyledCardDescription variant="body2">{description}</StyledCardDescription>
             <StyledCardFooter>
-              <Typography variant="caption">{value}</Typography>
+              <Typography fontWeight={600} variant="caption">Próxima ação:</Typography>
               <StyledKanbanCardDate variant="caption">{date}</StyledKanbanCardDate>
             </StyledCardFooter>
           </CardContent>
@@ -38,5 +44,7 @@ KanbanCard.propTypes = {
   id: PropTypes.number,
   index: PropTypes.number,
   label: PropTypes.string,
+  leadId: PropTypes.number,
+  status: PropTypes.string,
   value: PropTypes.string
 }

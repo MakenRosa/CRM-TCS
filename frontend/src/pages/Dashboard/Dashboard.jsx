@@ -1,125 +1,63 @@
-import { MenuItem } from '@mui/material'
-import { Button } from 'components'
+import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { AccountTree, Leaderboard, Person } from '@mui/icons-material'
-import { getTotals } from 'utils'
-import { DashboardCard, StyledCardsBox, StyledDashboard, StyledFilter, StyledFilterBox, StyledLabel, StyledSelect } from '.'
+import { InsertChartOutlined, TroubleshootOutlined } from '@mui/icons-material'
+import { getMenuBi } from 'utils'
+import { toast } from 'react-toastify'
+import { Funnel } from './Funnel'
+import { AnalyticsDashboard } from './AnalyticsDashboard/AnalyticsDashboard '
 
 export const Dashboard = () => {
-  const [team, setTeam] = useState('Equipe Rocket')
-  const [funnel, setFunnel] = useState('Todos')
-  const [period, setPeriod] = useState('Diário')
-  const [totals, setTotals] = useState({
-    total_prospeccao: 0,
-    total_negociacao: 0,
-    total_lead: 0
-  })
-  
-
-  const [cardData, setCardData] = useState([
-    {
-      icon: <AccountTree />,
-      title: "Total de prospecções",
-      value: "0"
-    },
-    {
-      icon: <Person />,
-      title: "Total de negociações",
-      value: "0"
-    },
-    {
-      icon: <Leaderboard />,
-      title: "Total de leads",
-      value: "0"
-    }
-  ])
-
-  useEffect(() => {
-    if (totals && typeof totals.total_prospeccao !== 'undefined' && typeof totals.total_negociacao !== 'undefined' && typeof totals.total_lead !== 'undefined') {
-      setCardData(prevData => [
-        {
-          ...prevData[0],
-          value: totals.total_prospeccao.toString()
-        },
-        {
-          ...prevData[1],
-          value: totals.total_negociacao.toString()
-        },
-        {
-          ...prevData[2],
-          value: totals.total_lead.toString()
-        }
-      ])
-    }
-  }, [totals])
+  const [dataFunnel, setDataFunnel] = useState({})
+  const [data, setData] = useState({})
 
   const user_id = sessionStorage.getItem('user_id')
 
-  const ClearFilters = () => {
-    setTeam('Equipe Rocket')
-    setFunnel('Todos')
-    setPeriod('Diário')
-  }
-
   useEffect(() => {
-    const getDashboardData = async () => {
-      const response = await getTotals(user_id)
-      setTotals(response.data.data)
+    const fetchMenuBI = async () => {
+      try {
+        const response = await getMenuBi(user_id)
+      if (response && response.data) {
+        if (response.data.funil) {
+          const { funil } = response.data
+          setDataFunnel({
+            total_leads: funil.total_leads,
+            total_prospeccoes: funil.total_prospeccoes,
+            total_propostas: funil.total_propostas,
+            total_venda: funil.total_venda
+          })
+        }
+        setData(response.data)
+      }
+    } catch (error) {
+      toast.error('Erro ao carregar dados do dashboard')
     }
-    getDashboardData()
   }
-  , [])
+    fetchMenuBI()
+  }, [user_id])
 
   return (
-    <StyledDashboard>
-      <StyledFilterBox>
-        <StyledFilter>
-          <StyledLabel variant="p">
-            Usuário/Equipe
-          </StyledLabel>
-          <StyledSelect onChange={e => setTeam(e.target.value)} value={team}>
-            <MenuItem value="Equipe Rocket">Equipe Rocket</MenuItem>
-            <MenuItem value="Equipe Aqua">Equipe Aqua</MenuItem>
-            <MenuItem value="Equipe Magma">Equipe Magma</MenuItem>
-            <MenuItem value="Equipe Plasma">Equipe Plasma</MenuItem>
-          </StyledSelect>
-        </StyledFilter>
-        <StyledFilter>
-          <StyledLabel variant="p">
+    <Box display="flex" flexDirection="column" height="80vh" marginTop="20px" width="100%">
+      <Box display="flex" flexDirection="row" justifyContent="space-around" width="100%">
+        <Box textAlign="center" width="40%">
+          <Typography borderBottom="2px solid #2E1F92" color="#5038ED" marginBottom="20px" variant="h4" width="100%">
+            <InsertChartOutlined />
             Funil
-          </StyledLabel>
-          <StyledSelect onChange={e => setFunnel(e.target.value)} value={funnel}>
-            <MenuItem value="Todos">Todos</MenuItem>
-            <MenuItem value="Clientes">Clientes</MenuItem>
-            <MenuItem value="Leads">Leads</MenuItem>
-            <MenuItem value="Oportunidades">Oportunidades</MenuItem>
-          </StyledSelect>
-        </StyledFilter>
-        <StyledFilter>
-          <StyledLabel variant="p">
-            Período
-          </StyledLabel>
-          <StyledSelect onChange={e => setPeriod(e.target.value)} value={period}>
-            <MenuItem value="Diário">Diário</MenuItem>
-            <MenuItem value="Semanal">Semanal</MenuItem>
-            <MenuItem value="Mensal">Mensal</MenuItem>
-            <MenuItem value="Anual">Anual</MenuItem>
-          </StyledSelect>
-        </StyledFilter>
-        <Button onClick={() => ClearFilters()} variant="primary">
-          Limpar filtros
-        </Button>
-      </StyledFilterBox>      
-      <StyledCardsBox>
-        {cardData.map((card, index) => (
-          <DashboardCard 
-            icon={card.icon}
-            key={index}
-            title={card.title}
-            value={card.value}
-          />
-        ))}
-      </StyledCardsBox>
-    </StyledDashboard>
+          </Typography> 
+          <Box display="flex" justifyContent="center" marginLeft="40px" width="100%">
+            <Funnel data={dataFunnel} valorVendas={data.vendas_prospeccao?.valor_vendas?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'} />
+          </Box>
+        </Box>
+        <Box width="55%">
+          <Typography borderBottom="2px solid #2E1F92" color="#5038ED" marginBottom="20px" textAlign="center" variant="h4" width="100%">
+            <TroubleshootOutlined />
+            Índices
+          </Typography>
+          <Box>
+            <AnalyticsDashboard data={data} />
+          </Box>
+        </Box>
+      </Box>
+      <Box />
+    </Box>
   )
 }

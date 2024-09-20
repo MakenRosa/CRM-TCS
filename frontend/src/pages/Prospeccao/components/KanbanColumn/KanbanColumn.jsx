@@ -44,6 +44,7 @@ export const KanbanColumn = ({ title, cards, columnColor, isCollapsed, toggleCol
                   {...card}
                   index={index}
                   key={card.id}
+                  status={title}
                 />
               ))
             ) : (

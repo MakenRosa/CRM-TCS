@@ -17,5 +17,5 @@ Usuario = get_user_model()
 class UsersGroupSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = Usuario
-        fields = ('id', 'email', 'first_name')
+        fields = ('id', 'email', 'first_name', 'last_name', 'comissao')
 

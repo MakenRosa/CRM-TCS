@@ -79,10 +79,6 @@ export const Navbar = () => {
     navigate(`/${ route }`)
     handleCloseNavMenu()
   }
-
-  const handleOpenDeleteModal = () => {
-    setOpenDeleteModal(true)
-  }
   
   const handleCloseDeleteModal = () => {
     setOpenDeleteModal(false)
@@ -93,10 +89,9 @@ export const Navbar = () => {
     { label: "Início", route: "dashboard" },
     { label: "Leads", route: "leads" },
     { label: "Oportunidades", route: "oportunidades" },
-    { label: "Tarefas", route: "tarefas" },
     { label: "Relatórios", route: "relatorios" },
     { label: "Configurações", route: "configuracoes" },
-    { label: "Administração", route: "equipes" }
+    { label: "Grupo", route: "equipe" }
   ]
 
   return (
@@ -196,13 +191,11 @@ export const Navbar = () => {
                 <MenuItem disabled>
                   <Typography textAlign="center">{username}</Typography>
                 </MenuItem>
+                <Divider />
                 <MenuItem onClick={() => logoutUser()}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
-                <Divider />
-                <MenuItem onClick={handleOpenDeleteModal}>
-                  <Typography color="error" textAlign="center">Excluir conta</Typography>
-                </MenuItem>
+
               </Menu>
             </Box>
           </Toolbar>

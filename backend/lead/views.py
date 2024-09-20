@@ -1,10 +1,12 @@
-from rest_framework import viewsets, generics, status
+from rest_framework import generics, status
 from django.db.models import Q
 from rest_framework.response import Response
 import math
-from datetime import date, datetime
+from datetime import datetime
+from usuario.models import Usuario
 
 from .models import Lead
+from historico.models import Historico
 from .serializers import LeadsSerializerInsert, LeadsSerializerUpdate
 
 
@@ -13,7 +15,7 @@ class Leads(generics.GenericAPIView):
 
     def get(self, request):
         page_num = int(request.GET.get("page", 1))
-        limit_num = int(request.GET.get("limit", 10))
+        limit_num = int(request.GET.get("limit", 100))
         start_num = (page_num - 1) * limit_num
         end_num = limit_num * page_num
         search_param = request.GET.get("search")
@@ -36,8 +38,11 @@ class Leads(generics.GenericAPIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
+        if Lead.objects.filter(cnpj=request.data.get('cnpj'), user=request.data.get('user')).exists():
+            return Response({"status": "fail", "data":{"message": {"cnpj": ["Um lead com este CNPJ já está registrado para este usuário."]}}}, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
-            serializer.save()
+            instance = serializer.save()
+            Historico.objects.create(etapa='Lead', ocorrencia='Criação', informacoes=request.data.get('nomeEmpresa'), lead=instance.id)
             return Response({"status": "success", "data": {"message": "Lead successfully registered", "lead": serializer.data}}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "fail", "data":{"message": serializer.errors}}, status=status.HTTP_400_BAD_REQUEST)
@@ -67,6 +72,7 @@ class LeadsDetails(generics.GenericAPIView):
         serializer = self.serializer_class(
             lead, data=request.data, partial=True)
         if serializer.is_valid():
+            Historico.objects.create(etapa='Lead', ocorrencia='Atualização', informacoes=request.data.get('nomeEmpresa'), lead=lead.id)
             serializer.validated_data['updatedAt'] = datetime.now()
             serializer.save()
             return Response({"status": "success", "data": {"message": "Lead successfully updated", "lead": serializer.data}})
@@ -80,6 +86,22 @@ class LeadsDetails(generics.GenericAPIView):
         lead.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class LeadsID(generics.GenericAPIView):
+    serializer_class = LeadsSerializerUpdate
+
+    def get_lead(self, id):
+        try:
+            return Lead.objects.get(id=id)
+        except:
+            return None
+
+    def get(self, request, id):
+        lead = self.get_lead(id=id)
+        if lead == None:
+            return Response({"status": "fail", "data": {"message": f"lead with id: {id} not found"}}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.serializer_class(lead)
+        return Response({"status": "success", "data": {"message": "Lead found", "lead": serializer.data}})
 
 def criar_filtro_pesquisa_lead(search_param):
     search_conditions = Q()

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 
 class OportunityTotalsView(generics.GenericAPIView):
-
+    swagger_schema = None
     def get(self, request):
         total_lead = self.get_leads(request)
         total_prospeccao, total_negociacao = self.get_prospeccao(request)
