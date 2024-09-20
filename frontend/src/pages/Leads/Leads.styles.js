@@ -4,10 +4,11 @@ import { Box, IconButton, Paper, styled } from "@mui/material"
 export const StyledButtonBox = styled(Box)`
   display: flex;
   justify-content: flex-end;
-    gap: ${ props => (props.gap ? props.gap : '20px') };
+  gap: ${ props => (props.gap ? props.gap : '20px') };
 
-  @media (max-width: 512px) {
+  @media (max-width: 768px) {
     justify-content: center;
+    flex-wrap: wrap;
   }
 `
 
@@ -15,13 +16,18 @@ export const StyledFilterSearchBox = styled(Box)`
   display: flex;
   justify-content: flex-end;
   margin: 0px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    width: 100%;
+  }
 `
 
 export const StyledSearchFilter = styled(Box)`
   display: flex;
   justify-content: space-between;                                                 
   align-items: center;
-  width:70%;
+  width: 70%;
   min-width: 400px;
   margin-left: 50px;
   margin-top: 20px;
@@ -31,11 +37,12 @@ export const StyledSearchFilter = styled(Box)`
   border-bottom: none;
   background: #EEEBEB;
 
-  @media (max-width: 512px) {
+  @media (max-width: 768px) {
     flex-direction: column;
     width: 100%;
-    min-width: 200px;
-    margin-left: 0px;
+    min-width: 0;
+    margin-left: 0;
+    gap: 10px;
   }
 `
 
@@ -58,14 +65,14 @@ export const StyledInputPaper = styled(Paper)`
   align-items: center;
   width: 400px;
 
-  @media screen and (max-width: 512px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `
 
 export const StyledIconButton = styled(IconButton)`
   padding: 10px;
-  background: ${ ({ searched }) => ( searched == "true" ? 'inherit' : 'var(--primary-gradient)') };
-  color: ${ ({ searched }) => (searched == "true" ? 'inherit' : '#fff') };
+  background: ${ ({ searched }) => (searched === "true" ? 'inherit' : 'var(--primary-gradient)') };
+  color: ${ ({ searched }) => (searched === "true" ? 'inherit' : '#fff') };
   transition: all 0.3s ease-in-out;
 `
