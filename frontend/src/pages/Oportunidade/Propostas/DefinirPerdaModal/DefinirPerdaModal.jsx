@@ -70,7 +70,6 @@ export const DefinirPerdaModal = ({ proposta, open, handleClose }) => {
           </MenuItem>
           <MenuItem value="preco">Preço</MenuItem>
           <MenuItem value="concorrencia">Concorrência</MenuItem>
-          {/* Adicione mais opções de motivos aqui */}
         </Select>
         <StyledButton onClick={handleSave}>Salvar</StyledButton>
       </ModalContent>

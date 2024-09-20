@@ -9,28 +9,33 @@ export const StyledKanbanCard = styled(Paper)`
 
   @media (max-width: 768px) {
     margin: 5px;
-    padding: 15px;
+    padding: 5px; // Ajuste no padding para telas menores
   }
 `
 
 export const StyledCardLabel = styled(Typography)`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 16px; 
+  }
 `
 
 export const StyledCardDescription = styled(Typography)`
-  font-size: 12px;
+  font-size: 13px;
   margin: 10px 0;
 
   @media (max-width: 768px) {
-    font-size: 11px;
-    margin: 8px 0;
+    font-size: 13px; 
+    margin: 5px 0; 
   }
 `
 
 export const StyledCardFooter = styled(Box)`
   display: flex;
   justify-content: space-between;
+  align-items: center; 
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -45,4 +50,8 @@ export const StyledKanbanCardDate = styled(Typography)`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `

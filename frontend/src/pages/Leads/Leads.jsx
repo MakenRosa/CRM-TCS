@@ -23,7 +23,6 @@ export const Leads = () => {
 
   const user_id = sessionStorage.getItem('user_id')
 
-
   useEffect(() => {
     localStorage.removeItem('leadToProspect')
     localStorage.removeItem('edit_prospeccao')

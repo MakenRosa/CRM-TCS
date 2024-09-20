@@ -1,26 +1,5 @@
 import { Box, styled, IconButton } from '@mui/material'
 
-export const StyledFilterBox = styled(Box)`
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 10px;
-  background-color: #B07FEE;
-  width: 200px;
-  height: 200px;
-  cursor: ${ ({ button }) => (button ? 'pointer' : 'default') };
-
-  &:hover {
-    background-color: #8F4FEF;
-  }
-
-  &:active {
-    background-color: ${ ({ button }) => (button ? '#7663F1' : '#8F4FEF') };
-  }
-`
-
 export const StyledFilterContainer = styled(Box)`
   position: relative;
   display: flex;
@@ -32,6 +11,13 @@ export const StyledFilterContainer = styled(Box)`
   height: 60vh;
   background-color: #7663F1;
   border-radius: 16px;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 90%; // Ajusta a largura para uma porcentagem da tela
+    margin-top: 60px; // Reduz a margem superior
+    height: auto; // Ajusta a altura para ser automática
+  }
 `
 
 export const StyledLogo = styled(Box)`
@@ -45,6 +31,12 @@ export const StyledLogo = styled(Box)`
   font-size: 50px;
   width: 100px;
   height: 100px;
+
+  @media (max-width: 768px) {
+    top: -20px; // Ajusta a posição superior
+    width: 80px; // Reduz a largura
+    height: 80px; // Reduz a altura
+  }
 `
 
 export const StyledIconButton = styled(IconButton)`
@@ -58,5 +50,10 @@ export const StyledIconButton = styled(IconButton)`
   font-size: 50px;
   &:hover {
     background-color: #B07FEE;
+  }
+
+  @media (max-width: 768px) {
+    left: calc(90% - 50px); // Ajusta a posição para a esquerda
+    font-size: 40px; // Reduz o tamanho da fonte
   }
 `

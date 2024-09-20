@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Button } from 'components' 
 import { Box, Typography } from '@mui/material'
 import { Group, MailOutline, Phone, Send } from '@mui/icons-material'
-import { createTarefa } from 'utils'
+import { createTarefa, updateTarefa } from 'utils'
 import { toast } from 'react-toastify'
 import { ButtonContainer, IconContainer, ModalContainer, ModalContent, ModalTitle, StyledRadio, StyledTextField } from './TarefaModal.styles'
 
@@ -63,15 +63,29 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
   const handleSave = () => {
     const formattedDate = formatDate(data.data_cadastro)
     if (task) {
-      // PUT
+      const saveTarefa = async () => {
+          try {
+            await updateTarefa(task.id, {
+              ...data,
+              data_cadastro: formattedDate,
+              proposta: proposta.id,
+              tipo_contato: selectedValue
+            })
+            setTarefas(prevState => prevState.map(t => (t.id === task.id ? { ...t, ...data, data_cadastro: formattedDate.split('-').reverse().join('-') } : t)))
+            toast.success('Tarefa atualizada com sucesso')
+          } catch (error) {
+            toast.error('Erro ao atualizar tarefa')
+          }
+      }    
+      saveTarefa()    
     } else {
-
       if (!isDataHoraValida(formattedDate, data.hora_cadastrado)) {
         return
       }
       const saveTarefa = async () => {
         try {
-          await createTarefa({
+          console.log(formattedDate)
+          const response = await createTarefa({
             ...data,
             data_cadastro: formattedDate,
             proposta: proposta.id,
@@ -79,7 +93,7 @@ export const TarefaModal = ({ open, onClose, setSelectedTarefa, task = null, pro
             concluida: false
           })
           resetForm()
-          setTarefas(prevState => [...prevState, data])
+          setTarefas(prevState => [...prevState, { ...data, id: response.data.data.tarefa.id }])
           toast.success('Tarefa criada com sucesso')
         } catch (error) {
           toast.error('Erro ao criar tarefa')
@@ -197,11 +211,14 @@ TarefaModal.propTypes = {
 }
 
 const formatDate = dateStr => {
-  if (!dateStr) {return ''}
+  if (!dateStr) { return '' }
 
-  const date = new Date(dateStr)
+  const dateParts = dateStr.split('-').map(part => parseInt(part, 10))
+  const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+
   const day = date.getDate().toString().padStart(2, '0')
   const month = (date.getMonth() + 1).toString().padStart(2, '0')
   const year = date.getFullYear()
+
   return `${ day }-${ month }-${ year }`
 }
