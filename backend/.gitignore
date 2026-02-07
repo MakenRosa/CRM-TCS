@@ -47,3 +47,8 @@ venv.bak/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
