@@ -19,6 +19,56 @@ const StyledSwitch = styled(Switch)(() => ({
   }
 }))
 
+
+const StyledTopContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'flex-start'
+  }
+}))
+// sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', maxWidth: '1180px', marginTop: '1rem', marginLeft: '60px' }}
+const StyledMemberList = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  maxWidth: '1180px',
+  marginTop: '1rem',
+  marginLeft: '60px',
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'flex-start'
+  }
+}))
+
+const StyledMember = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  gap: '10rem',
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+    alignItems: 'flex-start'
+  }
+}))
+
+const StyledButtonContainer = styled(Box)(({ isCollapsed, theme }) => ({
+  display: 'flex',
+  justifyContent: 'right',
+  alignItems: 'right',
+  position: `${ isCollapsed ? 'absolute' : 'relative' }`,
+  right: `${ isCollapsed ? '20px' : '0px' }`,
+  top: `${ isCollapsed ? '15px' : '0px' }`,
+  [theme.breakpoints.down('sm')]: {
+    position: 'absolute',
+    right: '20px',
+    top: '15px'
+  }
+}))
+
 export const Team = ({ team, title }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isInviteOpen, setIsInviteOpen] = useState(false)
@@ -109,7 +159,7 @@ export const Team = ({ team, title }) => {
     <>
       <Invite onClose={() => setIsInviteOpen(false)} open={isInviteOpen} />
       <StyledTeam isCollapsed={isCollapsed}>
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <StyledTopContainer>
           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 3 }}>
             <GroupsOutlined sx={{ fontSize: 40, marginRight: '1rem', display: 'flex', alignItems: 'center' }} />
             <Typography
@@ -128,15 +178,14 @@ export const Team = ({ team, title }) => {
               sx={{ display: isCollapsed ? 'none' : 'block', visibility: 'hidden' }}
             />
           </Box>
-        </Box>
+        </StyledTopContainer>
         {
           !isCollapsed && (
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', maxWidth: '1180px', marginTop: '1rem', marginLeft: '60px' }}>
+            <StyledMemberList >
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '100px', gap: '1rem' }}>
                 {team.map((integrante, index) => (
-                  <Box
+                  <StyledMember
                     key={index}
-                    sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '10rem' }}
                   >
                     <Box sx={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}>
                       <Checkbox
@@ -170,21 +219,21 @@ export const Team = ({ team, title }) => {
                         }} 
                       />
                     </Box>
-                  </Box>
+                  </StyledMember>
                 ))}
               </Box>
               <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '100px', gap: '1rem' }}>
                 <Button disabled={!isUserStaff} onClick={openInviteModal} variant="primary">Convidar</Button>
                 <Button disabled={!isUserStaff} loading={loading} onClick={handleDelete} variant="secondary">{loading ? <CircularProgress color="inherit" size={24} /> : "Excluir"}</Button>
               </Box>
-            </Box>
+            </StyledMemberList>
           )}
-        <Box sx={{ display: 'flex', justifyContent: 'right', alignItems: 'right', position: `${ isCollapsed ? 'absolute' : 'relative' }`, right: `${ isCollapsed ? '20px' : '0px' }`, top: `${ isCollapsed ? '15px' : '0px' }` }} >
+        <StyledButtonContainer>
           {isCollapsed ?
             <ExpandMore fontSize="large" onClick={() => setIsCollapsed(!isCollapsed)} sx={{ fontSize: 50, cursor: 'pointer' }} /> :
             <ExpandLess fontSize="large" onClick={() => setIsCollapsed(!isCollapsed)} sx={{ fontSize: 50, cursor: 'pointer' }} />
           }
-        </Box>
+        </StyledButtonContainer>
       </StyledTeam>
     </>
   )

@@ -73,7 +73,6 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
   
   useEffect(() => {
     if (JSON.stringify(previousBoardData) !== JSON.stringify(boardData)) {
-      console.log('Atualizando boardDataState...')
       setBoardDataState(transformData(boardData))
     }
   }, [boardData])
@@ -93,7 +92,6 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
         return
     }
 
-    // Cria uma nova cópia do estado para modificar
     const newBoardData = [...boardDataState]
     const sourceColumn = newBoardData.find(column => column.title === source.droppableId)
     const destColumn = newBoardData.find(column => column.title === destination.droppableId)
@@ -103,12 +101,10 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
 
     try {
         await updateProspeccao(removed.id, { ...removed, status: destination.droppableId })
-        // Atualiza o estado após a operação assíncrona
         setBoardDataState(newBoardData)
         onUpdateBoardData(newBoardData)
     } catch (error) {
         toast.error('Erro ao atualizar o status do negócio')
-        // Em caso de erro, reverter para o estado anterior
         setBoardDataState(transformData(boardData))
     }
 }, [boardDataState, onUpdateBoardData, boardData])
@@ -137,7 +133,7 @@ export const KanbanBoard = ({ boardData, onUpdateBoardData }) => {
         </Box>
         <Divider flexItem orientation="vertical" />
         <Box className="columnGroup">
-          <Typography className="columnTitle" component="h1" gutterBottom onClick={collapseProposal} variant="h4">
+          <Typography className="columnTitle" component="h1" gutterBottom onClick={collapseProposal} variant="h4" >
             Proposta {collapsedColumns['Em elaboração'] && collapsedColumns['Em negociação'] && collapsedColumns['Em revisão'] && collapsedColumns['Descontinuado'] && collapsedColumns['Suspenso'] && collapsedColumns['Perdido'] && collapsedColumns['Vendido'] ? <TouchApp sx={{ color: '#9181f4' }} /> : <TouchApp />}
           </Typography>
           <Box className="propostaColumns">

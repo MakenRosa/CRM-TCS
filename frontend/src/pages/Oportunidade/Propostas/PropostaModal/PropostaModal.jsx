@@ -82,7 +82,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
         !validateField(influenciadorDecisor.trim(), "Influenciador/Decisor", 1, 255) ||
         !validateField(tipoProjeto.trim(), "Tipo Projeto", 1) ||
         !validateField(perfilOrcamento.trim(), "Perfil Orçamento", 1) ||
-        !validateField(probFechamento.trim(), "Probabilidade Fechamento", 1) ||
+        !validateField(probFechamento, "Probabilidade Fechamento", 1) ||
         !validateField(statusProposta.trim(), "Status Proposta", 1) ||
         !validateField(materialInsumo.trim(), "Material / Insumo", 1) ||
         !validateField(servicos.trim(), "Serviços", 1) ||
@@ -104,7 +104,7 @@ export const PropostaModal = ({ open, handleClose, proposta, propostas, setPropo
       tipo_projeto: tipoProjeto.trim(),
       influenciador_decisor: influenciadorDecisor.trim(),
       perfil_orcamento: perfilOrcamento.trim(),
-      prob_fechamento: probFechamento.trim(),
+      prob_fechamento: probFechamento,
       status_proposta: statusProposta.trim(),
       material_insumo: materialInsumo.trim(),
       servicos: servicos.trim(),

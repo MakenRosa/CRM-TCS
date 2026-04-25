@@ -1,67 +1,58 @@
-import { Box, Card, Typography, styled } from "@mui/material"
+/* eslint-disable no-magic-numbers */
+import PropTypes from "prop-types"
+import { Box } from "@mui/material"
+import { differenceInHours, differenceInMinutes, format } from "date-fns"
+import { HistoricoCard, StyledText, StyledTitle } from "./CardHistorico.styles"
 
-const HistoricoCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  height: 192px;
-  padding: 10px 20px 20px 20px;
-  margin-top: 10px;
-  border: 1px solid #8F8B8B;
-  box-shadow: none;
-  border-radius: 16px;
-  overflow: visible;
-`
+const calcularTempoNaColuna = (dataInicial, dataFinal) => {
+  const horas = differenceInHours(new Date(dataFinal), new Date(dataInicial))
+  const minutos = differenceInMinutes(new Date(dataFinal), new Date(dataInicial)) % 60
+  return `${ horas }h ${ minutos }min`
+}
 
-const CircleIcon = styled(Box)`
-  display: flex;
-  font-size: 14px;
-  font-weight: 600;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #9181F4;
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  left: -20px;
-  top: 42%;
-  z-index: 2;
-`
+export const CardHistorico = ({ item, itemPosterior, dataAtual }) => {
+  let tempoNaColuna = ""
+  let tempoNaColunaAtual = ""
 
-const StyledTitle = styled(Typography)`
-  font-weight: 600;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-`
+  if (itemPosterior && (
+    item.etapa !== itemPosterior.etapa ||
+    item.informacoes !== itemPosterior.informacoes && (item.informacoes || itemPosterior.informacoes)
+  )) {
+    tempoNaColuna = calcularTempoNaColuna(item.data_ocorrencia, itemPosterior.data_ocorrencia)
+  }
 
-const StyledText = styled(Typography)`
-  line-height: 2.0;
-`
+  if (!itemPosterior) { 
+    tempoNaColunaAtual = calcularTempoNaColuna(item.data_ocorrencia, dataAtual)
+  }
 
-export const CardHistorico = () => (
-  <Box display="flex" flexDirection="column" marginBottom="20px">
-    <HistoricoCard>
-      <CircleIcon />
-      <Box display="flex" flexDirection="row" fontSize="12px" justifyContent="space-between" marginX="40px">
-        <Box>
-          <StyledTitle variant="h5">Nome Negócio</StyledTitle>
+  return (
+    <Box display="flex" flexDirection="column" marginBottom="20px">
+      <HistoricoCard>
+        <Box display="flex" flexDirection="row" fontSize="12px" justifyContent="space-around" marginX="0px">
+          <Box>
+            <StyledTitle variant="h5">{item.ocorrencia}</StyledTitle>
+          </Box>
+          <Box>
+            <StyledText>{item.etapa}</StyledText>
+            <StyledText>{format(new Date(item.data_ocorrencia), 'dd/MM/yyyy HH:mm')}</StyledText>
+          </Box>
+          <Box marginRight="40px">
+            <StyledText>{item.informacoes || ""}</StyledText>
+            {tempoNaColuna && (
+            <StyledText>Tempo na coluna: {tempoNaColuna}</StyledText>
+      )}
+            {tempoNaColunaAtual && (
+            <StyledText>Tempo na coluna atual: {tempoNaColunaAtual}</StyledText>
+      )}
+          </Box>
         </Box>
-        <Box>
-          <StyledText>Segmento</StyledText>
-          <StyledText>Participação Comercial</StyledText>
-          <StyledText>Participação Efetiva</StyledText>
-          <StyledText>Data Início da Prospecção</StyledText>
-          <StyledText>Data Contato Inicial</StyledText>
-        </Box>
-        <Box marginRight="40px">
-          <StyledText>Status Proposta</StyledText>
-          <StyledText>Data Fechamento</StyledText>
-          <StyledText>Data Último Contato</StyledText>
-        </Box>
-      </Box>
-    </HistoricoCard>
-  </Box>
-)
+      </HistoricoCard>
+    </Box>
+  )
+}
+
+CardHistorico.propTypes = {
+  dataAtual: PropTypes.string,
+  item: PropTypes.object,
+  itemPosterior: PropTypes.object
+}

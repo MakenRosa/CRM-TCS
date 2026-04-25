@@ -4,6 +4,7 @@ import { Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import 'chart.js/auto'
 import { Bar, Pie } from 'react-chartjs-2'
 import PropTypes from 'prop-types'
+import { DashboardContainer, GraficoBarraContainer, GraficoPizzaContainer, GraficosContainer } from './AnalyticsDashboard .styles'
 
 const coresGrafico = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
 
@@ -93,7 +94,7 @@ export const AnalyticsDashboard = ({ data }) => {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+    <DashboardContainer>
       <FormControl>
         <InputLabel id="indice-select-label">Tipo de índice</InputLabel>
         <Select
@@ -110,20 +111,20 @@ export const AnalyticsDashboard = ({ data }) => {
         </Select>
       </FormControl>
 
-      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: '100%', height: '100%' }}>
+      <GraficosContainer>
         {dadosGraficosBarra.datasets.map((dataset, index) => (
-          <Box key={index} sx={{ width: '40%', maxWidth: '600px', height: '300px' }}>
+          <GraficoBarraContainer key={index}>
             <Bar
               data={{ labels: dadosGraficosBarra.labels, datasets: [dataset] }}
               options={{ indexAxis: 'y', maintainAspectRatio: false, scales: { y: { ticks: { autoSkip: false } } } }}
             />
-          </Box>
+          </GraficoBarraContainer>
         ))}
-        <Box sx={{ width: '300px', height: '300px' }}>
+        <GraficoPizzaContainer>
           <Pie data={dadosGraficoPizza} options={opcoesGraficoPizza} />
-        </Box>
-      </Box>
-    </Box>
+        </GraficoPizzaContainer>
+      </GraficosContainer>
+    </DashboardContainer>
   )
 }
 

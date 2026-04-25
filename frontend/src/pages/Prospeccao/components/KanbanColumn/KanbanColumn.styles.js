@@ -19,8 +19,12 @@ export const StyledKanbanColumn = styled(Box, {
 
   @media (max-width: 768px) {
     margin: 10px 0;
+    border-right: 1px solid ${ ({ columnColor }) => columnColor || "#8F8B8B" };
+    border-left: 1px solid ${ ({ columnColor }) => columnColor || "#8F8B8B" };
+    margin-right: 5px;
   }
 `
+
 export const StyledKanbanColumnHeader = styled(Box, {
   shouldForwardProp: prop => !['isCollapsed'].includes(prop) })`
   display: flex;
@@ -34,7 +38,7 @@ export const StyledKanbanColumnHeader = styled(Box, {
   writing-mode: ${ ({ isCollapsed }) => (isCollapsed ? "vertical-rl" : "horizontal-tb") };
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: row; // Mantém a direção da linha para evitar distorção
   }
 
   .cards-number {
@@ -73,6 +77,6 @@ export const StyledKanbanColumnArrow = styled(Box)`
 `
 export const StyledCardsContainer = styled(Box)`
   flex-grow: 1;
-  min-height: 600px;
+  min-height: 120%;
   margin-top: 10px;
 `

@@ -5,6 +5,7 @@ import { getMenuBi } from 'utils'
 import { toast } from 'react-toastify'
 import { Funnel } from './Funnel'
 import { AnalyticsDashboard } from './AnalyticsDashboard/AnalyticsDashboard '
+import { StyledDashboard, StyledDashboardContainer, StyledDashboardFunnel, StyledDashboardGraphics, StyledFunnelBox } from './Dashboard.styles'
 
 export const Dashboard = () => {
   const [dataFunnel, setDataFunnel] = useState({})
@@ -36,18 +37,18 @@ export const Dashboard = () => {
   }, [user_id])
 
   return (
-    <Box display="flex" flexDirection="column" height="80vh" marginTop="20px" width="100%">
-      <Box display="flex" flexDirection="row" justifyContent="space-around" width="100%">
-        <Box textAlign="center" width="40%">
+    <StyledDashboard display="flex" flexDirection="column" height="80vh" marginTop="20px" width="100%">
+      <StyledDashboardContainer display="flex" flexDirection="row" justifyContent="space-around" width="100%">
+        <StyledDashboardFunnel textAlign="center" width="40%">
           <Typography borderBottom="2px solid #2E1F92" color="#5038ED" marginBottom="20px" variant="h4" width="100%">
             <InsertChartOutlined />
             Funil
           </Typography> 
-          <Box display="flex" justifyContent="center" marginLeft="40px" width="100%">
+          <StyledFunnelBox display="flex" justifyContent="center" marginLeft="40px" width="100%">
             <Funnel data={dataFunnel} valorVendas={data.vendas_prospeccao?.valor_vendas?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) || 'R$ 0,00'} />
-          </Box>
-        </Box>
-        <Box width="55%">
+          </StyledFunnelBox>
+        </StyledDashboardFunnel>
+        <StyledDashboardGraphics width="55%">
           <Typography borderBottom="2px solid #2E1F92" color="#5038ED" marginBottom="20px" textAlign="center" variant="h4" width="100%">
             <TroubleshootOutlined />
             Índices
@@ -55,9 +56,9 @@ export const Dashboard = () => {
           <Box>
             <AnalyticsDashboard data={data} />
           </Box>
-        </Box>
-      </Box>
+        </StyledDashboardGraphics>
+      </StyledDashboardContainer>
       <Box />
-    </Box>
+    </StyledDashboard>
   )
 }
