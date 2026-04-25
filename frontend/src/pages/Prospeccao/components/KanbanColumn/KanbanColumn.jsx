@@ -33,7 +33,6 @@ export const KanbanColumn = ({ title, cards, columnColor, isCollapsed, toggleCol
       </Typography>
     </StyledKanbanColumnHeader>
 
-
     <Droppable droppableId={title}>
       {provided => (
         <Collapse in={!isCollapsed} sx={{ minHeight: "100%" }}>

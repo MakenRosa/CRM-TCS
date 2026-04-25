@@ -30,7 +30,11 @@ export const KanbanCard = ({ label, description, date, status, leadId, id, index
             <StyledCardLabel variant="subtitle1">{label}</StyledCardLabel>
             <StyledCardDescription variant="body2">{description}</StyledCardDescription>
             <StyledCardFooter>
-              <Typography fontWeight={600} variant="caption">Próxima ação:</Typography>
+              <Typography fontSize={13}
+                fontWeight={600}
+                variant="caption"
+              >Próxima ação:
+              </Typography>
               <StyledKanbanCardDate variant="caption">{date}</StyledKanbanCardDate>
             </StyledCardFooter>
           </CardContent>

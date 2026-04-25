@@ -5,7 +5,21 @@ import { Link, useNavigate } from "react-router-dom"
 import { StyledLinks, SectionLogin } from "pages"
 import { useEffect, useState } from "react"
 import { resetPassword, verifyToken } from "utils"
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, Typography, styled } from "@mui/material"
+
+const ResponsiveForm = styled(Form)(({ theme }) => ({
+  width: '100%', 
+  [theme.breakpoints.down('sm')]: {
+    padding: '0 10px' 
+  }
+}))
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  marginBottom: '20px',
+  textAlign: 'center'
+}))
+
 
 export const ForgotPassword = () => {
   const [isLogged, setIsLogged] = useState()
@@ -49,8 +63,8 @@ export const ForgotPassword = () => {
       
   return (
     <SectionLogin h="40%" title="Recuperar Senha">
-      <p>Informe seu e-mail para receber instruções sobre como redefinir sua senha.</p>
-      <Form>
+      <StyledTypography>Informe seu e-mail para receber instruções sobre como redefinir sua senha.</StyledTypography>
+      <ResponsiveForm onSubmit={onSubmitPasswordRecovery}>
         <TextField
           fullWidth
           icon={<Email />}
@@ -74,7 +88,7 @@ export const ForgotPassword = () => {
             {loading ? <CircularProgress color="inherit" size={24} /> : "Enviar"}
           </Button> 
         </StyledLinks>
-      </Form>
+      </ResponsiveForm>
     </SectionLogin>
   )
 }

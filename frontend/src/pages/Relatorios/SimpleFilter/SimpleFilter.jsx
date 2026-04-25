@@ -1,9 +1,9 @@
-import { Box, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { toast } from "react-toastify"
-import { StyledFilterBox } from "pages/Relatorios/Relatorios.styles"
 import { PictureAsPdfOutlined } from "@mui/icons-material"
 // eslint-disable-next-line import/no-relative-parent-imports
 import ExcelIconOutlined from "../excelIconOutlined.svg"
+import { StyledFilterBox, StyledSimpleFilter } from "./SimpleFilter.styles"
 
 export const SimpleFilter = () => { 
   const user_id = sessionStorage.getItem("user_id")
@@ -35,9 +35,9 @@ export const SimpleFilter = () => {
   )
 
   return (
-    <Box display="flex" flexDirection="row" justifyContent="center" marginTop="50px" width="100%">
+    <StyledSimpleFilter>
       {renderDownloadBox('pdf', 'Baixar Relatório Geral (PDF)', PictureAsPdfOutlined)}
       {renderDownloadBox('excel', 'Baixar Relatório Geral (Excel)', ExcelIconOutlined)} 
-    </Box>
+    </StyledSimpleFilter>
   )
 }

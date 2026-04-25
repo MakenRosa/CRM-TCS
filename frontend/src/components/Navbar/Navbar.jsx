@@ -90,7 +90,6 @@ export const Navbar = () => {
     { label: "Leads", route: "leads" },
     { label: "Oportunidades", route: "oportunidades" },
     { label: "Relatórios", route: "relatorios" },
-    { label: "Configurações", route: "configuracoes" },
     { label: "Grupo", route: "equipe" }
   ]
 
@@ -169,7 +168,7 @@ export const Navbar = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Placeholder" src="https://placeholder.co/40" />
+                  <Avatar alt="Placeholder" src="./favicon.png" sx={{ width: 50, height: 50 }} />
                 </IconButton>
               </Tooltip>
               <Menu

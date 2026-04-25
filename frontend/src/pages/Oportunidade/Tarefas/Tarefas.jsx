@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { getProposta, getTarefa } from "utils"
+import { getProposta, getTarefa, updateTarefa } from "utils"
 import { Tarefa } from "./Tarefa"
 import {
   StyledButton,
@@ -74,6 +74,40 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
     }
   }
 
+  const handleComplete = async () => {
+    if (selectedTarefa) {
+      try {
+        const dataCadastroFormatada = selectedTarefa.data_cadastro 
+          ? selectedTarefa.data_cadastro.split('-').reverse().join('-') 
+          : undefined
+  
+        await updateTarefa(selectedTarefa.id, { 
+          ...selectedTarefa, 
+          concluida: true, 
+          data_cadastro: dataCadastroFormatada 
+        })
+  
+        setTarefas(prevTarefas => prevTarefas.map(tarefa => 
+          (tarefa.id === selectedTarefa.id 
+            ? { 
+                ...tarefa, 
+                concluida: true, 
+                data_cadastro: tarefa.data_cadastro 
+                  ? tarefa.data_cadastro.split('-').reverse().join('-') 
+                  : undefined 
+              } 
+            : tarefa
+          )
+        ))
+  
+        toast.success('Tarefa concluída com sucesso')
+      } catch (error) {
+        toast.error('Erro ao concluir tarefa')
+      }
+    }
+  }
+  
+
   const tarefasAgrupadas = agruparTarefas(tarefas) || { 'Planejada': [], 'Concluída': [] }
   const ordemDosGrupos = ['Planejada', 'Concluída']
 
@@ -81,7 +115,14 @@ const agruparTarefas = tarefas => tarefas.reduce((acc, tarefa) => {
     <Box display={"flex"} flexDirection={"column"} margin={"10px"} minHeight={"500px"} width={1}>
       <StyledButtons>
         <StyledButtonsGroup>
-          <StyledButton disabled={!selectedTarefa} variant={"primary"}>Concluir</StyledButton>
+          <StyledButton 
+            disabled={!selectedTarefa}
+            onClick={handleComplete}
+            variant={"primary"}
+          >
+            Concluir
+          </StyledButton>
+
           <StyledButton 
             disabled={!selectedTarefa}
             onClick={handleEdit}

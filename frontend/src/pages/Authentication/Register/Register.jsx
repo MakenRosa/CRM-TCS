@@ -17,6 +17,19 @@ export const Register = () => {
   const [loading, setLoading] = useState(false)
   const [group, setGroup] = useState("novo_grupo")
 
+  const getFirstErrorMessage = data => {
+    if (!data || typeof data !== "object") {
+      return ""
+    }
+
+    const [firstValue] = Object.values(data)
+    if (Array.isArray(firstValue)) {
+      return firstValue[0] || ""
+    }
+
+    return typeof firstValue === "string" ? firstValue : ""
+  }
+
 
   useEffect(() => {
     const initialVerify = async () => {
@@ -59,7 +72,11 @@ export const Register = () => {
       sessionStorage.removeItem('access')
       sessionStorage.removeItem('refresh')
       sessionStorage.removeItem('user_id')
-      if (error.response.data.email[0] === "usuario com este email já existe.") {
+      const errorData = error?.response?.data
+      const emailError = Array.isArray(errorData?.email) ? errorData.email[0] : errorData?.email
+      const errorMessage = String(emailError || getFirstErrorMessage(errorData)).toLowerCase()
+
+      if (errorMessage.includes("email") && (errorMessage.includes("existe") || errorMessage.includes("exists"))) {
         toast.error("Este email já está cadastrado!")
       } else {
         toast.error("Não foi possível realizar o cadastro. Tente novamente mais tarde!")
